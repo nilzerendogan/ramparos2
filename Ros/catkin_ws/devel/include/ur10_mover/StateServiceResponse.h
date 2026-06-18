@@ -26,21 +26,19 @@ struct StateServiceResponse_
   StateServiceResponse_()
     : output_msg()
     , current_joint_angles()  {
-      current_joint_angles.assign(0.0);
-  }
+    }
   StateServiceResponse_(const ContainerAllocator& _alloc)
     : output_msg(_alloc)
-    , current_joint_angles()  {
+    , current_joint_angles(_alloc)  {
   (void)_alloc;
-      current_joint_angles.assign(0.0);
-  }
+    }
 
 
 
    typedef std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> _output_msg_type;
   _output_msg_type output_msg;
 
-   typedef boost::array<double, 6>  _current_joint_angles_type;
+   typedef std::vector<double, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<double>> _current_joint_angles_type;
   _current_joint_angles_type current_joint_angles;
 
 
@@ -130,12 +128,12 @@ struct MD5Sum< ::ur10_mover::StateServiceResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "9e7aee8efb870b0111c155e8c0755e88";
+    return "57f2eb9e7bd0cbaac0ba431090f29dcf";
   }
 
   static const char* value(const ::ur10_mover::StateServiceResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x9e7aee8efb870b01ULL;
-  static const uint64_t static_value2 = 0x11c155e8c0755e88ULL;
+  static const uint64_t static_value1 = 0x57f2eb9e7bd0cbaaULL;
+  static const uint64_t static_value2 = 0xc0ba431090f29dcfULL;
 };
 
 template<class ContainerAllocator>
@@ -155,7 +153,7 @@ struct Definition< ::ur10_mover::StateServiceResponse_<ContainerAllocator> >
   static const char* value()
   {
     return "string output_msg\n"
-"float64[6] current_joint_angles\n"
+"float64[] current_joint_angles\n"
 ;
   }
 

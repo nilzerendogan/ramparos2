@@ -135,14 +135,14 @@ import struct
 
 
 class StateServiceResponse(genpy.Message):
-  _md5sum = "9e7aee8efb870b0111c155e8c0755e88"
+  _md5sum = "57f2eb9e7bd0cbaac0ba431090f29dcf"
   _type = "ur10_mover/StateServiceResponse"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string output_msg
-float64[6] current_joint_angles
+float64[] current_joint_angles
 """
   __slots__ = ['output_msg','current_joint_angles']
-  _slot_types = ['string','float64[6]']
+  _slot_types = ['string','float64[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -164,10 +164,10 @@ float64[6] current_joint_angles
       if self.output_msg is None:
         self.output_msg = ''
       if self.current_joint_angles is None:
-        self.current_joint_angles = [0.] * 6
+        self.current_joint_angles = []
     else:
       self.output_msg = ''
-      self.current_joint_angles = [0.] * 6
+      self.current_joint_angles = []
 
   def _get_types(self):
     """
@@ -187,7 +187,10 @@ float64[6] current_joint_angles
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
-      buff.write(_get_struct_6d().pack(*self.current_joint_angles))
+      length = len(self.current_joint_angles)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
+      buff.write(struct.Struct(pattern).pack(*self.current_joint_angles))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -210,8 +213,13 @@ float64[6] current_joint_angles
       else:
         self.output_msg = str[start:end]
       start = end
-      end += 48
-      self.current_joint_angles = _get_struct_6d().unpack(str[start:end])
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.current_joint_angles = s.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -230,6 +238,9 @@ float64[6] current_joint_angles
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      length = len(self.current_joint_angles)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sd'%length
       buff.write(self.current_joint_angles.tostring())
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
@@ -254,8 +265,13 @@ float64[6] current_joint_angles
       else:
         self.output_msg = str[start:end]
       start = end
-      end += 48
-      self.current_joint_angles = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=6)
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sd'%length
+      start = end
+      s = struct.Struct(pattern)
+      end += s.size
+      self.current_joint_angles = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -264,14 +280,8 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_6d = None
-def _get_struct_6d():
-    global _struct_6d
-    if _struct_6d is None:
-        _struct_6d = struct.Struct("<6d")
-    return _struct_6d
 class StateService(object):
   _type          = 'ur10_mover/StateService'
-  _md5sum = '30fae736b7734374461e907d8c1eb052'
+  _md5sum = 'b2a73dbc8a18cceffc5d46df360c824c'
   _request_class  = StateServiceRequest
   _response_class = StateServiceResponse
