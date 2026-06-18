@@ -15,18 +15,17 @@ from moveit_msgs.msg import RobotState, RobotTrajectory
 from geometry_msgs.msg import Pose
 from trajectory_msgs.msg import JointTrajectoryPoint, MultiDOFJointTrajectoryPoint
 
-# Keep your existing service imports exactly as they are. 
-# ROS doesn't care that the package is still named ur10_mover
 from ur10_mover.srv import PlannerService, PlannerServiceRequest, PlannerServiceResponse
 from ur10_mover.srv import StateService, StateServiceRequest, StateServiceResponse
 from ur10_mover.srv import ExecutionService, ExecutionServiceRequest, ExecutionServiceResponse
 from ur10_mover.srv import DiscardService, DiscardServiceRequest, DiscardServiceResponse
 
-from geometry_msgs.msg import Pose, WrenchStamped, Transform
+from geometry_msgs.msg import Transform
 
-# Note: You will need to comment out or update the UR10 class import 
-# if it contains hardware-specific driver code. 
-# from ur10_interface import UR10 
+# ---------------------------------------------------------
+# IMPORT XARM API (Replaces ur10_interface)
+from xarm.wrapper import XArmAPI
+# ---------------------------------------------------------
 
 config_one_euro_filter = {
     'freq': 120,
@@ -38,7 +37,7 @@ f_x = OneEuroFilter(**config_one_euro_filter)
 f_y = OneEuroFilter(**config_one_euro_filter)
 f_z = OneEuroFilter(**config_one_euro_filter)
 
-# UPDATED: xArm7 uses sequential joint naming
+# UPDATE: xArm7 uses 7 sequential joint names
 joint_names = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6', 'joint7']
 
 def planCombat(plan):
@@ -75,11 +74,6 @@ def execute_joint_angles(joint_angles,group):
     return
 
 def plan_pick_and_place(req):
-    # If you ever uncomment the reset pose, ensure it is 7-DOF:
-    # current_joint_state = JointState()
-    # current_joint_state.name = joint_names
-    # current_joint_state.position = [0, 0, 0, 0, 0, 0, 0] # Updated to 7 zeros
-
     rospy.loginfo(rospy.get_caller_id() + "Plan Requested:\n")
 
     response = PlannerServiceResponse()
@@ -115,11 +109,7 @@ def plan_pick_and_place(req):
     rospy.loginfo(len(req.pose_list))
 
     current_pose = move_group.get_current_pose().pose
-    current_orientation = current_pose.orientation
-    down_orientation = Pose().orientation
-    down_orientation.x, down_orientation.y, down_orientation.z, down_orientation.w = 1,0,0,0
-
-    previous_ending_joint_angles = req.joints_input
+    previous_ending_joint_angles = req.joints_input 
 
     for pose in req.pose_list:
         norm = (pose.orientation.x**2 + pose.orientation.y**2 + pose.orientation.z**2 + pose.orientation.w**2)**0.5
@@ -184,28 +174,39 @@ def save_trajectory(trajectory):
 
 def discard_last_trajectory(req):
     response = DiscardServiceResponse()
-    os.remove('trajectory.npy')
+    if os.path.exists('trajectory.npy'):
+        os.remove('trajectory.npy')
     response.output_msg = "success"
     return response
 
 def return_joint_state(req):
     response = StateServiceResponse()
     try:
-        # Note: If you removed the UR10 class, you must get joint states from the ROS topic 
-        # or move_group.get_current_joint_values() instead of hardware driver
-        current_joint_angles = move_group.get_current_joint_values()
-        if len(current_joint_angles) < 7: # Updated to 7
-            response.output_msg = "Driver could not be reached"
+        # UPDATE: Fetch joints directly from the xArm API instead of the UR10 class
+        if arm is not None and arm.connected:
+            code, current_joint_angles = arm.get_servo_angle(is_radian=True)
+            if code != 0 or len(current_joint_angles) < 7:
+                response.output_msg = "Driver could not be reached or invalid joint count"
+                return response
+        else:
+            response.output_msg = "Hardware not connected"
             return response
-    except:
-        response.output_msg = "Driver could not be reached"
+    except Exception as e:
+        response.output_msg = f"Driver could not be reached: {e}"
         return response
+        
     response.output_msg = "success"
     response.current_joint_angles = current_joint_angles
     return response
 
 def execute_on_real_robot(req):
     response = ExecutionServiceResponse()
+    
+    if arm is None or not arm.connected:
+        response.output_msg = "Error: Physical xArm is not connected."
+        rospy.logerr("Execute triggered, but no physical xArm7 is connected.")
+        return response
+
     traj = []
     for joint_state in req.joint_states:
         traj.append([])
@@ -213,11 +214,28 @@ def execute_on_real_robot(req):
             traj[-1].append(joint)
 
     traj = np.array(traj)
-    rospy.loginfo(traj.shape)
-    for joint_state in traj:
-        print(f'{joint_state * 180 / 3.14}')
+    rospy.loginfo(f"Executing trajectory with {traj.shape[0]} waypoints.")
     
-    # Execution on real hardware handled here
+    for joint_angles in traj:
+        print(f'{joint_angles * 180 / 3.14}') # Keep your original logging
+        
+    # UPDATE: Execution logic using xArm API
+    arm.clean_error()
+    arm.clean_warn()
+    arm.motion_enable(enable=True)
+    arm.set_state(state=0)
+    
+    # Send the trajectory to the real robot
+    # You may need to tune speed and mvacc for your specific RAMPA use-case
+    for joint_angles in traj:
+        code = arm.set_servo_angle(angle=joint_angles, speed=0.5, mvacc=5, wait=True, radius=0, is_radian=True)
+        if code != 0:
+            rospy.logerr(f"xArm execution failed with error code: {code}")
+            response.output_msg = f"Failed with code {code}"
+            return response
+
+    rospy.loginfo("Trajectory execution completed on physical hardware.")
+    response.output_msg = "success"
     return response
 
 def moveit_server():
@@ -231,9 +249,25 @@ def moveit_server():
     print("Service is ready to plan")
     rospy.spin()
 
+
 rospy.init_node('ur10_mover_server')
 
-# UPDATED: MoveIt Planning Group for xArm7
+# ---------------------------------------------------------
+# XARM HARDWARE INITIALIZATION
+# ---------------------------------------------------------
+robot_ip = '192.168.1.XXX' # CHANGE THIS TO YOUR XARM IP
+arm = None
+
+try:
+    arm = XArmAPI(robot_ip)
+    arm.motion_enable(enable=True)
+    arm.set_mode(0)
+    arm.set_state(state=0)
+    rospy.loginfo(f"Successfully connected to physical xArm7 at {robot_ip}")
+except Exception as e:
+    rospy.logwarn(f"Could not connect to physical xArm7 at {robot_ip}. Running without hardware execution. Error: {e}")
+
+# UPDATE: MoveIt Planning Group for xArm7
 group_name = "xarm7"
 move_group = moveit_commander.MoveGroupCommander(group_name)
 
