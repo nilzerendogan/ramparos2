@@ -377,8 +377,8 @@ struct Definition< ::moveit_msgs::GetCartesianPathRequest_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -791,36 +791,60 @@ struct Printer< ::moveit_msgs::GetCartesianPathRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetCartesianPathRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "start_state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.start_state);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name);
-    s << indent << "waypoints[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "waypoints: ";
+    if (v.waypoints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.waypoints.size(); ++i)
     {
-      s << indent << "  waypoints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.waypoints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.waypoints[i]);
     }
+    if (v.waypoints.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_step: ";
     Printer<double>::stream(s, indent + "  ", v.max_step);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "jump_threshold: ";
     Printer<double>::stream(s, indent + "  ", v.jump_threshold);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "prismatic_jump_threshold: ";
     Printer<double>::stream(s, indent + "  ", v.prismatic_jump_threshold);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "revolute_jump_threshold: ";
     Printer<double>::stream(s, indent + "  ", v.revolute_jump_threshold);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "avoid_collisions: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.avoid_collisions);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "path_constraints: ";
-    s << std::endl;
     Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "  ", v.path_constraints);
   }
 };

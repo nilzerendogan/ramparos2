@@ -404,8 +404,8 @@ float64 z
 ================================================================================
 MSG: geometry_msgs/Twist
 # This expresses velocity in free space broken into its linear and angular parts.
-Vector3  linear
-Vector3  angular
+Vector3 linear
+Vector3 angular
 """
   __slots__ = ['output_msg','request_type','pose_list','trajectories']
   _slot_types = ['string','string','geometry_msgs/Pose[]','moveit_msgs/RobotTrajectory[]']

@@ -396,36 +396,57 @@ struct Printer< ::moveit_msgs::Grasp_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::Grasp_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "pre_grasp_posture: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.pre_grasp_posture);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "grasp_posture: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.grasp_posture);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "grasp_pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.grasp_pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "grasp_quality: ";
     Printer<double>::stream(s, indent + "  ", v.grasp_quality);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "pre_grasp_approach: ";
-    s << std::endl;
     Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >::stream(s, indent + "  ", v.pre_grasp_approach);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "post_grasp_retreat: ";
-    s << std::endl;
     Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >::stream(s, indent + "  ", v.post_grasp_retreat);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "post_place_retreat: ";
-    s << std::endl;
     Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >::stream(s, indent + "  ", v.post_place_retreat);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_contact_force: ";
     Printer<float>::stream(s, indent + "  ", v.max_contact_force);
-    s << indent << "allowed_touch_objects[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "allowed_touch_objects: ";
+    if (v.allowed_touch_objects.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.allowed_touch_objects.size(); ++i)
     {
-      s << indent << "  allowed_touch_objects[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.allowed_touch_objects[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.allowed_touch_objects[i]);
     }
+    if (v.allowed_touch_objects.empty() || true)
+      s << "]";
   }
 };
 

@@ -186,12 +186,21 @@ struct Printer< ::moveit_msgs::ListRobotStatesInWarehouseResponse_<ContainerAllo
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ListRobotStatesInWarehouseResponse_<ContainerAllocator>& v)
   {
-    s << indent << "states[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "states: ";
+    if (v.states.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.states.size(); ++i)
     {
-      s << indent << "  states[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.states[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.states[i]);
     }
+    if (v.states.empty() || true)
+      s << "]";
   }
 };
 

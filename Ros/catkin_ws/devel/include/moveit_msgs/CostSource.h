@@ -222,13 +222,17 @@ struct Printer< ::moveit_msgs::CostSource_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::CostSource_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "cost_density: ";
     Printer<double>::stream(s, indent + "  ", v.cost_density);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "aabb_min: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.aabb_min);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "aabb_max: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.aabb_max);
   }
 };

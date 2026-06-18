@@ -731,8 +731,8 @@ struct Definition< ::moveit_msgs::PlaceGoal_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -1015,39 +1015,71 @@ struct Printer< ::moveit_msgs::PlaceGoal_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlaceGoal_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "attached_object_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.attached_object_name);
-    s << indent << "place_locations[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "place_locations: ";
+    if (v.place_locations.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.place_locations.size(); ++i)
     {
-      s << indent << "  place_locations[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::PlaceLocation_<ContainerAllocator> >::stream(s, indent + "    ", v.place_locations[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::PlaceLocation_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.place_locations[i]);
     }
+    if (v.place_locations.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "place_eef: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.place_eef);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "support_surface_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.support_surface_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "allow_gripper_support_collision: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.allow_gripper_support_collision);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "path_constraints: ";
-    s << std::endl;
     Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "  ", v.path_constraints);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "planner_id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.planner_id);
-    s << indent << "allowed_touch_objects[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "allowed_touch_objects: ";
+    if (v.allowed_touch_objects.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.allowed_touch_objects.size(); ++i)
     {
-      s << indent << "  allowed_touch_objects[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.allowed_touch_objects[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.allowed_touch_objects[i]);
     }
+    if (v.allowed_touch_objects.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "allowed_planning_time: ";
     Printer<double>::stream(s, indent + "  ", v.allowed_planning_time);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "planning_options: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PlanningOptions_<ContainerAllocator> >::stream(s, indent + "  ", v.planning_options);
   }
 };

@@ -199,8 +199,9 @@ struct Printer< ::moveit_msgs::GetPlannerParamsResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetPlannerParamsResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "params: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PlannerParams_<ContainerAllocator> >::stream(s, indent + "  ", v.params);
   }
 };

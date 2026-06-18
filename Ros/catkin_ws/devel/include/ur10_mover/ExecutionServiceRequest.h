@@ -189,14 +189,21 @@ struct Printer< ::ur10_mover::ExecutionServiceRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::ExecutionServiceRequest_<ContainerAllocator>& v)
   {
-    s << indent << "joint_states[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "joint_states: ";
+    if (v.joint_states.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.joint_states.size(); ++i)
     {
-      s << indent << "  joint_states[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::ur10_mover::ListOfFloats_<ContainerAllocator> >::stream(s, indent + "    ", v.joint_states[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::ur10_mover::ListOfFloats_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.joint_states[i]);
     }
+    if (v.joint_states.empty() || false)
+      s << "]";
   }
 };
 

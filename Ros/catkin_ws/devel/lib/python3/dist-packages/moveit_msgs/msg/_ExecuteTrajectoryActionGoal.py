@@ -139,8 +139,8 @@ float64 w
 ================================================================================
 MSG: geometry_msgs/Twist
 # This expresses velocity in free space broken into its linear and angular parts.
-Vector3  linear
-Vector3  angular
+Vector3 linear
+Vector3 angular
 """
   __slots__ = ['header','goal_id','goal']
   _slot_types = ['std_msgs/Header','actionlib_msgs/GoalID','moveit_msgs/ExecuteTrajectoryGoal']

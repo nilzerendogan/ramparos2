@@ -745,8 +745,8 @@ struct Definition< ::moveit_msgs::PickupAction_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -1163,14 +1163,17 @@ struct Printer< ::moveit_msgs::PickupAction_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PickupAction_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "action_goal: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PickupActionGoal_<ContainerAllocator> >::stream(s, indent + "  ", v.action_goal);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "action_result: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PickupActionResult_<ContainerAllocator> >::stream(s, indent + "  ", v.action_result);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "action_feedback: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PickupActionFeedback_<ContainerAllocator> >::stream(s, indent + "  ", v.action_feedback);
   }
 };

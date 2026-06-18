@@ -193,8 +193,12 @@ struct Printer< ::moveit_msgs::ListRobotStatesInWarehouseRequest_<ContainerAlloc
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ListRobotStatesInWarehouseRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "regex: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.regex);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.robot);
   }

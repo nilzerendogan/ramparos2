@@ -441,14 +441,21 @@ struct Printer< ::moveit_msgs::TrajectoryConstraints_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::TrajectoryConstraints_<ContainerAllocator>& v)
   {
-    s << indent << "constraints[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "constraints: ";
+    if (v.constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.constraints.size(); ++i)
     {
-      s << indent << "  constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "    ", v.constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.constraints[i]);
     }
+    if (v.constraints.empty() || false)
+      s << "]";
   }
 };
 

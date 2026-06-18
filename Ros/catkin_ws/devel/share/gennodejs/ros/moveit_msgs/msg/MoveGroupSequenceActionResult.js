@@ -12,8 +12,8 @@ const _arrayDeserializer = _deserializer.Array;
 const _finder = _ros_msg_utils.Find;
 const _getByteLength = _ros_msg_utils.getByteLength;
 let MoveGroupSequenceResult = require('./MoveGroupSequenceResult.js');
-let actionlib_msgs = _finder('actionlib_msgs');
 let std_msgs = _finder('std_msgs');
+let actionlib_msgs = _finder('actionlib_msgs');
 
 //-----------------------------------------------------------
 
@@ -320,8 +320,8 @@ class MoveGroupSequenceActionResult {
     ================================================================================
     MSG: geometry_msgs/Twist
     # This expresses velocity in free space broken into its linear and angular parts.
-    Vector3  linear
-    Vector3  angular
+    Vector3 linear
+    Vector3 angular
     
     ================================================================================
     MSG: geometry_msgs/Wrench

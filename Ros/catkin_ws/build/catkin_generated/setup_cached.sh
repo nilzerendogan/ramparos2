@@ -7,5 +7,6 @@
 # new environment variables
 
 # modified environment variables
-export PKG_CONFIG_PATH='/home/user/ws_moveit/devel/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig:/opt/ros/noetic/lib/x86_64-linux-gnu/pkgconfig'
-export PWD='/home/user/ARobot/Ros/catkin_ws/build'
+export LD_LIBRARY_PATH='/home/ubuntu/catkin_ws/devel/lib:/opt/ros/noetic/lib:/opt/ros/noetic/lib/aarch64-linux-gnu'
+export PKG_CONFIG_PATH='/home/ubuntu/catkin_ws/devel/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig:/opt/ros/noetic/lib/aarch64-linux-gnu/pkgconfig'
+export PWD='/home/ubuntu/catkin_ws/build'

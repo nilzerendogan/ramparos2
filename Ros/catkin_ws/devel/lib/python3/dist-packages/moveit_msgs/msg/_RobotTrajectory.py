@@ -109,8 +109,8 @@ float64 w
 ================================================================================
 MSG: geometry_msgs/Twist
 # This expresses velocity in free space broken into its linear and angular parts.
-Vector3  linear
-Vector3  angular
+Vector3 linear
+Vector3 angular
 """
   __slots__ = ['joint_trajectory','multi_dof_joint_trajectory']
   _slot_types = ['trajectory_msgs/JointTrajectory','trajectory_msgs/MultiDOFJointTrajectory']

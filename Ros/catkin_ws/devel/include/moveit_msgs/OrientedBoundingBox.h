@@ -233,11 +233,13 @@ struct Printer< ::moveit_msgs::OrientedBoundingBox_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::OrientedBoundingBox_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "  ", v.pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "extents: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Point32_<ContainerAllocator> >::stream(s, indent + "  ", v.extents);
   }
 };

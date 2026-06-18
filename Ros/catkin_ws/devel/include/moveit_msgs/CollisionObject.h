@@ -499,79 +499,144 @@ struct Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::CollisionObject_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "  ", v.pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "type: ";
-    s << std::endl;
     Printer< ::object_recognition_msgs::ObjectType_<ContainerAllocator> >::stream(s, indent + "  ", v.type);
-    s << indent << "primitives[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "primitives: ";
+    if (v.primitives.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.primitives.size(); ++i)
     {
-      s << indent << "  primitives[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::shape_msgs::SolidPrimitive_<ContainerAllocator> >::stream(s, indent + "    ", v.primitives[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::shape_msgs::SolidPrimitive_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.primitives[i]);
     }
-    s << indent << "primitive_poses[]" << std::endl;
+    if (v.primitives.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "primitive_poses: ";
+    if (v.primitive_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.primitive_poses.size(); ++i)
     {
-      s << indent << "  primitive_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.primitive_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.primitive_poses[i]);
     }
-    s << indent << "meshes[]" << std::endl;
+    if (v.primitive_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "meshes: ";
+    if (v.meshes.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.meshes.size(); ++i)
     {
-      s << indent << "  meshes[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::shape_msgs::Mesh_<ContainerAllocator> >::stream(s, indent + "    ", v.meshes[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::shape_msgs::Mesh_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.meshes[i]);
     }
-    s << indent << "mesh_poses[]" << std::endl;
+    if (v.meshes.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "mesh_poses: ";
+    if (v.mesh_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.mesh_poses.size(); ++i)
     {
-      s << indent << "  mesh_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.mesh_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.mesh_poses[i]);
     }
-    s << indent << "planes[]" << std::endl;
+    if (v.mesh_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "planes: ";
+    if (v.planes.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.planes.size(); ++i)
     {
-      s << indent << "  planes[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::shape_msgs::Plane_<ContainerAllocator> >::stream(s, indent + "    ", v.planes[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::shape_msgs::Plane_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.planes[i]);
     }
-    s << indent << "plane_poses[]" << std::endl;
+    if (v.planes.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "plane_poses: ";
+    if (v.plane_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.plane_poses.size(); ++i)
     {
-      s << indent << "  plane_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.plane_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.plane_poses[i]);
     }
-    s << indent << "subframe_names[]" << std::endl;
+    if (v.plane_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "subframe_names: ";
+    if (v.subframe_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.subframe_names.size(); ++i)
     {
-      s << indent << "  subframe_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.subframe_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.subframe_names[i]);
     }
-    s << indent << "subframe_poses[]" << std::endl;
+    if (v.subframe_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "subframe_poses: ";
+    if (v.subframe_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.subframe_poses.size(); ++i)
     {
-      s << indent << "  subframe_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.subframe_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.subframe_poses[i]);
     }
+    if (v.subframe_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "operation: ";
     Printer<int8_t>::stream(s, indent + "  ", v.operation);
   }

@@ -355,17 +355,24 @@ struct Printer< ::moveit_msgs::PositionConstraint_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PositionConstraint_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "target_point_offset: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.target_point_offset);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "constraint_region: ";
-    s << std::endl;
     Printer< ::moveit_msgs::BoundingVolume_<ContainerAllocator> >::stream(s, indent + "  ", v.constraint_region);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "weight: ";
     Printer<double>::stream(s, indent + "  ", v.weight);
   }

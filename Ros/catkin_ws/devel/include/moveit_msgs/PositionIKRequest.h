@@ -368,8 +368,8 @@ struct Definition< ::moveit_msgs::PositionIKRequest_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -780,35 +780,62 @@ struct Printer< ::moveit_msgs::PositionIKRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PositionIKRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot_state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.robot_state);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "constraints: ";
-    s << std::endl;
     Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "  ", v.constraints);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "avoid_collisions: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.avoid_collisions);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "ik_link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.ik_link_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "pose_stamped: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.pose_stamped);
-    s << indent << "ik_link_names[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "ik_link_names: ";
+    if (v.ik_link_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.ik_link_names.size(); ++i)
     {
-      s << indent << "  ik_link_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.ik_link_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.ik_link_names[i]);
     }
-    s << indent << "pose_stamped_vector[]" << std::endl;
+    if (v.ik_link_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "pose_stamped_vector: ";
+    if (v.pose_stamped_vector.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.pose_stamped_vector.size(); ++i)
     {
-      s << indent << "  pose_stamped_vector[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "    ", v.pose_stamped_vector[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.pose_stamped_vector[i]);
     }
+    if (v.pose_stamped_vector.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "timeout: ";
     Printer<ros::Duration>::stream(s, indent + "  ", v.timeout);
   }

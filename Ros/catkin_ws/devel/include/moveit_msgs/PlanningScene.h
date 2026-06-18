@@ -359,8 +359,8 @@ struct Definition< ::moveit_msgs::PlanningScene_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -733,51 +733,88 @@ struct Printer< ::moveit_msgs::PlanningScene_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlanningScene_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot_state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.robot_state);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot_model_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.robot_model_name);
-    s << indent << "fixed_frame_transforms[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "fixed_frame_transforms: ";
+    if (v.fixed_frame_transforms.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.fixed_frame_transforms.size(); ++i)
     {
-      s << indent << "  fixed_frame_transforms[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::TransformStamped_<ContainerAllocator> >::stream(s, indent + "    ", v.fixed_frame_transforms[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::TransformStamped_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.fixed_frame_transforms[i]);
     }
+    if (v.fixed_frame_transforms.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "allowed_collision_matrix: ";
-    s << std::endl;
     Printer< ::moveit_msgs::AllowedCollisionMatrix_<ContainerAllocator> >::stream(s, indent + "  ", v.allowed_collision_matrix);
-    s << indent << "link_padding[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "link_padding: ";
+    if (v.link_padding.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.link_padding.size(); ++i)
     {
-      s << indent << "  link_padding[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::LinkPadding_<ContainerAllocator> >::stream(s, indent + "    ", v.link_padding[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::LinkPadding_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.link_padding[i]);
     }
-    s << indent << "link_scale[]" << std::endl;
+    if (v.link_padding.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "link_scale: ";
+    if (v.link_scale.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.link_scale.size(); ++i)
     {
-      s << indent << "  link_scale[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::LinkScale_<ContainerAllocator> >::stream(s, indent + "    ", v.link_scale[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::LinkScale_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.link_scale[i]);
     }
-    s << indent << "object_colors[]" << std::endl;
+    if (v.link_scale.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "object_colors: ";
+    if (v.object_colors.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.object_colors.size(); ++i)
     {
-      s << indent << "  object_colors[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::ObjectColor_<ContainerAllocator> >::stream(s, indent + "    ", v.object_colors[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::ObjectColor_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.object_colors[i]);
     }
+    if (v.object_colors.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "world: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PlanningSceneWorld_<ContainerAllocator> >::stream(s, indent + "  ", v.world);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "is_diff: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.is_diff);
   }

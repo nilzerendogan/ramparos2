@@ -197,8 +197,12 @@ struct Printer< ::moveit_msgs::ConstraintEvalResult_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ConstraintEvalResult_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "result: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.result);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "distance: ";
     Printer<double>::stream(s, indent + "  ", v.distance);
   }

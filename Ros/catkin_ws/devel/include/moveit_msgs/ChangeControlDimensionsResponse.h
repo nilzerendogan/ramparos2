@@ -185,6 +185,8 @@ struct Printer< ::moveit_msgs::ChangeControlDimensionsResponse_<ContainerAllocat
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ChangeControlDimensionsResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "success: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.success);
   }

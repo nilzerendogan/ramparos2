@@ -259,8 +259,8 @@ struct Definition< ::moveit_msgs::ExecuteKnownTrajectoryRequest_<ContainerAlloca
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 ;
   }
 
@@ -299,9 +299,12 @@ struct Printer< ::moveit_msgs::ExecuteKnownTrajectoryRequest_<ContainerAllocator
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ExecuteKnownTrajectoryRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "trajectory: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.trajectory);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "wait_for_execution: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.wait_for_execution);
   }

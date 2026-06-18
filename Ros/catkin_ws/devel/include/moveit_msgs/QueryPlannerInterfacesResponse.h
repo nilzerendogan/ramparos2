@@ -196,14 +196,21 @@ struct Printer< ::moveit_msgs::QueryPlannerInterfacesResponse_<ContainerAllocato
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::QueryPlannerInterfacesResponse_<ContainerAllocator>& v)
   {
-    s << indent << "planner_interfaces[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "planner_interfaces: ";
+    if (v.planner_interfaces.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.planner_interfaces.size(); ++i)
     {
-      s << indent << "  planner_interfaces[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::PlannerInterfaceDescription_<ContainerAllocator> >::stream(s, indent + "    ", v.planner_interfaces[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::PlannerInterfaceDescription_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.planner_interfaces[i]);
     }
+    if (v.planner_interfaces.empty() || false)
+      s << "]";
   }
 };
 

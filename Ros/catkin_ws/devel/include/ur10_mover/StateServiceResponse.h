@@ -194,14 +194,25 @@ struct Printer< ::ur10_mover::StateServiceResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::StateServiceResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "output_msg: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.output_msg);
-    s << indent << "current_joint_angles[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "current_joint_angles: ";
+    if (v.current_joint_angles.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.current_joint_angles.size(); ++i)
     {
-      s << indent << "  current_joint_angles[" << i << "]: ";
-      Printer<double>::stream(s, indent + "  ", v.current_joint_angles[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<double>::stream(s, true ? std::string() : indent + "    ", v.current_joint_angles[i]);
     }
+    if (v.current_joint_angles.empty() || true)
+      s << "]";
   }
 };
 

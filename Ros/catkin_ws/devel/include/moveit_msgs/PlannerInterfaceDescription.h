@@ -195,14 +195,25 @@ struct Printer< ::moveit_msgs::PlannerInterfaceDescription_<ContainerAllocator> 
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlannerInterfaceDescription_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.name);
-    s << indent << "planner_ids[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "planner_ids: ";
+    if (v.planner_ids.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.planner_ids.size(); ++i)
     {
-      s << indent << "  planner_ids[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.planner_ids[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.planner_ids[i]);
     }
+    if (v.planner_ids.empty() || true)
+      s << "]";
   }
 };
 

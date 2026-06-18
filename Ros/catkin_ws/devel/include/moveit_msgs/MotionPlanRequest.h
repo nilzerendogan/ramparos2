@@ -422,8 +422,8 @@ struct Definition< ::moveit_msgs::MotionPlanRequest_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -882,48 +882,82 @@ struct Printer< ::moveit_msgs::MotionPlanRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::MotionPlanRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "workspace_parameters: ";
-    s << std::endl;
     Printer< ::moveit_msgs::WorkspaceParameters_<ContainerAllocator> >::stream(s, indent + "  ", v.workspace_parameters);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "start_state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.start_state);
-    s << indent << "goal_constraints[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "goal_constraints: ";
+    if (v.goal_constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.goal_constraints.size(); ++i)
     {
-      s << indent << "  goal_constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "    ", v.goal_constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.goal_constraints[i]);
     }
+    if (v.goal_constraints.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "path_constraints: ";
-    s << std::endl;
     Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >::stream(s, indent + "  ", v.path_constraints);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "trajectory_constraints: ";
-    s << std::endl;
     Printer< ::moveit_msgs::TrajectoryConstraints_<ContainerAllocator> >::stream(s, indent + "  ", v.trajectory_constraints);
-    s << indent << "reference_trajectories[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "reference_trajectories: ";
+    if (v.reference_trajectories.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.reference_trajectories.size(); ++i)
     {
-      s << indent << "  reference_trajectories[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::GenericTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.reference_trajectories[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::GenericTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.reference_trajectories[i]);
     }
+    if (v.reference_trajectories.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "planner_id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.planner_id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "num_planning_attempts: ";
     Printer<int32_t>::stream(s, indent + "  ", v.num_planning_attempts);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "allowed_planning_time: ";
     Printer<double>::stream(s, indent + "  ", v.allowed_planning_time);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_velocity_scaling_factor: ";
     Printer<double>::stream(s, indent + "  ", v.max_velocity_scaling_factor);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_acceleration_scaling_factor: ";
     Printer<double>::stream(s, indent + "  ", v.max_acceleration_scaling_factor);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "cartesian_speed_end_effector_link: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.cartesian_speed_end_effector_link);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_cartesian_speed: ";
     Printer<double>::stream(s, indent + "  ", v.max_cartesian_speed);
   }

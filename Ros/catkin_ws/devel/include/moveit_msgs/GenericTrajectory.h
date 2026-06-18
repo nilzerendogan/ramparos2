@@ -250,8 +250,8 @@ struct Definition< ::moveit_msgs::GenericTrajectory_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Vector3\n"
@@ -309,25 +309,40 @@ struct Printer< ::moveit_msgs::GenericTrajectory_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GenericTrajectory_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
-    s << indent << "joint_trajectory[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "joint_trajectory: ";
+    if (v.joint_trajectory.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.joint_trajectory.size(); ++i)
     {
-      s << indent << "  joint_trajectory[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.joint_trajectory[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.joint_trajectory[i]);
     }
-    s << indent << "cartesian_trajectory[]" << std::endl;
+    if (v.joint_trajectory.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "cartesian_trajectory: ";
+    if (v.cartesian_trajectory.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.cartesian_trajectory.size(); ++i)
     {
-      s << indent << "  cartesian_trajectory[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::CartesianTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.cartesian_trajectory[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::CartesianTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.cartesian_trajectory[i]);
     }
+    if (v.cartesian_trajectory.empty() || false)
+      s << "]";
   }
 };
 

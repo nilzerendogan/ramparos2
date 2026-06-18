@@ -254,20 +254,36 @@ struct Printer< ::moveit_msgs::JointLimits_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::JointLimits_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "joint_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.joint_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "has_position_limits: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.has_position_limits);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "min_position: ";
     Printer<double>::stream(s, indent + "  ", v.min_position);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_position: ";
     Printer<double>::stream(s, indent + "  ", v.max_position);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "has_velocity_limits: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.has_velocity_limits);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_velocity: ";
     Printer<double>::stream(s, indent + "  ", v.max_velocity);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "has_acceleration_limits: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.has_acceleration_limits);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_acceleration: ";
     Printer<double>::stream(s, indent + "  ", v.max_acceleration);
   }

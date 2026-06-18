@@ -212,14 +212,21 @@ struct Printer< ::ur10_mover::GetTrainingDataServiceResponse_<ContainerAllocator
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::GetTrainingDataServiceResponse_<ContainerAllocator>& v)
   {
-    s << indent << "trajectoryList[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "trajectoryList: ";
+    if (v.trajectoryList.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.trajectoryList.size(); ++i)
     {
-      s << indent << "  trajectoryList[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::ur10_mover::ListOfPoses_<ContainerAllocator> >::stream(s, indent + "    ", v.trajectoryList[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::ur10_mover::ListOfPoses_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.trajectoryList[i]);
     }
+    if (v.trajectoryList.empty() || false)
+      s << "]";
   }
 };
 

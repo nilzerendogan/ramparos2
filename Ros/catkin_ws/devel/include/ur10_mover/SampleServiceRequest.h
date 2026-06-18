@@ -223,16 +223,27 @@ struct Printer< ::ur10_mover::SampleServiceRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::SampleServiceRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "input_msg: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.input_msg);
-    s << indent << "condition_poses[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "condition_poses: ";
+    if (v.condition_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.condition_poses.size(); ++i)
     {
-      s << indent << "  condition_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.condition_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.condition_poses[i]);
     }
+    if (v.condition_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "context: ";
     Printer<double>::stream(s, indent + "  ", v.context);
   }

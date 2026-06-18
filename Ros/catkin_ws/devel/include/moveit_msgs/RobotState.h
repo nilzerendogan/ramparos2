@@ -286,8 +286,8 @@ struct Definition< ::moveit_msgs::RobotState_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -548,20 +548,31 @@ struct Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::RobotState_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "joint_state: ";
-    s << std::endl;
     Printer< ::sensor_msgs::JointState_<ContainerAllocator> >::stream(s, indent + "  ", v.joint_state);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "multi_dof_joint_state: ";
-    s << std::endl;
     Printer< ::sensor_msgs::MultiDOFJointState_<ContainerAllocator> >::stream(s, indent + "  ", v.multi_dof_joint_state);
-    s << indent << "attached_collision_objects[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "attached_collision_objects: ";
+    if (v.attached_collision_objects.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.attached_collision_objects.size(); ++i)
     {
-      s << indent << "  attached_collision_objects[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::AttachedCollisionObject_<ContainerAllocator> >::stream(s, indent + "    ", v.attached_collision_objects[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::AttachedCollisionObject_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.attached_collision_objects[i]);
     }
+    if (v.attached_collision_objects.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "is_diff: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.is_diff);
   }

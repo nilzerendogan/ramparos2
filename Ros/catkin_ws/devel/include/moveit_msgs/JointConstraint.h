@@ -221,14 +221,24 @@ struct Printer< ::moveit_msgs::JointConstraint_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::JointConstraint_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "joint_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.joint_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "position: ";
     Printer<double>::stream(s, indent + "  ", v.position);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "tolerance_above: ";
     Printer<double>::stream(s, indent + "  ", v.tolerance_above);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "tolerance_below: ";
     Printer<double>::stream(s, indent + "  ", v.tolerance_below);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "weight: ";
     Printer<double>::stream(s, indent + "  ", v.weight);
   }

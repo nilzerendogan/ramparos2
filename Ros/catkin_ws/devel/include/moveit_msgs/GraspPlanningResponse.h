@@ -385,16 +385,24 @@ struct Printer< ::moveit_msgs::GraspPlanningResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GraspPlanningResponse_<ContainerAllocator>& v)
   {
-    s << indent << "grasps[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "grasps: ";
+    if (v.grasps.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.grasps.size(); ++i)
     {
-      s << indent << "  grasps[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::Grasp_<ContainerAllocator> >::stream(s, indent + "    ", v.grasps[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::Grasp_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.grasps[i]);
     }
+    if (v.grasps.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "error_code: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveItErrorCodes_<ContainerAllocator> >::stream(s, indent + "  ", v.error_code);
   }
 };

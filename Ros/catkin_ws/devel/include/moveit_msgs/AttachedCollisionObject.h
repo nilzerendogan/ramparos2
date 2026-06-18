@@ -448,20 +448,35 @@ struct Printer< ::moveit_msgs::AttachedCollisionObject_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::AttachedCollisionObject_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "object: ";
-    s << std::endl;
     Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, indent + "  ", v.object);
-    s << indent << "touch_links[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "touch_links: ";
+    if (v.touch_links.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.touch_links.size(); ++i)
     {
-      s << indent << "  touch_links[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.touch_links[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.touch_links[i]);
     }
+    if (v.touch_links.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "detach_posture: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.detach_posture);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "weight: ";
     Printer<double>::stream(s, indent + "  ", v.weight);
   }

@@ -285,8 +285,8 @@ struct Definition< ::moveit_msgs::SaveRobotStateToWarehouseRequest_<ContainerAll
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -546,12 +546,17 @@ struct Printer< ::moveit_msgs::SaveRobotStateToWarehouseRequest_<ContainerAlloca
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::SaveRobotStateToWarehouseRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.robot);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.state);
   }
 };

@@ -1,4 +1,4 @@
-prefix=/home/user/ARobot/Ros/catkin_ws/devel
+prefix=/home/ubuntu/catkin_ws/devel
 
 Name: ros_tcp_endpoint
 Description: Description of ros_tcp_endpoint

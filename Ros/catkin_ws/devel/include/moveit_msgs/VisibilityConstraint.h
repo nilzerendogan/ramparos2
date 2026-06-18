@@ -355,22 +355,36 @@ struct Printer< ::moveit_msgs::VisibilityConstraint_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::VisibilityConstraint_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "target_radius: ";
     Printer<double>::stream(s, indent + "  ", v.target_radius);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "target_pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.target_pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "cone_sides: ";
     Printer<int32_t>::stream(s, indent + "  ", v.cone_sides);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "sensor_pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.sensor_pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_view_angle: ";
     Printer<double>::stream(s, indent + "  ", v.max_view_angle);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "max_range_angle: ";
     Printer<double>::stream(s, indent + "  ", v.max_range_angle);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "sensor_view_direction: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.sensor_view_direction);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "weight: ";
     Printer<double>::stream(s, indent + "  ", v.weight);
   }

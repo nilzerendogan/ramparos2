@@ -269,20 +269,32 @@ struct Printer< ::moveit_msgs::OrientationConstraint_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::OrientationConstraint_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "orientation: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Quaternion_<ContainerAllocator> >::stream(s, indent + "  ", v.orientation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "absolute_x_axis_tolerance: ";
     Printer<double>::stream(s, indent + "  ", v.absolute_x_axis_tolerance);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "absolute_y_axis_tolerance: ";
     Printer<double>::stream(s, indent + "  ", v.absolute_y_axis_tolerance);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "absolute_z_axis_tolerance: ";
     Printer<double>::stream(s, indent + "  ", v.absolute_z_axis_tolerance);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "weight: ";
     Printer<double>::stream(s, indent + "  ", v.weight);
   }

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/user/ARobot/Ros/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/ubuntu/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
+CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 
 # Utility rule file for _run_tests_ur10_mover_roslaunch-check_launch.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
 include ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/progress.make
 
 ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch:
-	cd /home/user/ARobot/Ros/catkin_ws/build/ur10_mover && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/run_tests.py /home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_mover/roslaunch-check_launch.xml "/usr/bin/cmake -E make_directory /home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_mover" "/opt/ros/noetic/share/roslaunch/cmake/../scripts/roslaunch-check -o \"/home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_mover/roslaunch-check_launch.xml\" \"/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/launch\" "
+	cd /home/ubuntu/catkin_ws/build/ur10_mover && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/run_tests.py /home/ubuntu/catkin_ws/build/test_results/ur10_mover/roslaunch-check_launch.xml "/usr/bin/cmake -E make_directory /home/ubuntu/catkin_ws/build/test_results/ur10_mover" "/opt/ros/noetic/share/roslaunch/cmake/../scripts/roslaunch-check -o \"/home/ubuntu/catkin_ws/build/test_results/ur10_mover/roslaunch-check_launch.xml\" \"/home/ubuntu/catkin_ws/src/ur10_mover/launch\" "
 
 _run_tests_ur10_mover_roslaunch-check_launch: ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch
 _run_tests_ur10_mover_roslaunch-check_launch: ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/build.make
@@ -67,10 +67,10 @@ ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/build: _r
 .PHONY : ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/build
 
 ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/clean:
-	cd /home/user/ARobot/Ros/catkin_ws/build/ur10_mover && $(CMAKE_COMMAND) -P CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/cmake_clean.cmake
+	cd /home/ubuntu/catkin_ws/build/ur10_mover && $(CMAKE_COMMAND) -P CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/cmake_clean.cmake
 .PHONY : ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/clean
 
 ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/depend:
-	cd /home/user/ARobot/Ros/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/ARobot/Ros/catkin_ws/src /home/user/ARobot/Ros/catkin_ws/src/ur10_mover /home/user/ARobot/Ros/catkin_ws/build /home/user/ARobot/Ros/catkin_ws/build/ur10_mover /home/user/ARobot/Ros/catkin_ws/build/ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/catkin_ws/src /home/ubuntu/catkin_ws/src/ur10_mover /home/ubuntu/catkin_ws/build /home/ubuntu/catkin_ws/build/ur10_mover /home/ubuntu/catkin_ws/build/ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ur10_mover/CMakeFiles/_run_tests_ur10_mover_roslaunch-check_launch.dir/depend
 

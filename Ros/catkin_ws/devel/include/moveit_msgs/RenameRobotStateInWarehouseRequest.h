@@ -200,10 +200,16 @@ struct Printer< ::moveit_msgs::RenameRobotStateInWarehouseRequest_<ContainerAllo
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::RenameRobotStateInWarehouseRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "old_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.old_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "new_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.new_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "robot: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.robot);
   }

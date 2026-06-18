@@ -205,24 +205,51 @@ struct Printer< ::moveit_msgs::PlannerParams_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlannerParams_<ContainerAllocator>& v)
   {
-    s << indent << "keys[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "keys: ";
+    if (v.keys.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.keys.size(); ++i)
     {
-      s << indent << "  keys[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.keys[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.keys[i]);
     }
-    s << indent << "values[]" << std::endl;
+    if (v.keys.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "values: ";
+    if (v.values.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.values.size(); ++i)
     {
-      s << indent << "  values[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.values[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.values[i]);
     }
-    s << indent << "descriptions[]" << std::endl;
+    if (v.values.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "descriptions: ";
+    if (v.descriptions.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.descriptions.size(); ++i)
     {
-      s << indent << "  descriptions[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.descriptions[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.descriptions[i]);
     }
+    if (v.descriptions.empty() || true)
+      s << "]";
   }
 };
 
