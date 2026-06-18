@@ -1,0 +1,11 @@
+services:
+  rampa_dev:
+    image: tiryoh/ros-desktop-vnc:noetic
+    ports:
+      - "6080:80"     # Browser display
+      - "10000:10000" # Unity Bridge
+    shm_size: "2g"
+    environment:
+      - RESOLUTION=1280x720
+    volumes:
+      - ./Ros/catkin_ws:/home/ubuntu/catkin_ws

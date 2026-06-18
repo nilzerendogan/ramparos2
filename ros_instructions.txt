@@ -1,0 +1,33 @@
+Inside the local terminal:
+docker compose up
+
+Go to for ros:
+http://localhost:6080
+
+Inside the browser terminal:
+sudo apt update
+sudo apt install -y ros-noetic-gazebo-ros-pkgs ros-noetic-gazebo-ros
+sudo apt install -y ros-noetic-moveit ros-noetic-universal-robots ros-noetic-ur-gazebo ros-noetic-rosbridge-suite ros-noetic-joint-state-controller ros-noetic-joint-trajectory-controller
+sudo apt install -y python3-pip
+pip3 install movement-primitives OneEuroFilter
+pip3 install pytransform3d
+pip3 install "numpy<1.24"
+pip3 install gmr
+sudo apt install -y ros-noetic-ros-control ros-noetic-ros-controllers
+sudo apt-get update
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+roslaunch ur10_mover server.launch tcp_ip:=0.0.0.0 tcp_port:=10000
+
+Open the project in unity
+go to robotics
+set: ROS IP 127.0.0.1 and ROS Port 10000
+pick SampleScene
+In your Hierarchy on the left, click on OVRCameraRigInteraction.
+Look at your Inspector panel on the far right. At the very top left of the Inspector, right next to the name, uncheck the small square box.
+Right-click anywhere in the empty gray space of your Hierarchy.
+Select Camera.
+Click on your newly created Camera. In the Inspector on the right, look at the Transform component and set the Position to somewhere
