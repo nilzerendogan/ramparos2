@@ -361,8 +361,8 @@ struct Definition< ::moveit_msgs::GetMotionSequenceRequest_<ContainerAllocator> 
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -808,8 +808,9 @@ struct Printer< ::moveit_msgs::GetMotionSequenceRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetMotionSequenceRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "request: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MotionSequenceRequest_<ContainerAllocator> >::stream(s, indent + "  ", v.request);
   }
 };

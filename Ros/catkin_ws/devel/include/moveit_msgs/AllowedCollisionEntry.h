@@ -185,12 +185,21 @@ struct Printer< ::moveit_msgs::AllowedCollisionEntry_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::AllowedCollisionEntry_<ContainerAllocator>& v)
   {
-    s << indent << "enabled[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "enabled: ";
+    if (v.enabled.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.enabled.size(); ++i)
     {
-      s << indent << "  enabled[" << i << "]: ";
-      Printer<uint8_t>::stream(s, indent + "  ", v.enabled[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<uint8_t>::stream(s, true ? std::string() : indent + "    ", v.enabled[i]);
     }
+    if (v.enabled.empty() || true)
+      s << "]";
   }
 };
 

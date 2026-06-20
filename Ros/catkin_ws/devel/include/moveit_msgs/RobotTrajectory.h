@@ -248,8 +248,8 @@ struct Definition< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 ;
   }
 
@@ -288,11 +288,13 @@ struct Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::RobotTrajectory_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "joint_trajectory: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.joint_trajectory);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "multi_dof_joint_trajectory: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::MultiDOFJointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.multi_dof_joint_trajectory);
   }
 };

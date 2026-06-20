@@ -215,16 +215,25 @@ struct Printer< ::ur10_mover::SampleServiceResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::SampleServiceResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "output_msg: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.output_msg);
-    s << indent << "sampled_trajectory[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "sampled_trajectory: ";
+    if (v.sampled_trajectory.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.sampled_trajectory.size(); ++i)
     {
-      s << indent << "  sampled_trajectory[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.sampled_trajectory[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.sampled_trajectory[i]);
     }
+    if (v.sampled_trajectory.empty() || false)
+      s << "]";
   }
 };
 

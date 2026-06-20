@@ -303,38 +303,66 @@ struct Printer< ::moveit_msgs::BoundingVolume_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::BoundingVolume_<ContainerAllocator>& v)
   {
-    s << indent << "primitives[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "primitives: ";
+    if (v.primitives.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.primitives.size(); ++i)
     {
-      s << indent << "  primitives[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::shape_msgs::SolidPrimitive_<ContainerAllocator> >::stream(s, indent + "    ", v.primitives[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::shape_msgs::SolidPrimitive_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.primitives[i]);
     }
-    s << indent << "primitive_poses[]" << std::endl;
+    if (v.primitives.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "primitive_poses: ";
+    if (v.primitive_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.primitive_poses.size(); ++i)
     {
-      s << indent << "  primitive_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.primitive_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.primitive_poses[i]);
     }
-    s << indent << "meshes[]" << std::endl;
+    if (v.primitive_poses.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "meshes: ";
+    if (v.meshes.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.meshes.size(); ++i)
     {
-      s << indent << "  meshes[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::shape_msgs::Mesh_<ContainerAllocator> >::stream(s, indent + "    ", v.meshes[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::shape_msgs::Mesh_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.meshes[i]);
     }
-    s << indent << "mesh_poses[]" << std::endl;
+    if (v.meshes.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "mesh_poses: ";
+    if (v.mesh_poses.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.mesh_poses.size(); ++i)
     {
-      s << indent << "  mesh_poses[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.mesh_poses[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.mesh_poses[i]);
     }
+    if (v.mesh_poses.empty() || false)
+      s << "]";
   }
 };
 

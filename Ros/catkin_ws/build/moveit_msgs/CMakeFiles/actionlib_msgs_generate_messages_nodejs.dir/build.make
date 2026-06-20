@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/user/ARobot/Ros/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/ubuntu/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
+CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 
 # Utility rule file for actionlib_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build: action
 .PHONY : moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
 
 moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/user/ARobot/Ros/catkin_ws/build/moveit_msgs && $(CMAKE_COMMAND) -P CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/ubuntu/catkin_ws/build/moveit_msgs && $(CMAKE_COMMAND) -P CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/clean
 
 moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/user/ARobot/Ros/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/ARobot/Ros/catkin_ws/src /home/user/ARobot/Ros/catkin_ws/src/moveit_msgs /home/user/ARobot/Ros/catkin_ws/build /home/user/ARobot/Ros/catkin_ws/build/moveit_msgs /home/user/ARobot/Ros/catkin_ws/build/moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/catkin_ws/src /home/ubuntu/catkin_ws/src/moveit_msgs /home/ubuntu/catkin_ws/build /home/ubuntu/catkin_ws/build/moveit_msgs /home/ubuntu/catkin_ws/build/moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : moveit_msgs/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/depend
 

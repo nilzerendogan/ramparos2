@@ -184,12 +184,21 @@ struct Printer< ::ur10_mover::ListOfFloats_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::ListOfFloats_<ContainerAllocator>& v)
   {
-    s << indent << "list[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "list: ";
+    if (v.list.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.list.size(); ++i)
     {
-      s << indent << "  list[" << i << "]: ";
-      Printer<double>::stream(s, indent + "  ", v.list[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<double>::stream(s, true ? std::string() : indent + "    ", v.list[i]);
     }
+    if (v.list.empty() || true)
+      s << "]";
   }
 };
 

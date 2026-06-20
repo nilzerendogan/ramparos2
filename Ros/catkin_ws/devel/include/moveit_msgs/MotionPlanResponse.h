@@ -311,8 +311,8 @@ struct Definition< ::moveit_msgs::MotionPlanResponse_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -645,18 +645,25 @@ struct Printer< ::moveit_msgs::MotionPlanResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::MotionPlanResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "trajectory_start: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.trajectory_start);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "trajectory: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.trajectory);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "planning_time: ";
     Printer<double>::stream(s, indent + "  ", v.planning_time);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "error_code: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveItErrorCodes_<ContainerAllocator> >::stream(s, indent + "  ", v.error_code);
   }
 };

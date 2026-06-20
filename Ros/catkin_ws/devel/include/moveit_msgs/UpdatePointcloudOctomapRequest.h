@@ -249,8 +249,9 @@ struct Printer< ::moveit_msgs::UpdatePointcloudOctomapRequest_<ContainerAllocato
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::UpdatePointcloudOctomapRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "cloud: ";
-    s << std::endl;
     Printer< ::sensor_msgs::PointCloud2_<ContainerAllocator> >::stream(s, indent + "  ", v.cloud);
   }
 };

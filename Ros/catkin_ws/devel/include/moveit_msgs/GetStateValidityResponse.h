@@ -301,32 +301,55 @@ struct Printer< ::moveit_msgs::GetStateValidityResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetStateValidityResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "valid: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.valid);
-    s << indent << "contacts[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "contacts: ";
+    if (v.contacts.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.contacts.size(); ++i)
     {
-      s << indent << "  contacts[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::ContactInformation_<ContainerAllocator> >::stream(s, indent + "    ", v.contacts[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::ContactInformation_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.contacts[i]);
     }
-    s << indent << "cost_sources[]" << std::endl;
+    if (v.contacts.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "cost_sources: ";
+    if (v.cost_sources.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.cost_sources.size(); ++i)
     {
-      s << indent << "  cost_sources[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::CostSource_<ContainerAllocator> >::stream(s, indent + "    ", v.cost_sources[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::CostSource_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.cost_sources[i]);
     }
-    s << indent << "constraint_result[]" << std::endl;
+    if (v.cost_sources.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "constraint_result: ";
+    if (v.constraint_result.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.constraint_result.size(); ++i)
     {
-      s << indent << "  constraint_result[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::ConstraintEvalResult_<ContainerAllocator> >::stream(s, indent + "    ", v.constraint_result[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::ConstraintEvalResult_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.constraint_result[i]);
     }
+    if (v.constraint_result.empty() || false)
+      s << "]";
   }
 };
 

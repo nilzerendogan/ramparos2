@@ -223,8 +223,8 @@ struct Definition< ::moveit_msgs::CartesianTrajectory_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Vector3\n"
@@ -282,19 +282,29 @@ struct Printer< ::moveit_msgs::CartesianTrajectory_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::CartesianTrajectory_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "tracked_frame: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.tracked_frame);
-    s << indent << "points[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "points: ";
+    if (v.points.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.points.size(); ++i)
     {
-      s << indent << "  points[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::CartesianTrajectoryPoint_<ContainerAllocator> >::stream(s, indent + "    ", v.points[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::CartesianTrajectoryPoint_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.points[i]);
     }
+    if (v.points.empty() || false)
+      s << "]";
   }
 };
 

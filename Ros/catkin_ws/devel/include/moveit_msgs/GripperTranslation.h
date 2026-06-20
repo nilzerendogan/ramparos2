@@ -245,11 +245,16 @@ struct Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GripperTranslation_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "direction: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Vector3Stamped_<ContainerAllocator> >::stream(s, indent + "  ", v.direction);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "desired_distance: ";
     Printer<float>::stream(s, indent + "  ", v.desired_distance);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "min_distance: ";
     Printer<float>::stream(s, indent + "  ", v.min_distance);
   }

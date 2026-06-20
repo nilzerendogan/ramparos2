@@ -349,28 +349,45 @@ struct Printer< ::moveit_msgs::PlaceLocation_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlaceLocation_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "post_place_posture: ";
-    s << std::endl;
     Printer< ::trajectory_msgs::JointTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.post_place_posture);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "place_pose: ";
-    s << std::endl;
     Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "  ", v.place_pose);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "quality: ";
     Printer<double>::stream(s, indent + "  ", v.quality);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "pre_place_approach: ";
-    s << std::endl;
     Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >::stream(s, indent + "  ", v.pre_place_approach);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "post_place_retreat: ";
-    s << std::endl;
     Printer< ::moveit_msgs::GripperTranslation_<ContainerAllocator> >::stream(s, indent + "  ", v.post_place_retreat);
-    s << indent << "allowed_touch_objects[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "allowed_touch_objects: ";
+    if (v.allowed_touch_objects.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.allowed_touch_objects.size(); ++i)
     {
-      s << indent << "  allowed_touch_objects[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.allowed_touch_objects[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.allowed_touch_objects[i]);
     }
+    if (v.allowed_touch_objects.empty() || true)
+      s << "]";
   }
 };
 

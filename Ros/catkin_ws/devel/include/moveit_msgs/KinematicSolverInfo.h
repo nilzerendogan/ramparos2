@@ -229,26 +229,51 @@ struct Printer< ::moveit_msgs::KinematicSolverInfo_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::KinematicSolverInfo_<ContainerAllocator>& v)
   {
-    s << indent << "joint_names[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "joint_names: ";
+    if (v.joint_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.joint_names.size(); ++i)
     {
-      s << indent << "  joint_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.joint_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.joint_names[i]);
     }
-    s << indent << "limits[]" << std::endl;
+    if (v.joint_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "limits: ";
+    if (v.limits.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.limits.size(); ++i)
     {
-      s << indent << "  limits[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::JointLimits_<ContainerAllocator> >::stream(s, indent + "    ", v.limits[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::JointLimits_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.limits[i]);
     }
-    s << indent << "link_names[]" << std::endl;
+    if (v.limits.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "link_names: ";
+    if (v.link_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.link_names.size(); ++i)
     {
-      s << indent << "  link_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.link_names[i]);
     }
+    if (v.link_names.empty() || true)
+      s << "]";
   }
 };
 

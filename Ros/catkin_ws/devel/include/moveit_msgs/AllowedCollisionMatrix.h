@@ -228,32 +228,66 @@ struct Printer< ::moveit_msgs::AllowedCollisionMatrix_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::AllowedCollisionMatrix_<ContainerAllocator>& v)
   {
-    s << indent << "entry_names[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "entry_names: ";
+    if (v.entry_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.entry_names.size(); ++i)
     {
-      s << indent << "  entry_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.entry_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.entry_names[i]);
     }
-    s << indent << "entry_values[]" << std::endl;
+    if (v.entry_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "entry_values: ";
+    if (v.entry_values.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.entry_values.size(); ++i)
     {
-      s << indent << "  entry_values[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::AllowedCollisionEntry_<ContainerAllocator> >::stream(s, indent + "    ", v.entry_values[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::AllowedCollisionEntry_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.entry_values[i]);
     }
-    s << indent << "default_entry_names[]" << std::endl;
+    if (v.entry_values.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "default_entry_names: ";
+    if (v.default_entry_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.default_entry_names.size(); ++i)
     {
-      s << indent << "  default_entry_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.default_entry_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.default_entry_names[i]);
     }
-    s << indent << "default_entry_values[]" << std::endl;
+    if (v.default_entry_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "default_entry_values: ";
+    if (v.default_entry_values.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.default_entry_values.size(); ++i)
     {
-      s << indent << "  default_entry_values[" << i << "]: ";
-      Printer<uint8_t>::stream(s, indent + "  ", v.default_entry_values[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<uint8_t>::stream(s, true ? std::string() : indent + "    ", v.default_entry_values[i]);
     }
+    if (v.default_entry_values.empty() || true)
+      s << "]";
   }
 };
 

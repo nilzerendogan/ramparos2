@@ -422,16 +422,24 @@ struct Printer< ::moveit_msgs::PlanningSceneWorld_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::PlanningSceneWorld_<ContainerAllocator>& v)
   {
-    s << indent << "collision_objects[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "collision_objects: ";
+    if (v.collision_objects.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.collision_objects.size(); ++i)
     {
-      s << indent << "  collision_objects[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, indent + "    ", v.collision_objects[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.collision_objects[i]);
     }
+    if (v.collision_objects.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "octomap: ";
-    s << std::endl;
     Printer< ::octomap_msgs::OctomapWithPose_<ContainerAllocator> >::stream(s, indent + "  ", v.octomap);
   }
 };

@@ -233,24 +233,44 @@ struct Printer< ::ur10_mover::PlannerServiceRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::PlannerServiceRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "input_msg: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.input_msg);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "request_type: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.request_type);
-    s << indent << "joints_input[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "joints_input: ";
+    if (v.joints_input.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.joints_input.size(); ++i)
     {
-      s << indent << "  joints_input[" << i << "]: ";
-      Printer<double>::stream(s, indent + "  ", v.joints_input[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<double>::stream(s, true ? std::string() : indent + "    ", v.joints_input[i]);
     }
-    s << indent << "pose_list[]" << std::endl;
+    if (v.joints_input.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "pose_list: ";
+    if (v.pose_list.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.pose_list.size(); ++i)
     {
-      s << indent << "  pose_list[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.pose_list[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.pose_list[i]);
     }
+    if (v.pose_list.empty() || false)
+      s << "]";
   }
 };
 

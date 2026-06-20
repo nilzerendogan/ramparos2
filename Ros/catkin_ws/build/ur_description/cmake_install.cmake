@@ -1,8 +1,8 @@
-# Install script for directory: /home/user/ARobot/Ros/catkin_ws/src/ur_description
+# Install script for directory: /home/ubuntu/catkin_ws/src/ur_description
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/user/ARobot/Ros/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/ubuntu/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,27 +38,27 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/user/ARobot/Ros/catkin_ws/build/ur_description/catkin_generated/installspace/ur_description.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/ubuntu/catkin_ws/build/ur_description/catkin_generated/installspace/ur_description.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ur_description/cmake" TYPE FILE FILES
-    "/home/user/ARobot/Ros/catkin_ws/build/ur_description/catkin_generated/installspace/ur_descriptionConfig.cmake"
-    "/home/user/ARobot/Ros/catkin_ws/build/ur_description/catkin_generated/installspace/ur_descriptionConfig-version.cmake"
+    "/home/ubuntu/catkin_ws/build/ur_description/catkin_generated/installspace/ur_descriptionConfig.cmake"
+    "/home/ubuntu/catkin_ws/build/ur_description/catkin_generated/installspace/ur_descriptionConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ur_description" TYPE FILE FILES "/home/user/ARobot/Ros/catkin_ws/src/ur_description/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ur_description" TYPE FILE FILES "/home/ubuntu/catkin_ws/src/ur_description/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ur_description" TYPE DIRECTORY FILES
-    "/home/user/ARobot/Ros/catkin_ws/src/ur_description/cfg"
-    "/home/user/ARobot/Ros/catkin_ws/src/ur_description/config"
-    "/home/user/ARobot/Ros/catkin_ws/src/ur_description/launch"
-    "/home/user/ARobot/Ros/catkin_ws/src/ur_description/meshes"
-    "/home/user/ARobot/Ros/catkin_ws/src/ur_description/urdf"
+    "/home/ubuntu/catkin_ws/src/ur_description/cfg"
+    "/home/ubuntu/catkin_ws/src/ur_description/config"
+    "/home/ubuntu/catkin_ws/src/ur_description/launch"
+    "/home/ubuntu/catkin_ws/src/ur_description/meshes"
+    "/home/ubuntu/catkin_ws/src/ur_description/urdf"
     )
 endif()
 

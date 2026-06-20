@@ -384,8 +384,8 @@ struct Definition< ::moveit_msgs::MoveGroupActionGoal_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -1012,14 +1012,17 @@ struct Printer< ::moveit_msgs::MoveGroupActionGoal_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::MoveGroupActionGoal_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "goal_id: ";
-    s << std::endl;
     Printer< ::actionlib_msgs::GoalID_<ContainerAllocator> >::stream(s, indent + "  ", v.goal_id);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "goal: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveGroupGoal_<ContainerAllocator> >::stream(s, indent + "  ", v.goal);
   }
 };

@@ -228,13 +228,20 @@ struct Printer< ::moveit_msgs::SetPlannerParamsRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::SetPlannerParamsRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "planner_config: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.planner_config);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "group: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "params: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PlannerParams_<ContainerAllocator> >::stream(s, indent + "  ", v.params);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "replace: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.replace);
   }

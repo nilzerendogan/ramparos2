@@ -186,6 +186,8 @@ struct Printer< ::moveit_msgs::CheckIfRobotStateExistsInWarehouseResponse_<Conta
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::CheckIfRobotStateExistsInWarehouseResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "exists: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.exists);
   }

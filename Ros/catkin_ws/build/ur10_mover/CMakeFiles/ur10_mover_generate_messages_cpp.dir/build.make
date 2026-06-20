@@ -43,142 +43,142 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/user/ARobot/Ros/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/ubuntu/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
+CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 
 # Utility rule file for ur10_mover_generate_messages_cpp.
 
 # Include the progress variables for this target.
 include ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/progress.make
 
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfFloats.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h
-ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfFloats.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h
+ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h
 
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /opt/ros/noetic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from ur10_mover/ListOfFloats.msg"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfFloats.h: /opt/ros/noetic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from ur10_mover/ListOfFloats.msg"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from ur10_mover/ListOfPoses.msg"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h: /opt/ros/noetic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from ur10_mover/ListOfPoses.msg"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/DiscardService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from ur10_mover/DiscardService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/DiscardService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/DiscardService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from ur10_mover/DiscardService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/DiscardService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/ExecutionService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from ur10_mover/ExecutionService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/ExecutionService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/ExecutionService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfFloats.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from ur10_mover/ExecutionService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/ExecutionService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating C++ code from ur10_mover/GetTrainingDataService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /home/ubuntu/catkin_ws/src/ur10_mover/msg/ListOfPoses.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating C++ code from ur10_mover/GetTrainingDataService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/GripperService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating C++ code from ur10_mover/GripperService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/GripperService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/GripperService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating C++ code from ur10_mover/GripperService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/GripperService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/PlannerService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/JointTrajectory.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/MultiDOFJointTrajectoryPoint.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Transform.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/JointTrajectoryPoint.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg/RobotTrajectory.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/MultiDOFJointTrajectory.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Twist.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating C++ code from ur10_mover/PlannerService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/PlannerService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/PlannerService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/MultiDOFJointTrajectoryPoint.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /home/ubuntu/catkin_ws/src/moveit_msgs/msg/RobotTrajectory.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/JointTrajectoryPoint.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/MultiDOFJointTrajectory.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/trajectory_msgs/msg/JointTrajectory.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Transform.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Twist.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating C++ code from ur10_mover/PlannerService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/PlannerService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/SampleService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating C++ code from ur10_mover/SampleService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/SampleService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/SampleService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating C++ code from ur10_mover/SampleService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/SampleService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/StateService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating C++ code from ur10_mover/StateService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/StateService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/StateService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating C++ code from ur10_mover/StateService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/StateService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/TrainingDataService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating C++ code from ur10_mover/TrainingDataService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/TrainingDataService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/TrainingDataService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating C++ code from ur10_mover/TrainingDataService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/TrainingDataService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h: /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/TrainingService.srv
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/share/gencpp/msg.h.template
-/home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/user/ARobot/Ros/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating C++ code from ur10_mover/TrainingService.srv"
-	cd /home/user/ARobot/Ros/catkin_ws/src/ur10_mover && /home/user/ARobot/Ros/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/user/ARobot/Ros/catkin_ws/src/ur10_mover/srv/TrainingService.srv -Iur10_mover:/home/user/ARobot/Ros/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/user/ARobot/Ros/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h: /home/ubuntu/catkin_ws/src/ur10_mover/srv/TrainingService.srv
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating C++ code from ur10_mover/TrainingService.srv"
+	cd /home/ubuntu/catkin_ws/src/ur10_mover && /home/ubuntu/catkin_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/ubuntu/catkin_ws/src/ur10_mover/srv/TrainingService.srv -Iur10_mover:/home/ubuntu/catkin_ws/src/ur10_mover/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Imoveit_msgs:/home/ubuntu/catkin_ws/devel/share/moveit_msgs/msg -Imoveit_msgs:/home/ubuntu/catkin_ws/src/moveit_msgs/msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -Itrajectory_msgs:/opt/ros/noetic/share/trajectory_msgs/cmake/../msg -Ishape_msgs:/opt/ros/noetic/share/shape_msgs/cmake/../msg -Iobject_recognition_msgs:/opt/ros/noetic/share/object_recognition_msgs/cmake/../msg -Ioctomap_msgs:/opt/ros/noetic/share/octomap_msgs/cmake/../msg -p ur10_mover -o /home/ubuntu/catkin_ws/devel/include/ur10_mover -e /opt/ros/noetic/share/gencpp/cmake/..
 
 ur10_mover_generate_messages_cpp: ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfFloats.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ListOfPoses.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/DiscardService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/ExecutionService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/GripperService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/PlannerService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/SampleService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/StateService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingDataService.h
-ur10_mover_generate_messages_cpp: /home/user/ARobot/Ros/catkin_ws/devel/include/ur10_mover/TrainingService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfFloats.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ListOfPoses.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/DiscardService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/ExecutionService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/GetTrainingDataService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/GripperService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/PlannerService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/SampleService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/StateService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingDataService.h
+ur10_mover_generate_messages_cpp: /home/ubuntu/catkin_ws/devel/include/ur10_mover/TrainingService.h
 ur10_mover_generate_messages_cpp: ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/build.make
 
 .PHONY : ur10_mover_generate_messages_cpp
@@ -189,10 +189,10 @@ ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/build: ur10_mover_gen
 .PHONY : ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/build
 
 ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/clean:
-	cd /home/user/ARobot/Ros/catkin_ws/build/ur10_mover && $(CMAKE_COMMAND) -P CMakeFiles/ur10_mover_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /home/ubuntu/catkin_ws/build/ur10_mover && $(CMAKE_COMMAND) -P CMakeFiles/ur10_mover_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/clean
 
 ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/depend:
-	cd /home/user/ARobot/Ros/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/ARobot/Ros/catkin_ws/src /home/user/ARobot/Ros/catkin_ws/src/ur10_mover /home/user/ARobot/Ros/catkin_ws/build /home/user/ARobot/Ros/catkin_ws/build/ur10_mover /home/user/ARobot/Ros/catkin_ws/build/ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/catkin_ws/src /home/ubuntu/catkin_ws/src/ur10_mover /home/ubuntu/catkin_ws/build /home/ubuntu/catkin_ws/build/ur10_mover /home/ubuntu/catkin_ws/build/ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ur10_mover/CMakeFiles/ur10_mover_generate_messages_cpp.dir/depend
 

@@ -280,8 +280,8 @@ struct Definition< ::ur10_mover::PlannerServiceResponse_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 ;
   }
 
@@ -322,26 +322,44 @@ struct Printer< ::ur10_mover::PlannerServiceResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::PlannerServiceResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "output_msg: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.output_msg);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "request_type: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.request_type);
-    s << indent << "pose_list[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "pose_list: ";
+    if (v.pose_list.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.pose_list.size(); ++i)
     {
-      s << indent << "  pose_list[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.pose_list[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.pose_list[i]);
     }
-    s << indent << "trajectories[]" << std::endl;
+    if (v.pose_list.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "trajectories: ";
+    if (v.trajectories.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.trajectories.size(); ++i)
     {
-      s << indent << "  trajectories[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.trajectories[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.trajectories[i]);
     }
+    if (v.trajectories.empty() || false)
+      s << "]";
   }
 };
 

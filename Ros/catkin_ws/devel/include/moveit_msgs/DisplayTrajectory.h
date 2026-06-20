@@ -267,8 +267,8 @@ struct Definition< ::moveit_msgs::DisplayTrajectory_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: moveit_msgs/RobotState\n"
@@ -584,18 +584,28 @@ struct Printer< ::moveit_msgs::DisplayTrajectory_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::DisplayTrajectory_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "model_id: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.model_id);
-    s << indent << "trajectory[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "trajectory: ";
+    if (v.trajectory.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.trajectory.size(); ++i)
     {
-      s << indent << "  trajectory[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.trajectory[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.trajectory[i]);
     }
+    if (v.trajectory.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "trajectory_start: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.trajectory_start);
   }
 };

@@ -360,8 +360,8 @@ float64 z
 ================================================================================
 MSG: geometry_msgs/Twist
 # This expresses velocity in free space broken into its linear and angular parts.
-Vector3  linear
-Vector3  angular
+Vector3 linear
+Vector3 angular
 ")
 
 (setf (get ur10_mover::PlannerServiceResponse :md5sum-) "a9d9e87f111d55827a268a07768a7199")
@@ -508,8 +508,8 @@ float64 z
 ================================================================================
 MSG: geometry_msgs/Twist
 # This expresses velocity in free space broken into its linear and angular parts.
-Vector3  linear
-Vector3  angular
+Vector3 linear
+Vector3 angular
 ")
 
 

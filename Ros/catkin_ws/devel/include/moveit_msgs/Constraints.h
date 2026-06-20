@@ -467,40 +467,70 @@ struct Printer< ::moveit_msgs::Constraints_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::Constraints_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.name);
-    s << indent << "joint_constraints[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "joint_constraints: ";
+    if (v.joint_constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.joint_constraints.size(); ++i)
     {
-      s << indent << "  joint_constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::JointConstraint_<ContainerAllocator> >::stream(s, indent + "    ", v.joint_constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::JointConstraint_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.joint_constraints[i]);
     }
-    s << indent << "position_constraints[]" << std::endl;
+    if (v.joint_constraints.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "position_constraints: ";
+    if (v.position_constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.position_constraints.size(); ++i)
     {
-      s << indent << "  position_constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::PositionConstraint_<ContainerAllocator> >::stream(s, indent + "    ", v.position_constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::PositionConstraint_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.position_constraints[i]);
     }
-    s << indent << "orientation_constraints[]" << std::endl;
+    if (v.position_constraints.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "orientation_constraints: ";
+    if (v.orientation_constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.orientation_constraints.size(); ++i)
     {
-      s << indent << "  orientation_constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::OrientationConstraint_<ContainerAllocator> >::stream(s, indent + "    ", v.orientation_constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::OrientationConstraint_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.orientation_constraints[i]);
     }
-    s << indent << "visibility_constraints[]" << std::endl;
+    if (v.orientation_constraints.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "visibility_constraints: ";
+    if (v.visibility_constraints.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.visibility_constraints.size(); ++i)
     {
-      s << indent << "  visibility_constraints[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::VisibilityConstraint_<ContainerAllocator> >::stream(s, indent + "    ", v.visibility_constraints[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::VisibilityConstraint_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.visibility_constraints[i]);
     }
+    if (v.visibility_constraints.empty() || false)
+      s << "]";
   }
 };
 

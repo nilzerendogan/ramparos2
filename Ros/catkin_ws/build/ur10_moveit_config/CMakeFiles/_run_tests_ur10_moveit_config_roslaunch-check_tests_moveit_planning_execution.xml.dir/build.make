@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/user/ARobot/Ros/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/ubuntu/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
+CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 
 # Utility rule file for _run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/user/ARobot/Ros/catkin_ws/build
 include ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/progress.make
 
 ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml:
-	cd /home/user/ARobot/Ros/catkin_ws/build/ur10_moveit_config && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/run_tests.py /home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_moveit_config/roslaunch-check_tests_moveit_planning_execution.xml.xml "/usr/bin/cmake -E make_directory /home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_moveit_config" "/opt/ros/noetic/share/roslaunch/cmake/../scripts/roslaunch-check -o \"/home/user/ARobot/Ros/catkin_ws/build/test_results/ur10_moveit_config/roslaunch-check_tests_moveit_planning_execution.xml.xml\" \"/home/user/ARobot/Ros/catkin_ws/src/ur10_moveit_config/tests/moveit_planning_execution.xml\" "
+	cd /home/ubuntu/catkin_ws/build/ur10_moveit_config && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/run_tests.py /home/ubuntu/catkin_ws/build/test_results/ur10_moveit_config/roslaunch-check_tests_moveit_planning_execution.xml.xml "/usr/bin/cmake -E make_directory /home/ubuntu/catkin_ws/build/test_results/ur10_moveit_config" "/opt/ros/noetic/share/roslaunch/cmake/../scripts/roslaunch-check -o \"/home/ubuntu/catkin_ws/build/test_results/ur10_moveit_config/roslaunch-check_tests_moveit_planning_execution.xml.xml\" \"/home/ubuntu/catkin_ws/src/ur10_moveit_config/tests/moveit_planning_execution.xml\" "
 
 _run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml: ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml
 _run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml: ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/build.make
@@ -67,10 +67,10 @@ ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_test
 .PHONY : ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/build
 
 ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/clean:
-	cd /home/user/ARobot/Ros/catkin_ws/build/ur10_moveit_config && $(CMAKE_COMMAND) -P CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/cmake_clean.cmake
+	cd /home/ubuntu/catkin_ws/build/ur10_moveit_config && $(CMAKE_COMMAND) -P CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/cmake_clean.cmake
 .PHONY : ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/clean
 
 ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/depend:
-	cd /home/user/ARobot/Ros/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/ARobot/Ros/catkin_ws/src /home/user/ARobot/Ros/catkin_ws/src/ur10_moveit_config /home/user/ARobot/Ros/catkin_ws/build /home/user/ARobot/Ros/catkin_ws/build/ur10_moveit_config /home/user/ARobot/Ros/catkin_ws/build/ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/catkin_ws/src /home/ubuntu/catkin_ws/src/ur10_moveit_config /home/ubuntu/catkin_ws/build /home/ubuntu/catkin_ws/build/ur10_moveit_config /home/ubuntu/catkin_ws/build/ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ur10_moveit_config/CMakeFiles/_run_tests_ur10_moveit_config_roslaunch-check_tests_moveit_planning_execution.xml.dir/depend
 

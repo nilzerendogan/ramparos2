@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "ur10_moveit_config"
-PROJECT_SPACE_DIR = "/home/user/ARobot/Ros/catkin_ws/install"
+PROJECT_SPACE_DIR = "/home/ubuntu/catkin_ws/install"
 PROJECT_VERSION = "1.3.2"

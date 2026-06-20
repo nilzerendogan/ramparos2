@@ -195,8 +195,12 @@ struct Printer< ::moveit_msgs::LinkScale_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::LinkScale_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "link_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.link_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "scale: ";
     Printer<double>::stream(s, indent + "  ", v.scale);
   }

@@ -340,8 +340,8 @@ struct Definition< ::moveit_msgs::MotionSequenceResponse_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -633,20 +633,31 @@ struct Printer< ::moveit_msgs::MotionSequenceResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::MotionSequenceResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "error_code: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveItErrorCodes_<ContainerAllocator> >::stream(s, indent + "  ", v.error_code);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "sequence_start: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.sequence_start);
-    s << indent << "planned_trajectories[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "planned_trajectories: ";
+    if (v.planned_trajectories.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.planned_trajectories.size(); ++i)
     {
-      s << indent << "  planned_trajectories[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "    ", v.planned_trajectories[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.planned_trajectories[i]);
     }
+    if (v.planned_trajectories.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "planning_time: ";
     Printer<double>::stream(s, indent + "  ", v.planning_time);
   }

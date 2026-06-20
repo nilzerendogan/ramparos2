@@ -228,16 +228,28 @@ struct Printer< ::moveit_msgs::ChangeControlDimensionsRequest_<ContainerAllocato
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ChangeControlDimensionsRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "control_x_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_x_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "control_y_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_y_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "control_z_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_z_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "control_x_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_x_rotation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "control_y_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_y_rotation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "control_z_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.control_z_rotation);
   }

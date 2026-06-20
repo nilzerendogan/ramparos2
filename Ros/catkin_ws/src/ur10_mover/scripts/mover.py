@@ -2,9 +2,7 @@
 
 from __future__ import print_function
 
-
 import rospy
-
 import sys
 import copy
 import moveit_commander
@@ -13,7 +11,7 @@ import os
 
 from OneEuroFilter import OneEuroFilter
 from sensor_msgs.msg import JointState
-from moveit_msgs.msg import RobotState,RobotTrajectory
+from moveit_msgs.msg import RobotState, RobotTrajectory
 from geometry_msgs.msg import Pose
 from trajectory_msgs.msg import JointTrajectoryPoint, MultiDOFJointTrajectoryPoint
 
@@ -22,10 +20,12 @@ from ur10_mover.srv import StateService, StateServiceRequest, StateServiceRespon
 from ur10_mover.srv import ExecutionService, ExecutionServiceRequest, ExecutionServiceResponse
 from ur10_mover.srv import DiscardService, DiscardServiceRequest, DiscardServiceResponse
 
-from sensor_msgs.msg import JointState
-from geometry_msgs.msg import Pose, WrenchStamped, Transform
-from ur10_interface import UR10
+from geometry_msgs.msg import Transform
 
+# ---------------------------------------------------------
+# IMPORT XARM API (Replaces ur10_interface)
+from xarm.wrapper import XArmAPI
+# ---------------------------------------------------------
 
 config_one_euro_filter = {
     'freq': 120,
@@ -37,19 +37,15 @@ f_x = OneEuroFilter(**config_one_euro_filter)
 f_y = OneEuroFilter(**config_one_euro_filter)
 f_z = OneEuroFilter(**config_one_euro_filter)
 
-joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
+# UPDATE: xArm7 uses 7 sequential joint names
+joint_names = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6', 'joint7']
 
-#Between Melodic and Noetic, the return type of plan() changed. moveit_commander has no __version__ variable, so checking the python version as a proxy
-    
 def planCombat(plan):
     if sys.version_info >= (3,0):
         return plan[1]
     else:
         return plan
         
-"""
-    Given the start angles of the robot, plan a trajectory that ends at the destination pose.
-"""
 def plan_trajectory(move_group, destination_pose, start_joint_angles): 
     current_joint_state = JointState()
     current_joint_state.name = joint_names
@@ -73,34 +69,11 @@ def plan_trajectory(move_group, destination_pose, start_joint_angles):
 
 def execute_joint_angles(joint_angles,group):
     group.set_joint_value_target(joint_angles)
-
-    # Plan the trajectory
     plan = group.plan()
-
-    # Execute the trajectory
     group.execute(plan[1])
     return
 
-# def calculate_interpolation(current_pose, target_pose):
-#         distance = np.linalg.norm(np.array(current_pose[:3]) - np.array(target_pose[:3]))
-#         n_steps = max(int(distance / 0.1), 1)
-#         pos_intpl = np.linspace(current_pose[:3], target_pose[:3], n_steps+1)[1:]
-#         quats = R.concatenate([R.from_quat(current_pose[3:]), R.from_quat(target_pose[3:])])
-#         intpl_func = Slerp([0, 1], quats)
-#         rot_intpl = intpl_func(np.linspace(0, 1, n_steps+1)).as_quat()[1:]
-#         return pos_intpl, rot_intpl
-
 def plan_pick_and_place(req):
-
-    # set move_group's position to reset pose
-    # current_joint_state = JointState()
-    # current_joint_state.name = joint_names
-    # current_joint_state.position = [0, -1.57, 0, -1.57, 0, 0]
-
-    # moveit_robot_state = RobotState()
-    # moveit_robot_state.joint_state = current_joint_state
-    # move_group.set_start_state(moveit_robot_state)
-
     rospy.loginfo(rospy.get_caller_id() + "Plan Requested:\n")
 
     response = PlannerServiceResponse()
@@ -115,7 +88,6 @@ def plan_pick_and_place(req):
             end_pose = move_group.get_current_pose().pose
             
             multi_dof = MultiDOFJointTrajectoryPoint()
-
             transform = Transform()
 
             transform.translation.x = end_pose.position.x
@@ -127,7 +99,6 @@ def plan_pick_and_place(req):
             transform.rotation.w = end_pose.orientation.w
 
             multi_dof.transforms = [transform]
-
             robot_trajectory.multi_dof_joint_trajectory.points.append(multi_dof)
 
         rospy.loginfo(robot_trajectory)
@@ -138,24 +109,15 @@ def plan_pick_and_place(req):
     rospy.loginfo(len(req.pose_list))
 
     current_pose = move_group.get_current_pose().pose
+    previous_ending_joint_angles = req.joints_input 
 
-    current_orientation = current_pose.orientation
-    down_orientation = Pose().orientation
-    down_orientation.x, down_orientation.y, down_orientation.z, down_orientation.w = 1,0,0,0
-
-    previous_ending_joint_angles = req.joints_input #robot.get_joint_position()
-
-    # i = 0
     for pose in req.pose_list:
-        
         norm = (pose.orientation.x**2 + pose.orientation.y**2 + pose.orientation.z**2 + pose.orientation.w**2)**0.5
-
         pose.orientation.x /= norm
         pose.orientation.y /= norm
         pose.orientation.z /= norm
         pose.orientation.w /= norm
 
-        
         rospy.loginfo(pose)
 
         trajectory = plan_trajectory(move_group,pose,previous_ending_joint_angles) 
@@ -171,13 +133,7 @@ def plan_pick_and_place(req):
 
     move_group.clear_pose_targets()
     save_trajectory(response.trajectories)
-    #rospy.loginfo(response.trajectories)
     response.pose_list = req.pose_list
-
-    # f_x.reset()
-    # f_y.reset()
-    # f_z.reset()
-    
 
     return response
 
@@ -192,12 +148,8 @@ def convert_data_file_to_list(input_file):
     rospy.loginfo(traj)
     return traj
 
-
 def cartesian_path(response, req):
-
-
     rospy.loginfo("Calculating cartesian path")
-
     waypoints = []
 
     for pose in req.pose_list:
@@ -209,7 +161,6 @@ def cartesian_path(response, req):
         waypoints.append(copy.deepcopy(pose))
     
     (plan, fraction) = move_group.compute_cartesian_path(waypoints, 0.01, 0.0)
-
     return plan
 
 def save_trajectory(trajectory):
@@ -221,24 +172,29 @@ def save_trajectory(trajectory):
     traj = np.array(traj)
     np.save('trajectory.npy', traj)
 
-
 def discard_last_trajectory(req):
     response = DiscardServiceResponse()
-    os.remove('trajectory.npy')
+    if os.path.exists('trajectory.npy'):
+        os.remove('trajectory.npy')
     response.output_msg = "success"
     return response
-
 
 def return_joint_state(req):
     response = StateServiceResponse()
     try:
-        current_joint_angles = robot.get_joint_position()
-        if len(current_joint_angles) < 6:
-            response.output_msg = "Driver could not be reached"
+        # UPDATE: Fetch joints directly from the xArm API instead of the UR10 class
+        if arm is not None and arm.connected:
+            code, current_joint_angles = arm.get_servo_angle(is_radian=True)
+            if code != 0 or len(current_joint_angles) < 7:
+                response.output_msg = "Driver could not be reached or invalid joint count"
+                return response
+        else:
+            response.output_msg = "Hardware not connected"
             return response
-    except:
-        response.output_msg = "Driver could not be reached"
+    except Exception as e:
+        response.output_msg = f"Driver could not be reached: {e}"
         return response
+        
     response.output_msg = "success"
     response.current_joint_angles = current_joint_angles
     return response
@@ -246,31 +202,45 @@ def return_joint_state(req):
 def execute_on_real_robot(req):
     response = ExecutionServiceResponse()
     
+    if arm is None or not arm.connected:
+        response.output_msg = "Error: Physical xArm is not connected."
+        rospy.logerr("Execute triggered, but no physical xArm7 is connected.")
+        return response
+
     traj = []
     for joint_state in req.joint_states:
         traj.append([])
         for joint in joint_state.list:
             traj[-1].append(joint)
 
-    
     traj = np.array(traj)
+    rospy.loginfo(f"Executing trajectory with {traj.shape[0]} waypoints.")
+    
+    for joint_angles in traj:
+        print(f'{joint_angles * 180 / 3.14}') # Keep your original logging
+        
+    # UPDATE: Execution logic using xArm API
+    arm.clean_error()
+    arm.clean_warn()
+    arm.motion_enable(enable=True)
+    arm.set_state(state=0)
+    
+    # Send the trajectory to the real robot
+    # You may need to tune speed and mvacc for your specific RAMPA use-case
+    for joint_angles in traj:
+        code = arm.set_servo_angle(angle=joint_angles, speed=0.5, mvacc=5, wait=True, radius=0, is_radian=True)
+        if code != 0:
+            rospy.logerr(f"xArm execution failed with error code: {code}")
+            response.output_msg = f"Failed with code {code}"
+            return response
 
-    rospy.loginfo(traj.shape)
-    for joint_state in traj:
-        print(f'{joint_state * 180 / 3.14}')
-    
-    # TODO move_group needs another format input to run on simulation
-    
-    #rospy.loginfo("Trajectory execution request is sent to driver.")
-    
-    # robot.set_joint_positions(traj)
-
+    rospy.loginfo("Trajectory execution completed on physical hardware.")
+    response.output_msg = "success"
     return response
 
 def moveit_server():
     moveit_commander.roscpp_initialize(sys.argv)
-    #rospy.init_node('niryo_moveit_server')
-
+    
     rospy.Service('planner', PlannerService, plan_pick_and_place)
     rospy.Service("get_joint_state", StateService, return_joint_state)
     rospy.Service("execute",ExecutionService, execute_on_real_robot)
@@ -279,16 +249,29 @@ def moveit_server():
     print("Service is ready to plan")
     rospy.spin()
 
+
 rospy.init_node('ur10_mover_server')
-robot = UR10()
-group_name = "manipulator"
+
+# ---------------------------------------------------------
+# XARM HARDWARE INITIALIZATION
+# ---------------------------------------------------------
+robot_ip = '192.168.1.XXX' # CHANGE THIS TO YOUR XARM IP
+arm = None
+
+try:
+    arm = XArmAPI(robot_ip)
+    arm.motion_enable(enable=True)
+    arm.set_mode(0)
+    arm.set_state(state=0)
+    rospy.loginfo(f"Successfully connected to physical xArm7 at {robot_ip}")
+except Exception as e:
+    rospy.logwarn(f"Could not connect to physical xArm7 at {robot_ip}. Running without hardware execution. Error: {e}")
+
+# UPDATE: MoveIt Planning Group for xArm7
+group_name = "xarm7"
 move_group = moveit_commander.MoveGroupCommander(group_name)
 
 rospy.sleep(2)
 
-
 if __name__ == "__main__":
     moveit_server()
-    
-
-    

@@ -108,7 +108,7 @@ class StateServiceResponse {
         this.current_joint_angles = initObj.current_joint_angles
       }
       else {
-        this.current_joint_angles = new Array(6).fill(0);
+        this.current_joint_angles = [];
       }
     }
   }
@@ -117,12 +117,8 @@ class StateServiceResponse {
     // Serializes a message object of type StateServiceResponse
     // Serialize message field [output_msg]
     bufferOffset = _serializer.string(obj.output_msg, buffer, bufferOffset);
-    // Check that the constant length array field [current_joint_angles] has the right length
-    if (obj.current_joint_angles.length !== 6) {
-      throw new Error('Unable to serialize array field current_joint_angles - length must be 6')
-    }
     // Serialize message field [current_joint_angles]
-    bufferOffset = _arraySerializer.float64(obj.current_joint_angles, buffer, bufferOffset, 6);
+    bufferOffset = _arraySerializer.float64(obj.current_joint_angles, buffer, bufferOffset, null);
     return bufferOffset;
   }
 
@@ -133,14 +129,15 @@ class StateServiceResponse {
     // Deserialize message field [output_msg]
     data.output_msg = _deserializer.string(buffer, bufferOffset);
     // Deserialize message field [current_joint_angles]
-    data.current_joint_angles = _arrayDeserializer.float64(buffer, bufferOffset, 6)
+    data.current_joint_angles = _arrayDeserializer.float64(buffer, bufferOffset, null)
     return data;
   }
 
   static getMessageSize(object) {
     let length = 0;
     length += _getByteLength(object.output_msg);
-    return length + 52;
+    length += 8 * object.current_joint_angles.length;
+    return length + 8;
   }
 
   static datatype() {
@@ -150,14 +147,14 @@ class StateServiceResponse {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '9e7aee8efb870b0111c155e8c0755e88';
+    return '57f2eb9e7bd0cbaac0ba431090f29dcf';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     string output_msg
-    float64[6] current_joint_angles
+    float64[] current_joint_angles
     
     `;
   }
@@ -179,7 +176,7 @@ class StateServiceResponse {
       resolved.current_joint_angles = msg.current_joint_angles;
     }
     else {
-      resolved.current_joint_angles = new Array(6).fill(0)
+      resolved.current_joint_angles = []
     }
 
     return resolved;
@@ -189,6 +186,6 @@ class StateServiceResponse {
 module.exports = {
   Request: StateServiceRequest,
   Response: StateServiceResponse,
-  md5sum() { return '30fae736b7734374461e907d8c1eb052'; },
+  md5sum() { return 'b2a73dbc8a18cceffc5d46df360c824c'; },
   datatype() { return 'ur10_mover/StateService'; }
 };

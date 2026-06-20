@@ -291,22 +291,39 @@ struct Printer< ::moveit_msgs::GetPositionFKResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetPositionFKResponse_<ContainerAllocator>& v)
   {
-    s << indent << "pose_stamped[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "pose_stamped: ";
+    if (v.pose_stamped.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.pose_stamped.size(); ++i)
     {
-      s << indent << "  pose_stamped[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, indent + "    ", v.pose_stamped[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::PoseStamped_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.pose_stamped[i]);
     }
-    s << indent << "fk_link_names[]" << std::endl;
+    if (v.pose_stamped.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "fk_link_names: ";
+    if (v.fk_link_names.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.fk_link_names.size(); ++i)
     {
-      s << indent << "  fk_link_names[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.fk_link_names[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.fk_link_names[i]);
     }
+    if (v.fk_link_names.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "error_code: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveItErrorCodes_<ContainerAllocator> >::stream(s, indent + "  ", v.error_code);
   }
 };

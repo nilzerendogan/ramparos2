@@ -207,14 +207,21 @@ struct Printer< ::ur10_mover::ListOfPoses_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::ur10_mover::ListOfPoses_<ContainerAllocator>& v)
   {
-    s << indent << "pose_list[]" << std::endl;
+    if (false || !indent.empty())
+      s << std::endl;
+    s << indent << "pose_list: ";
+    if (v.pose_list.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.pose_list.size(); ++i)
     {
-      s << indent << "  pose_list[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, indent + "    ", v.pose_list[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::geometry_msgs::Pose_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.pose_list[i]);
     }
+    if (v.pose_list.empty() || false)
+      s << "]";
   }
 };
 

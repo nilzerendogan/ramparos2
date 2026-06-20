@@ -540,33 +540,59 @@ struct Printer< ::moveit_msgs::GraspPlanningRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GraspPlanningRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "group_name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.group_name);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "target: ";
-    s << std::endl;
     Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, indent + "  ", v.target);
-    s << indent << "support_surfaces[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "support_surfaces: ";
+    if (v.support_surfaces.empty() || true)
+      s << "[";
     for (size_t i = 0; i < v.support_surfaces.size(); ++i)
     {
-      s << indent << "  support_surfaces[" << i << "]: ";
-      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.support_surfaces[i]);
+      if (true && i > 0)
+        s << ", ";
+      else if (!true)
+        s << std::endl << indent << "  -";
+      Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, true ? std::string() : indent + "    ", v.support_surfaces[i]);
     }
-    s << indent << "candidate_grasps[]" << std::endl;
+    if (v.support_surfaces.empty() || true)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "candidate_grasps: ";
+    if (v.candidate_grasps.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.candidate_grasps.size(); ++i)
     {
-      s << indent << "  candidate_grasps[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::Grasp_<ContainerAllocator> >::stream(s, indent + "    ", v.candidate_grasps[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::Grasp_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.candidate_grasps[i]);
     }
-    s << indent << "movable_obstacles[]" << std::endl;
+    if (v.candidate_grasps.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "movable_obstacles: ";
+    if (v.movable_obstacles.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.movable_obstacles.size(); ++i)
     {
-      s << indent << "  movable_obstacles[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, indent + "    ", v.movable_obstacles[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::CollisionObject_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.movable_obstacles[i]);
     }
+    if (v.movable_obstacles.empty() || false)
+      s << "]";
   }
 };
 

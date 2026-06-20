@@ -290,8 +290,8 @@ struct Definition< ::moveit_msgs::DisplayRobotState_<ContainerAllocator> >
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -566,17 +566,27 @@ struct Printer< ::moveit_msgs::DisplayRobotState_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::DisplayRobotState_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.state);
-    s << indent << "highlight_links[]" << std::endl;
+    if (true || !indent.empty())
+      s << std::endl;
+    s << indent << "highlight_links: ";
+    if (v.highlight_links.empty() || false)
+      s << "[";
     for (size_t i = 0; i < v.highlight_links.size(); ++i)
     {
-      s << indent << "  highlight_links[" << i << "]: ";
-      s << std::endl;
-      s << indent;
-      Printer< ::moveit_msgs::ObjectColor_<ContainerAllocator> >::stream(s, indent + "    ", v.highlight_links[i]);
+      if (false && i > 0)
+        s << ", ";
+      else if (!false)
+        s << std::endl << indent << "  -";
+      Printer< ::moveit_msgs::ObjectColor_<ContainerAllocator> >::stream(s, false ? std::string() : indent + "    ", v.highlight_links[i]);
     }
+    if (v.highlight_links.empty() || false)
+      s << "]";
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "hide: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.hide);
   }

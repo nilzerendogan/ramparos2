@@ -269,20 +269,33 @@ struct Printer< ::moveit_msgs::ChangeDriftDimensionsRequest_<ContainerAllocator>
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ChangeDriftDimensionsRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "drift_x_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_x_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "drift_y_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_y_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "drift_z_translation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_z_translation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "drift_x_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_x_rotation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "drift_y_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_y_rotation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "drift_z_rotation: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.drift_z_rotation);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "transform_jog_frame_to_drift_frame: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Transform_<ContainerAllocator> >::stream(s, indent + "  ", v.transform_jog_frame_to_drift_frame);
   }
 };

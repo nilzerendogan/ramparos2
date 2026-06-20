@@ -320,23 +320,36 @@ struct Printer< ::moveit_msgs::ContactInformation_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::ContactInformation_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "header: ";
-    s << std::endl;
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "position: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Point_<ContainerAllocator> >::stream(s, indent + "  ", v.position);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "normal: ";
-    s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.normal);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "depth: ";
     Printer<double>::stream(s, indent + "  ", v.depth);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "contact_body_1: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.contact_body_1);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "body_type_1: ";
     Printer<uint32_t>::stream(s, indent + "  ", v.body_type_1);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "contact_body_2: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.contact_body_2);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "body_type_2: ";
     Printer<uint32_t>::stream(s, indent + "  ", v.body_type_2);
   }

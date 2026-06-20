@@ -31,3 +31,24 @@ roslaunch robotiq_3f_driver listener.launch ip_address:=192.168.0.11
 - Ips are given in these commands but if any Ip changes in the network, these commands must also update.
 - To successfully run ur10_mover server, you must also start ur10 driver, moveit planner and gripper. All these programs must be using python ur10_py3.9 env and sourced from base catkin_ws
 - Github version of the project is for simulated robot. You can use real robot modified program on the computer connected to real robot.
+
+--------------------
+
+# 1. Source catkin workspace
+source catkin_ws/devel/setup.bash
+
+# 2. Start xArm7 driver (Connects to the physical hardware)
+# NOTE: Ensure the robot is powered on and the E-Stop is released.
+roslaunch xarm_bringup xarm7_server.launch robot_ip:=192.168.1.XXX 
+
+# 3. Enable the robot (xArm safety requirement)
+# Open a new terminal and run these two commands to clear errors and enable motion:
+rosservice call /xarm/clear_err
+rosservice call /xarm/set_state 0
+rosservice call /xarm/set_mode 0
+
+# 4. Start MoveIt Planner for the real robot
+roslaunch xarm7_moveit_config xarm7_moveit_planning_execution.launch
+
+# 5. Start the RAMPA server and TCP Endpoint
+roslaunch ur10_mover xarm_hardware_server.launch tcp_ip:=YOUR_PC_IP tcp_port:=10000

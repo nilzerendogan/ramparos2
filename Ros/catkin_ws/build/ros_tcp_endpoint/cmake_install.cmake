@@ -1,8 +1,8 @@
-# Install script for directory: /home/user/ARobot/Ros/catkin_ws/src/ros_tcp_endpoint
+# Install script for directory: /home/ubuntu/catkin_ws/src/ros_tcp_endpoint
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/user/ARobot/Ros/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/ubuntu/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,21 +38,21 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/user/ARobot/Ros/catkin_ws/build/ros_tcp_endpoint/catkin_generated/safe_execute_install.cmake")
+  include("/home/ubuntu/catkin_ws/build/ros_tcp_endpoint/catkin_generated/safe_execute_install.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/user/ARobot/Ros/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpoint.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/ubuntu/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpoint.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ros_tcp_endpoint/cmake" TYPE FILE FILES
-    "/home/user/ARobot/Ros/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpointConfig.cmake"
-    "/home/user/ARobot/Ros/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpointConfig-version.cmake"
+    "/home/ubuntu/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpointConfig.cmake"
+    "/home/ubuntu/catkin_ws/build/ros_tcp_endpoint/catkin_generated/installspace/ros_tcp_endpointConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ros_tcp_endpoint" TYPE FILE FILES "/home/user/ARobot/Ros/catkin_ws/src/ros_tcp_endpoint/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ros_tcp_endpoint" TYPE FILE FILES "/home/ubuntu/catkin_ws/src/ros_tcp_endpoint/package.xml")
 endif()
 

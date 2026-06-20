@@ -226,8 +226,9 @@ struct Printer< ::moveit_msgs::GetPlanningSceneRequest_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetPlanningSceneRequest_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "components: ";
-    s << std::endl;
     Printer< ::moveit_msgs::PlanningSceneComponents_<ContainerAllocator> >::stream(s, indent + "  ", v.components);
   }
 };

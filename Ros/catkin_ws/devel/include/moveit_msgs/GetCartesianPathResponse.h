@@ -303,8 +303,8 @@ struct Definition< ::moveit_msgs::GetCartesianPathResponse_<ContainerAllocator> 
 "================================================================================\n"
 "MSG: geometry_msgs/Twist\n"
 "# This expresses velocity in free space broken into its linear and angular parts.\n"
-"Vector3  linear\n"
-"Vector3  angular\n"
+"Vector3 linear\n"
+"Vector3 angular\n"
 "\n"
 "================================================================================\n"
 "MSG: geometry_msgs/Wrench\n"
@@ -636,16 +636,21 @@ struct Printer< ::moveit_msgs::GetCartesianPathResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::moveit_msgs::GetCartesianPathResponse_<ContainerAllocator>& v)
   {
+    if (false || !indent.empty())
+      s << std::endl;
     s << indent << "start_state: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotState_<ContainerAllocator> >::stream(s, indent + "  ", v.start_state);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "solution: ";
-    s << std::endl;
     Printer< ::moveit_msgs::RobotTrajectory_<ContainerAllocator> >::stream(s, indent + "  ", v.solution);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "fraction: ";
     Printer<double>::stream(s, indent + "  ", v.fraction);
+    if (true || !indent.empty())
+      s << std::endl;
     s << indent << "error_code: ";
-    s << std::endl;
     Printer< ::moveit_msgs::MoveItErrorCodes_<ContainerAllocator> >::stream(s, indent + "  ", v.error_code);
   }
 };
