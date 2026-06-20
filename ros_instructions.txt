@@ -26,3 +26,17 @@ Look at your Inspector panel on the far right. At the very top left of the Inspe
 Right-click anywhere in the empty gray space of your Hierarchy.
 Select Camera.
 Click on your newly created Camera. In the Inspector on the right, look at the Transform component and set the Position to somewhere
+
+
+connecting to the robot:
+connect via ethernet cable
+robot ip: 192.168.1.225
+cd catkin_ws
+source devel/setup.bash
+terminal 1:
+roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.XXX
+terminal 2:
+rosservice call /xarm/clear_err
+rosservice call /xarm/set_state 0
+rosservice call /xarm/set_mode 0
+roslaunch ur10_mover xarmhardwareserver.launch tcp_ip:=0.0.0.0 tcp_port:=10000

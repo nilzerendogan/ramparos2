@@ -255,7 +255,7 @@ rospy.init_node('ur10_mover_server')
 # ---------------------------------------------------------
 # XARM HARDWARE INITIALIZATION
 # ---------------------------------------------------------
-robot_ip = '192.168.1.XXX' # CHANGE THIS TO YOUR XARM IP
+robot_ip = '192.168.1.225' # CHANGE THIS TO YOUR XARM IP
 arm = None
 
 try:
