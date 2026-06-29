@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 include ur10_mover/CMakeFiles/_ur10_mover_generate_messages_check_deps_GetTrainingDataService.dir/progress.make
 
 ur10_mover/CMakeFiles/_ur10_mover_generate_messages_check_deps_GetTrainingDataService:
-	cd /home/ubuntu/catkin_ws/build/ur10_mover && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py ur10_mover /home/ubuntu/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv geometry_msgs/Quaternion:ur10_mover/ListOfPoses:geometry_msgs/Point:geometry_msgs/Pose
+	cd /home/ubuntu/catkin_ws/build/ur10_mover && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py ur10_mover /home/ubuntu/catkin_ws/src/ur10_mover/srv/GetTrainingDataService.srv ur10_mover/ListOfPoses:geometry_msgs/Point:geometry_msgs/Quaternion:geometry_msgs/Pose
 
 _ur10_mover_generate_messages_check_deps_GetTrainingDataService: ur10_mover/CMakeFiles/_ur10_mover_generate_messages_check_deps_GetTrainingDataService
 _ur10_mover_generate_messages_check_deps_GetTrainingDataService: ur10_mover/CMakeFiles/_ur10_mover_generate_messages_check_deps_GetTrainingDataService.dir/build.make

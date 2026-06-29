@@ -29,16 +29,14 @@ struct PlannerServiceRequest_
     , request_type()
     , joints_input()
     , pose_list()  {
-      joints_input.assign(0.0);
-  }
+    }
   PlannerServiceRequest_(const ContainerAllocator& _alloc)
     : input_msg(_alloc)
     , request_type(_alloc)
-    , joints_input()
+    , joints_input(_alloc)
     , pose_list(_alloc)  {
   (void)_alloc;
-      joints_input.assign(0.0);
-  }
+    }
 
 
 
@@ -48,7 +46,7 @@ struct PlannerServiceRequest_
    typedef std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> _request_type_type;
   _request_type_type request_type;
 
-   typedef boost::array<double, 6>  _joints_input_type;
+   typedef std::vector<double, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<double>> _joints_input_type;
   _joints_input_type joints_input;
 
    typedef std::vector< ::geometry_msgs::Pose_<ContainerAllocator> , typename std::allocator_traits<ContainerAllocator>::template rebind_alloc< ::geometry_msgs::Pose_<ContainerAllocator> >> _pose_list_type;
@@ -143,12 +141,12 @@ struct MD5Sum< ::ur10_mover::PlannerServiceRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "457198907edcc0113dfed24d6746788d";
+    return "e02705efdc5c28a9850553465e8222a3";
   }
 
   static const char* value(const ::ur10_mover::PlannerServiceRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x457198907edcc011ULL;
-  static const uint64_t static_value2 = 0x3dfed24d6746788dULL;
+  static const uint64_t static_value1 = 0xe02705efdc5c28a9ULL;
+  static const uint64_t static_value2 = 0x850553465e8222a3ULL;
 };
 
 template<class ContainerAllocator>
@@ -169,7 +167,7 @@ struct Definition< ::ur10_mover::PlannerServiceRequest_<ContainerAllocator> >
   {
     return "string input_msg\n"
 "string request_type\n"
-"float64[6] joints_input\n"
+"float64[] joints_input\n"
 "geometry_msgs/Pose[] pose_list\n"
 "\n"
 "================================================================================\n"

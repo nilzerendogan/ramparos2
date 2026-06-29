@@ -1,6 +1,7 @@
 services:
   rampa_dev:
-    image: tiryoh/ros-desktop-vnc:noetic
+    # Artık hazır image yerine kendi Dockerfile'ımızı kullanıyoruz
+    build: .
     ports:
       - "6080:80"     # Browser display
       - "10000:10000" # Unity Bridge

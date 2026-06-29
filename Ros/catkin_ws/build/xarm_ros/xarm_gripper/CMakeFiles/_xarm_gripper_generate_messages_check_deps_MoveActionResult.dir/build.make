@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/ubuntu/catkin_ws/build
 include xarm_ros/xarm_gripper/CMakeFiles/_xarm_gripper_generate_messages_check_deps_MoveActionResult.dir/progress.make
 
 xarm_ros/xarm_gripper/CMakeFiles/_xarm_gripper_generate_messages_check_deps_MoveActionResult:
-	cd /home/ubuntu/catkin_ws/build/xarm_ros/xarm_gripper && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py xarm_gripper /home/ubuntu/catkin_ws/devel/share/xarm_gripper/msg/MoveActionResult.msg actionlib_msgs/GoalID:actionlib_msgs/GoalStatus:xarm_gripper/MoveResult:std_msgs/Header
+	cd /home/ubuntu/catkin_ws/build/xarm_ros/xarm_gripper && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py xarm_gripper /home/ubuntu/catkin_ws/devel/share/xarm_gripper/msg/MoveActionResult.msg actionlib_msgs/GoalStatus:actionlib_msgs/GoalID:xarm_gripper/MoveResult:std_msgs/Header
 
 _xarm_gripper_generate_messages_check_deps_MoveActionResult: xarm_ros/xarm_gripper/CMakeFiles/_xarm_gripper_generate_messages_check_deps_MoveActionResult
 _xarm_gripper_generate_messages_check_deps_MoveActionResult: xarm_ros/xarm_gripper/CMakeFiles/_xarm_gripper_generate_messages_check_deps_MoveActionResult.dir/build.make

@@ -14,12 +14,18 @@ xarm_ros/xarm_planner/CMakeFiles/xarm_simple_planner.dir/src/xarm_simple_planner
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/DisplayRobotState.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/DisplayTrajectory.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/GenericTrajectory.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/GetPlanningScene.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/GetPlanningSceneRequest.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/GetPlanningSceneResponse.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/Grasp.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/GripperTranslation.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/JointConstraint.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/JointLimits.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/LinkPadding.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/LinkScale.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/LoadMap.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/LoadMapRequest.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/LoadMapResponse.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/MotionPlanRequest.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/MoveGroupAction.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/MoveGroupActionFeedback.h
@@ -42,6 +48,9 @@ xarm_ros/xarm_planner/CMakeFiles/xarm_simple_planner.dir/src/xarm_simple_planner
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/PositionConstraint.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/RobotState.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/RobotTrajectory.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/SaveMap.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/SaveMapRequest.h
+ /home/ubuntu/catkin_ws/devel/include/moveit_msgs/SaveMapResponse.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/TrajectoryConstraints.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/VisibilityConstraint.h
  /home/ubuntu/catkin_ws/devel/include/moveit_msgs/WorkspaceParameters.h
@@ -151,15 +160,6 @@ xarm_ros/xarm_planner/CMakeFiles/xarm_simple_planner.dir/src/xarm_simple_planner
  /opt/ros/noetic/include/moveit/transforms/transforms.h
  /opt/ros/noetic/include/moveit/utils/lexical_casts.h
  /opt/ros/noetic/include/moveit/utils/moveit_error_code.h
- /opt/ros/noetic/include/moveit_msgs/GetPlanningScene.h
- /opt/ros/noetic/include/moveit_msgs/GetPlanningSceneRequest.h
- /opt/ros/noetic/include/moveit_msgs/GetPlanningSceneResponse.h
- /opt/ros/noetic/include/moveit_msgs/LoadMap.h
- /opt/ros/noetic/include/moveit_msgs/LoadMapRequest.h
- /opt/ros/noetic/include/moveit_msgs/LoadMapResponse.h
- /opt/ros/noetic/include/moveit_msgs/SaveMap.h
- /opt/ros/noetic/include/moveit_msgs/SaveMapRequest.h
- /opt/ros/noetic/include/moveit_msgs/SaveMapResponse.h
  /opt/ros/noetic/include/moveit_visual_tools/moveit_visual_tools.h
  /opt/ros/noetic/include/object_recognition_msgs/ObjectType.h
  /opt/ros/noetic/include/octomap/AbstractOcTree.h

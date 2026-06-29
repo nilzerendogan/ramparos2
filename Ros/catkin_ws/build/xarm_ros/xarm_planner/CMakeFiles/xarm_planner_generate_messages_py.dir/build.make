@@ -62,9 +62,9 @@ xarm_ros/xarm_planner/CMakeFiles/xarm_planner_generate_messages_py: /home/ubuntu
 
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /home/ubuntu/catkin_ws/src/xarm_ros/xarm_planner/srv/pose_plan.srv
-/home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_pose_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code from SRV xarm_planner/pose_plan"
 	cd /home/ubuntu/catkin_ws/build/xarm_ros/xarm_planner && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/ubuntu/catkin_ws/src/xarm_ros/xarm_planner/srv/pose_plan.srv -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p xarm_planner -o /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv
 
@@ -80,9 +80,9 @@ xarm_ros/xarm_planner/CMakeFiles/xarm_planner_generate_messages_py: /home/ubuntu
 
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /home/ubuntu/catkin_ws/src/xarm_ros/xarm_planner/srv/single_straight_plan.srv
-/home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Quaternion.msg
 /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv/_single_straight_plan.py: /opt/ros/noetic/share/geometry_msgs/msg/Pose.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python code from SRV xarm_planner/single_straight_plan"
 	cd /home/ubuntu/catkin_ws/build/xarm_ros/xarm_planner && ../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/ubuntu/catkin_ws/src/xarm_ros/xarm_planner/srv/single_straight_plan.srv -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p xarm_planner -o /home/ubuntu/catkin_ws/devel/lib/python3/dist-packages/xarm_planner/srv
 

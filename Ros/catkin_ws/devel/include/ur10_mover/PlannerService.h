@@ -40,7 +40,7 @@ template<>
 struct MD5Sum< ::ur10_mover::PlannerService > {
   static const char* value()
   {
-    return "a9d9e87f111d55827a268a07768a7199";
+    return "bd117918dc567d7f32db6e895c8aadc5";
   }
 
   static const char* value(const ::ur10_mover::PlannerService&) { return value(); }

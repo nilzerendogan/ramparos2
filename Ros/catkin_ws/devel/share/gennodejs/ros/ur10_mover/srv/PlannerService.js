@@ -45,7 +45,7 @@ class PlannerServiceRequest {
         this.joints_input = initObj.joints_input
       }
       else {
-        this.joints_input = new Array(6).fill(0);
+        this.joints_input = [];
       }
       if (initObj.hasOwnProperty('pose_list')) {
         this.pose_list = initObj.pose_list
@@ -62,12 +62,8 @@ class PlannerServiceRequest {
     bufferOffset = _serializer.string(obj.input_msg, buffer, bufferOffset);
     // Serialize message field [request_type]
     bufferOffset = _serializer.string(obj.request_type, buffer, bufferOffset);
-    // Check that the constant length array field [joints_input] has the right length
-    if (obj.joints_input.length !== 6) {
-      throw new Error('Unable to serialize array field joints_input - length must be 6')
-    }
     // Serialize message field [joints_input]
-    bufferOffset = _arraySerializer.float64(obj.joints_input, buffer, bufferOffset, 6);
+    bufferOffset = _arraySerializer.float64(obj.joints_input, buffer, bufferOffset, null);
     // Serialize message field [pose_list]
     // Serialize the length for message field [pose_list]
     bufferOffset = _serializer.uint32(obj.pose_list.length, buffer, bufferOffset);
@@ -86,7 +82,7 @@ class PlannerServiceRequest {
     // Deserialize message field [request_type]
     data.request_type = _deserializer.string(buffer, bufferOffset);
     // Deserialize message field [joints_input]
-    data.joints_input = _arrayDeserializer.float64(buffer, bufferOffset, 6)
+    data.joints_input = _arrayDeserializer.float64(buffer, bufferOffset, null)
     // Deserialize message field [pose_list]
     // Deserialize array length for message field [pose_list]
     len = _deserializer.uint32(buffer, bufferOffset);
@@ -101,8 +97,9 @@ class PlannerServiceRequest {
     let length = 0;
     length += _getByteLength(object.input_msg);
     length += _getByteLength(object.request_type);
+    length += 8 * object.joints_input.length;
     length += 56 * object.pose_list.length;
-    return length + 60;
+    return length + 16;
   }
 
   static datatype() {
@@ -112,7 +109,7 @@ class PlannerServiceRequest {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '457198907edcc0113dfed24d6746788d';
+    return 'e02705efdc5c28a9850553465e8222a3';
   }
 
   static messageDefinition() {
@@ -120,7 +117,7 @@ class PlannerServiceRequest {
     return `
     string input_msg
     string request_type
-    float64[6] joints_input
+    float64[] joints_input
     geometry_msgs/Pose[] pose_list
     
     ================================================================================
@@ -172,7 +169,7 @@ class PlannerServiceRequest {
       resolved.joints_input = msg.joints_input;
     }
     else {
-      resolved.joints_input = new Array(6).fill(0)
+      resolved.joints_input = []
     }
 
     if (msg.pose_list !== undefined) {
@@ -463,6 +460,6 @@ class PlannerServiceResponse {
 module.exports = {
   Request: PlannerServiceRequest,
   Response: PlannerServiceResponse,
-  md5sum() { return 'a9d9e87f111d55827a268a07768a7199'; },
+  md5sum() { return 'bd117918dc567d7f32db6e895c8aadc5'; },
   datatype() { return 'ur10_mover/PlannerService'; }
 };

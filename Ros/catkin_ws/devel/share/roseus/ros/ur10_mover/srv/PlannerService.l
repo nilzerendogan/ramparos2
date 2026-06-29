@@ -33,7 +33,7 @@
    (&key
     ((:input_msg __input_msg) "")
     ((:request_type __request_type) "")
-    ((:joints_input __joints_input) (make-array 6 :initial-element 0.0 :element-type :float))
+    ((:joints_input __joints_input) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:pose_list __pose_list) ())
     )
    (send-super :init)
@@ -65,8 +65,8 @@
     4 (length _input_msg)
     ;; string _request_type
     4 (length _request_type)
-    ;; float64[6] _joints_input
-    (* 8    6)
+    ;; float64[] _joints_input
+    (* 8    (length _joints_input)) 4
     ;; geometry_msgs/Pose[] _pose_list
     (apply #'+ (send-all _pose_list :serialization-length)) 4
     ))
@@ -78,8 +78,9 @@
        (write-long (length _input_msg) s) (princ _input_msg s)
      ;; string _request_type
        (write-long (length _request_type) s) (princ _request_type s)
-     ;; float64[6] _joints_input
-     (dotimes (i 6)
+     ;; float64[] _joints_input
+     (write-long (length _joints_input) s)
+     (dotimes (i (length _joints_input))
        (sys::poke (elt _joints_input i) (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
        )
      ;; geometry_msgs/Pose[] _pose_list
@@ -95,10 +96,13 @@
      (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _input_msg (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
    ;; string _request_type
      (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _request_type (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
-   ;; float64[6] _joints_input
-   (dotimes (i (length _joints_input))
+   ;; float64[] _joints_input
+   (let (n)
+     (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
+     (setq _joints_input (instantiate float-vector n))
+     (dotimes (i n)
      (setf (elt _joints_input i) (sys::peek buf ptr- :double)) (incf ptr- 8)
-     )
+     ))
    ;; geometry_msgs/Pose[] _pose_list
    (let (n)
      (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
@@ -208,7 +212,7 @@
   :super ros::object
   :slots ())
 
-(setf (get ur10_mover::PlannerService :md5sum-) "a9d9e87f111d55827a268a07768a7199")
+(setf (get ur10_mover::PlannerService :md5sum-) "bd117918dc567d7f32db6e895c8aadc5")
 (setf (get ur10_mover::PlannerService :datatype-) "ur10_mover/PlannerService")
 (setf (get ur10_mover::PlannerService :request) ur10_mover::PlannerServiceRequest)
 (setf (get ur10_mover::PlannerService :response) ur10_mover::PlannerServiceResponse)
@@ -216,12 +220,12 @@
 (defmethod ur10_mover::PlannerServiceRequest
   (:response () (instance ur10_mover::PlannerServiceResponse :init)))
 
-(setf (get ur10_mover::PlannerServiceRequest :md5sum-) "a9d9e87f111d55827a268a07768a7199")
+(setf (get ur10_mover::PlannerServiceRequest :md5sum-) "bd117918dc567d7f32db6e895c8aadc5")
 (setf (get ur10_mover::PlannerServiceRequest :datatype-) "ur10_mover/PlannerServiceRequest")
 (setf (get ur10_mover::PlannerServiceRequest :definition-)
       "string input_msg
 string request_type
-float64[6] joints_input
+float64[] joints_input
 geometry_msgs/Pose[] pose_list
 
 ================================================================================
@@ -364,12 +368,12 @@ Vector3 linear
 Vector3 angular
 ")
 
-(setf (get ur10_mover::PlannerServiceResponse :md5sum-) "a9d9e87f111d55827a268a07768a7199")
+(setf (get ur10_mover::PlannerServiceResponse :md5sum-) "bd117918dc567d7f32db6e895c8aadc5")
 (setf (get ur10_mover::PlannerServiceResponse :datatype-) "ur10_mover/PlannerServiceResponse")
 (setf (get ur10_mover::PlannerServiceResponse :definition-)
       "string input_msg
 string request_type
-float64[6] joints_input
+float64[] joints_input
 geometry_msgs/Pose[] pose_list
 
 ================================================================================
@@ -514,6 +518,6 @@ Vector3 angular
 
 
 
-(provide :ur10_mover/PlannerService "a9d9e87f111d55827a268a07768a7199")
+(provide :ur10_mover/PlannerService "bd117918dc567d7f32db6e895c8aadc5")
 
 
