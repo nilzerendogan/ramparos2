@@ -29,7 +29,8 @@ public class TrajectoryPlanner : MonoBehaviour
     
     public void SendRequest(PlannerServiceRequest request)
     {
-
+        Debug.Log("SendRequest called! request_type: " + request.request_type);
+        
         if (request.request_type == "poses_training") {
 
             var oldPoses = request.pose_list;

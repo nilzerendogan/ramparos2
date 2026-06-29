@@ -20,6 +20,7 @@ roslaunch ur10_mover server.launch tcp_ip:=0.0.0.0 tcp_port:=10000
 Open the project in unity
 go to robotics
 set: ROS IP 127.0.0.1 and ROS Port 10000
+could also be 172.19.0.2
 pick SampleScene
 In your Hierarchy on the left, click on OVRCameraRigInteraction.
 Look at your Inspector panel on the far right. At the very top left of the Inspector, right next to the name, uncheck the small square box.
@@ -30,13 +31,15 @@ Click on your newly created Camera. In the Inspector on the right, look at the T
 
 connecting to the robot:
 connect via ethernet cable
+you have to set your ethernet side as ip: 192.168.1.100
+and subnet mask: 255.255.255.0
 robot ip: 192.168.1.225
 cd catkin_ws
 source devel/setup.bash
 terminal 1:
-roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.XXX
+roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.225
 terminal 2:
 rosservice call /xarm/clear_err
 rosservice call /xarm/set_state 0
 rosservice call /xarm/set_mode 0
-roslaunch ur10_mover xarmhardwareserver.launch tcp_ip:=0.0.0.0 tcp_port:=10000
+roslaunch ur10_mover xarm_server.launch tcp_ip:=0.0.0.0 tcp_port:=10000

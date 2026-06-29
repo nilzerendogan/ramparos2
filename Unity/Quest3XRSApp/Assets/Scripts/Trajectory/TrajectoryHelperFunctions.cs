@@ -25,6 +25,7 @@ public class TrajectoryHelperFunctions : MonoBehaviour
 
         for (var i = 0; i < Sliders.Length; i++)
         {
+            if (Sliders[i] == null) continue;
             joints[i] = Sliders[i].value * 360 * Mathf.Deg2Rad;
         }
 

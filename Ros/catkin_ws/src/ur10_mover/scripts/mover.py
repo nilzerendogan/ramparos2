@@ -74,6 +74,10 @@ def execute_joint_angles(joint_angles,group):
     return
 
 def plan_pick_and_place(req):
+    rospy.loginfo("Pose received:")
+    for pose in req.pose_list:
+        rospy.loginfo(pose)
+        
     rospy.loginfo(rospy.get_caller_id() + "Plan Requested:\n")
 
     response = PlannerServiceResponse()
