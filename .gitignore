@@ -12,6 +12,14 @@
 
 Ros/catkin_ws/build/
 Ros/catkin_ws/devel/
+Ros/catkin_ws/install/
+Ros/catkin_ws/.catkin_workspace
+Ros/catkin_ws/.catkin_tools/
+
+# Python Caches
+__pycache__/
+*.py[cod]
+*$py.class
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
