@@ -25,7 +25,6 @@ public class TrajectoryHelperFunctions : MonoBehaviour
 
         for (var i = 0; i < Sliders.Length; i++)
         {
-            if (Sliders[i] == null) continue;
             joints[i] = Sliders[i].value * 360 * Mathf.Deg2Rad;
         }
 
@@ -35,6 +34,8 @@ public class TrajectoryHelperFunctions : MonoBehaviour
     public PoseMsg GeneratePoseMsg(Vector3 pose, Quaternion orientation, bool isTrainingSet = false)
     {   
         // debugText.text += "baseLink:  " + orientation.eulerAngles + "\n";
+        Debug.Log("RUNTIME baseLink.eulerAngles: " + baseLink.transform.eulerAngles);
+        Debug.Log("RUNTIME baseLink LOCAL rotation: " + baseLink.transform.localEulerAngles);
 
         Vector3 direction = pose - baseLink.transform.position;
 

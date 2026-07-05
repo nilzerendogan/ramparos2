@@ -19,7 +19,7 @@ namespace RosMessageTypes.Ur10Mover
         public StateServiceResponse()
         {
             this.output_msg = "";
-            this.current_joint_angles = new double[6];
+            this.current_joint_angles = new double[0];
         }
 
         public StateServiceResponse(string output_msg, double[] current_joint_angles)
@@ -33,12 +33,13 @@ namespace RosMessageTypes.Ur10Mover
         private StateServiceResponse(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.output_msg);
-            deserializer.Read(out this.current_joint_angles, sizeof(double), 6);
+            deserializer.Read(out this.current_joint_angles, sizeof(double), deserializer.ReadLength());
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.output_msg);
+            serializer.WriteLength(this.current_joint_angles);
             serializer.Write(this.current_joint_angles);
         }
 

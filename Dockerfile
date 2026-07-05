@@ -26,6 +26,7 @@ RUN pip3 install \
     movement-primitives \
     OneEuroFilter \
     pytransform3d \
+    xarm-python-sdk \
     "numpy<1.24" \
     gmr
 

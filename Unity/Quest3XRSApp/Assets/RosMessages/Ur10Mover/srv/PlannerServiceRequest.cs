@@ -22,7 +22,7 @@ namespace RosMessageTypes.Ur10Mover
         {
             this.input_msg = "";
             this.request_type = "";
-            this.joints_input = new double[6];
+            this.joints_input = new double[0];
             this.pose_list = new Geometry.PoseMsg[0];
         }
 
@@ -40,7 +40,7 @@ namespace RosMessageTypes.Ur10Mover
         {
             deserializer.Read(out this.input_msg);
             deserializer.Read(out this.request_type);
-            deserializer.Read(out this.joints_input, sizeof(double), 6);
+            deserializer.Read(out this.joints_input, sizeof(double), deserializer.ReadLength());
             deserializer.Read(out this.pose_list, Geometry.PoseMsg.Deserialize, deserializer.ReadLength());
         }
 
@@ -48,6 +48,7 @@ namespace RosMessageTypes.Ur10Mover
         {
             serializer.Write(this.input_msg);
             serializer.Write(this.request_type);
+            serializer.WriteLength(this.joints_input);
             serializer.Write(this.joints_input);
             serializer.WriteLength(this.pose_list);
             serializer.Write(this.pose_list);
