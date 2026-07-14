@@ -60,6 +60,8 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
     public void GenerateRequest(List<Vector3> poseList, List<Quaternion> orientationList)
     {
         var request = new PlannerServiceRequest();
+        request.joints_input = HelperFunctions.CurrentJointConfig();
+        Debug.Log("Draw-start joint config: " + string.Join(", ", request.joints_input));
 
         for (int i = 0; i < poseList.Count; i++)
         {

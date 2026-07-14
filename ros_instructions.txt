@@ -25,6 +25,6 @@ terminal 1:
 roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.225 add_gripper:=true
 terminal 2:
 rosservice call /xarm/clear_err
+rosservice call /xarm/set_mode 1
 rosservice call /xarm/set_state 0
-rosservice call /xarm/set_mode 0
 roslaunch ur10_mover xarm_server.launch tcp_ip:=0.0.0.0 tcp_port:=10000

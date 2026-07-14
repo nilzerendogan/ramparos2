@@ -23,8 +23,19 @@ from ur10_mover.srv import DiscardService, DiscardServiceRequest, DiscardService
 from geometry_msgs.msg import Transform
 
 # ---------------------------------------------------------
-# IMPORT XARM API (Replaces ur10_interface)
-from xarm.wrapper import XArmAPI
+# NOTE: We deliberately do NOT import/instantiate XArmAPI here anymore.
+#
+# realMove_exec.launch (terminal 1) already opens the xarm_ros driver's
+# connection to the physical arm and exposes it to the rest of ROS via
+# MoveIt's move_group action/topic interface. xArm controllers only accept
+# one active control session at a time. A second raw `XArmAPI(robot_ip)`
+# connection from this node fights that one for write access, which is what
+# produced the `Write() failed, failed_ret=9` errors -> Robot State 5 (STOP)
+# -> Hardware Emergency STOP on your last hardware run.
+#
+# Everything that used to go through a second XArmAPI connection (reading
+# joint state, executing trajectories on the real arm) now goes through
+# `move_group`, which reuses the ONE connection terminal 1 already owns.
 # ---------------------------------------------------------
 
 config_one_euro_filter = {
@@ -37,18 +48,28 @@ f_x = OneEuroFilter(**config_one_euro_filter)
 f_y = OneEuroFilter(**config_one_euro_filter)
 f_z = OneEuroFilter(**config_one_euro_filter)
 
-# UPDATE: xArm7 uses 7 sequential joint names
+# xArm7 uses 7 sequential joint names
 joint_names = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6', 'joint7']
 
 # How densely to interpolate each waypoint-to-waypoint segment in Cartesian space.
 # Smaller = smoother / more faithful to the drawn line, but more points to execute.
 CARTESIAN_EEF_STEP = 0.01
 # Minimum fraction of a segment that must be completed for us to accept the plan.
-# If compute_cartesian_path can't get all the way to the goal in a straight line
-# (e.g. near a joint limit / workspace edge), we still take what we got but warn loudly,
-# rather than silently letting a downstream planner improvise a different elbow config.
 MIN_ACCEPTABLE_FRACTION = 0.99
+# Default speed scaling applied when time-parameterizing a real-robot trajectory.
+# 1.0 = as fast as the planned/joint-limit-respecting trajectory allows.
+# Keep this low for your first few live runs, then raise it once you trust the motion.
+EXECUTION_VELOCITY_SCALING = 0.3
 
+
+HOME_POSE = [-3.10, -0.3, 0.0, 0.5, 0.0, 0.8, 0.0]  # radians — pick values you've verified are safe/reachable
+
+def go_to_home(move_group):
+    move_group.set_joint_value_target(HOME_POSE)
+    success = move_group.go(wait=True)
+    move_group.stop()
+    move_group.clear_pose_targets()
+    return success
 
 def planCombat(plan):
     if sys.version_info >= (3, 0):
@@ -56,25 +77,28 @@ def planCombat(plan):
     else:
         return plan
 
+def wait_until_at_pose(move_group, target, tolerance=0.01, timeout=3.0, stable_reads=3):
+    start_time = rospy.Time.now()
+    consecutive = 0
+    while (rospy.Time.now() - start_time).to_sec() < timeout:
+        current = move_group.get_current_joint_values()
+        if all(abs(c - t) < tolerance for c, t in zip(current, target)):
+            consecutive += 1
+            if consecutive >= stable_reads:
+                rospy.sleep(0.3)  # extra buffer for other subscribers to catch up
+                return True
+        else:
+            consecutive = 0
+        rospy.sleep(0.05)
+    return False
+
 
 def plan_trajectory(move_group, destination_pose, start_joint_angles):
     """
-    Plan a single-waypoint segment from start_joint_angles to destination_pose.
-
-    CHANGED: previously this used set_pose_target() + plan(), which hands the
-    problem to OMPL/RRTConnect (a sampling-based JOINT-SPACE planner). For a
-    kinematically redundant 7-DOF arm like the xArm7 (vs. the UR10e's 6-DOF),
-    that lets the planner return a valid solution using a different elbow/wrist
-    configuration than the previous waypoint used -- the interpolated joint path
-    then no longer traces a straight line in Cartesian space, and the error is
-    worst near the top/bottom of the reachable workspace, which is exactly the
-    symptom you were seeing.
-
-    Now we use compute_cartesian_path() for the single segment instead. Because
-    set_start_state() below seeds it with the actual joint angles the arm ended
-    the previous segment in, IK stays in a consistent configuration from one
-    waypoint to the next, and the path between the two poses is a genuine
-    straight line rather than "whatever RRTConnect happened to find".
+    Plan a single-waypoint segment from start_joint_angles to destination_pose
+    using compute_cartesian_path(), seeded with the previous segment's actual
+    ending joint angles, so IK stays in a consistent elbow/wrist configuration
+    from waypoint to waypoint instead of RRTConnect picking a new one each time.
     """
     current_joint_state = JointState()
     current_joint_state.name = joint_names
@@ -167,6 +191,7 @@ def plan_pick_and_place(req):
         previous_ending_joint_angles = trajectory.joint_trajectory.points[-1].positions
         response.trajectories.append(trajectory)
 
+    move_group.set_start_state_to_current_state() 
     move_group.clear_pose_targets()
     save_trajectory(response.trajectories)
     response.pose_list = req.pose_list
@@ -223,19 +248,19 @@ def discard_last_trajectory(req):
 
 
 def return_joint_state(req):
+    """
+    Read current joint angles from MoveIt's view of the robot state, which is
+    fed by the /joint_states topic published by the xarm_ros driver that
+    terminal 1 already owns. No separate hardware connection needed.
+    """
     response = StateServiceResponse()
     try:
-        # UPDATE: Fetch joints directly from the xArm API instead of the UR10 class
-        if arm is not None and arm.connected:
-            code, current_joint_angles = arm.get_servo_angle(is_radian=True)
-            if code != 0 or len(current_joint_angles) < 7:
-                response.output_msg = "Driver could not be reached or invalid joint count"
-                return response
-        else:
-            response.output_msg = "Hardware not connected"
+        current_joint_angles = move_group.get_current_joint_values()
+        if len(current_joint_angles) < 7:
+            response.output_msg = "Invalid joint count from MoveIt ({})".format(len(current_joint_angles))
             return response
     except Exception as e:
-        response.output_msg = f"Driver could not be reached: {e}"
+        response.output_msg = "Could not read joint state via MoveIt: {}".format(e)
         return response
 
     response.output_msg = "success"
@@ -244,39 +269,90 @@ def return_joint_state(req):
 
 
 def execute_on_real_robot(req):
+    """
+    1. Move to HOME_POSE (known-safe reference pose).
+    2. Free (joint-space) plan+execute from HOME_POSE to the trajectory's
+       first drawn point — NOT cartesian, since this can be a large jump
+       away from home and forcing a straight-line EEF path here is both
+       unnecessary and prone to rejection.
+    3. Execute the recorded drawn trajectory itself via MoveIt, starting
+       cleanly from traj[0] since we just arrived there in step 2.
+    """
     response = ExecutionServiceResponse()
 
-    if arm is None or not arm.connected:
-        response.output_msg = "Error: Physical xArm is not connected."
-        rospy.logerr("Execute triggered, but no physical xArm7 is connected.")
+    traj = [list(joint_state.list) for joint_state in req.joint_states]
+    if not traj:
+        response.output_msg = "Error: empty trajectory"
         return response
 
-    traj = []
-    for joint_state in req.joint_states:
-        traj.append([])
-        for joint in joint_state.list:
-            traj[-1].append(joint)
+    move_group.set_start_state_to_current_state()   # <-- ADD THIS: belt-and-suspenders, always plan from the real robot
+    rospy.loginfo("MoveIt believes current state is: {}".format(move_group.get_current_joint_values()))
 
-    traj = np.array(traj)
-    rospy.loginfo(f"Executing trajectory with {traj.shape[0]} waypoints.")
-
+    rospy.loginfo("Executing trajectory with {} waypoints via MoveIt.".format(len(traj)))
     for joint_angles in traj:
-        print(f'{joint_angles * 180 / 3.14}')  # Keep your original logging
+        print('{}'.format(np.array(joint_angles) * 180 / 3.14))
 
-    # UPDATE: Execution logic using xArm API
-    arm.clean_error()
-    arm.clean_warn()
-    arm.motion_enable(enable=True)
-    arm.set_state(state=0)
+    # --- Step 1: go to known-safe home pose ---
+    rospy.loginfo("Homing before execution...")
 
-    # Send the trajectory to the real robot
-    # You may need to tune speed and mvacc for your specific RAMPA use-case
-    for joint_angles in traj:
-        code = arm.set_servo_angle(angle=joint_angles, speed=0.5, mvacc=5, wait=True, radius=0, is_radian=True)
-        if code != 0:
-            rospy.logerr(f"xArm execution failed with error code: {code}")
-            response.output_msg = f"Failed with code {code}"
-            return response
+    rospy.loginfo("Active joints: {}".format(move_group.get_active_joints()))
+    for name in move_group.get_active_joints():
+        joint = robot.get_joint(name)
+        rospy.loginfo("{}: [{}, {}]".format(name, joint.bounds()[0], joint.bounds()[1]))
+    rospy.loginfo("HOME_POSE: {}".format(HOME_POSE))
+
+    move_group.set_joint_value_target(dict(zip(joint_names, HOME_POSE)))
+    
+    home_plan = planCombat(move_group.plan())
+    if not home_plan or not home_plan.joint_trajectory.points:
+        response.output_msg = "Failed: could not plan move to home pose"
+        return response
+    if not move_group.execute(home_plan, wait=True):
+        response.output_msg = "Failed: could not reach home pose"
+        return response
+    move_group.stop()
+    move_group.clear_pose_targets()
+
+    if not wait_until_at_pose(move_group, HOME_POSE):
+        response.output_msg = "Failed: robot state did not converge to home pose in time"
+        return response
+
+    # --- Step 2: free joint-space approach from home to traj[0] ---
+    rospy.loginfo("Approaching trajectory start point...")
+    move_group.set_joint_value_target(traj[0])
+    approach_plan = planCombat(move_group.plan())
+    if not approach_plan or not approach_plan.joint_trajectory.points:
+        response.output_msg = "Failed: could not plan approach from home to trajectory start"
+        return response
+    if not move_group.execute(approach_plan, wait=True):
+        response.output_msg = "Failed: approach move execution failed"
+        return response
+    move_group.stop()
+    move_group.clear_pose_targets()
+
+    # --- Step 3: execute the recorded drawn trajectory ---
+    robot_traj = RobotTrajectory()
+    robot_traj.joint_trajectory.joint_names = joint_names
+    for positions in traj:
+        pt = JointTrajectoryPoint()
+        pt.positions = list(positions)
+        robot_traj.joint_trajectory.points.append(pt)
+
+    try:
+        current_state = robot.get_current_state()
+        robot_traj = move_group.retime_trajectory(
+            current_state, robot_traj, velocity_scaling_factor=EXECUTION_VELOCITY_SCALING
+        )
+    except Exception as e:
+        rospy.logwarn("retime_trajectory failed, executing with default timing: {}".format(e))
+
+    success = move_group.execute(robot_traj, wait=True)
+    move_group.stop()
+
+    if not success:
+        rospy.logerr("MoveIt execute() reported failure.")
+        response.output_msg = "Failed: move_group.execute() returned False"
+        return response
 
     rospy.loginfo("Trajectory execution completed on physical hardware.")
     response.output_msg = "success"
@@ -297,23 +373,11 @@ def moveit_server():
 
 rospy.init_node('ur10_mover_server')
 
-# ---------------------------------------------------------
-# XARM HARDWARE INITIALIZATION
-# ---------------------------------------------------------
-robot_ip = '192.168.1.225'  # CHANGE THIS TO YOUR XARM IP
-arm = None
-
-try:
-    arm = XArmAPI(robot_ip)
-    arm.motion_enable(enable=True)
-    arm.set_mode(0)
-    arm.set_state(state=0)
-    rospy.loginfo(f"Successfully connected to physical xArm7 at {robot_ip}")
-except Exception as e:
-    rospy.logwarn(f"Could not connect to physical xArm7 at {robot_ip}. Running without hardware execution. Error: {e}")
-
-# UPDATE: MoveIt Planning Group for xArm7
+# xArm7 MoveIt planning group. This talks to the arm ONLY through the
+# connection realMove_exec.launch already established -- no direct
+# XArmAPI socket is opened from this node.
 group_name = "xarm7"
+robot = moveit_commander.RobotCommander()
 move_group = moveit_commander.MoveGroupCommander(group_name)
 
 rospy.sleep(2)
