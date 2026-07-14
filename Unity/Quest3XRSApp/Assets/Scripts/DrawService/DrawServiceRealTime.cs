@@ -47,7 +47,10 @@ public class DrawServiceRealTime: MonoBehaviour
     public GameObject collisionIndicatorPrefab;
     private List<GameObject> collisionIndicators = new List<GameObject>();
 
-    
+    [Header("RAMPA Anti-Drift Configuration")]
+    public Transform robotBaseTransform; // Unity Hierarchy'deki link_base buraya sürüklenecek
+
+
 
 // TODO - record hand orientation as well
 
@@ -59,7 +62,17 @@ public class DrawServiceRealTime: MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = lineColor;
         lineRenderer.endColor = lineColor;
-        
+
+        // Çizgiyi dünya yerine yerel (local) uzayda çizdiriyoruz
+        lineRenderer.useWorldSpace = false;
+
+        // Çizgi objesini hiyerarşide robot tabanının altına bağlayarak sabitleşmesini sağlıyoruz
+        if (robotBaseTransform != null)
+        {
+            lineRenderer.transform.SetParent(robotBaseTransform, true);
+            lineRenderer.transform.localPosition = Vector3.zero;
+            lineRenderer.transform.localRotation = Quaternion.identity;
+        }
 
         loadingText.GetComponent<TMP_Text>().text = "pinch to start drawing";
 
@@ -167,20 +180,31 @@ public class DrawServiceRealTime: MonoBehaviour
             // do not add points to the line renderer if isFirstPart is true
             if (numberOfPoints % WAY_POINT_FREQ == 0 && !isFirstPart)
             {
+                // Elin dünya pozisyonunu robot tabanına göre local koordinata çeviriyoruz
+                Vector3 localHandPos = robotBaseTransform != null ?
+                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
 
                 if (recordOrientationDropdown.value == 1) { // NO MIRROR
                         // not important
-                        handOrientation.UpdateHandOrientationIndicator(hand.PointerPose.position, hand.PointerPose.position);
-                        Quaternion orientation = handOrientation.GetRotation();
-                        Vector3 position = hand.PointerPose.position;
-                        double[] poseInfo = {position.x, position.y, position.z, orientation.x, orientation.y, orientation.z, orientation.w};
+                        handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
+                        Quaternion worldOrientation = handOrientation.GetRotation();
+
+                        // Orientation'ı da robot tabanına göre local rotasyona çeviriyoruz
+                        Quaternion localOrientation = robotBaseTransform != null ?
+                            Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
+
+                        double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
                         planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
                 }
                 else {
                         debugText.text += "adding point with fixed orientation\n";
-                        Vector3 position = hand.PointerPose.position;
-                        Quaternion orientation = Quaternion.Euler(180,0,0);
-                        double[] poseInfo = {position.x, position.y, position.z, orientation.x, orientation.y, orientation.z, orientation.w};
+                        Quaternion worldOrientation = Quaternion.Euler(180,0,0);
+
+                        // Sabit oryantasyonu da robot tabanına göre local rotasyona çeviriyoruz
+                        Quaternion localOrientation = robotBaseTransform != null ?
+                            Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
+
+                        double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
                         planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
                 }
 
@@ -189,7 +213,12 @@ public class DrawServiceRealTime: MonoBehaviour
             if (!isFirstPart) {
                 numberOfPoints++;
                 lineRenderer.positionCount = numberOfPoints;
-                lineRenderer.SetPosition(numberOfPoints - 1,  hand.PointerPose.position);
+
+                // Çizgiye eklenecek noktayı da robota göre hesaplıyoruz
+                Vector3 localHandPosForLine = robotBaseTransform != null ?
+                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
+
+                lineRenderer.SetPosition(numberOfPoints - 1, localHandPosForLine); // Local pozisyon basılıyor
             }
     
             yield return new WaitForSeconds(interval);
@@ -287,7 +316,7 @@ public class DrawServiceRealTime: MonoBehaviour
         collisionDetectedinTrajectory = false;
         collisionWarning.SetActive(false);
         
-        if (!anotherTrajectory) {
+        if (!anotherTrajectory) {
             if (isContextual) {
                 Destroy(obstacle);
             }

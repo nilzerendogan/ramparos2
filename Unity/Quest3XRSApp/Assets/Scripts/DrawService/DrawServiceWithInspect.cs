@@ -51,26 +51,42 @@ public class DrawServiceWithInspect : MonoBehaviour
     public GameObject collisionIndicatorPrefab;
     public List<GameObject> collisionIndicators = new List<GameObject>();
 
+    [Header("RAMPA Anti-Drift Configuration")]
+    public Transform robotBaseTransform; // Unity Hierarchy'deki link_base buraya sürüklenecek
+
     // Start is called before the first frame update
     void Start()
     {
-        // Set line properties
+        // Set line propertiesr
         lineRenderer.startWidth = lineWidth;
         lineRenderer.endWidth = lineWidth;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = lineColor;
         lineRenderer.endColor = lineColor;
-        
+
+        // Çizgiyi dünya yerine yerel (local) uzayda çizdiriyoruz
+        lineRenderer.useWorldSpace = false;
+
+        // Çizgi objesini hiyerarşide robot tabanının altına bağlayarak sabitleşmesini sağlıyoruz
+        if (robotBaseTransform != null)
+        {
+            lineRenderer.transform.SetParent(robotBaseTransform, true);
+            lineRenderer.transform.localPosition = Vector3.zero;
+            lineRenderer.transform.localRotation = Quaternion.identity;
+        }
+
         executeOnRealRobotButton.SetActive(false);
-        
+
         trajectorySamplePoints_point1 = new Vector3(0, 0, 0);
         trajectorySamplePoints_point2 = new Vector3(0, 0, 0);
 
         ResetDrawingState();
     }
 
-    public void HandleAddContextButton() {
-        if (!isContextual) {
+    public void HandleAddContextButton()
+    {
+        if (!isContextual)
+        {
             isContextual = true;
             foreach (var button in contextMenu)
             {
@@ -79,7 +95,8 @@ public class DrawServiceWithInspect : MonoBehaviour
             obstacle = Instantiate(contextPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             addContextButton.GetComponentInChildren<TMP_Text>().text = "remove context";
         }
-        else {
+        else
+        {
             isContextual = false;
             Destroy(obstacle);
             foreach (var button in contextMenu)
@@ -90,25 +107,31 @@ public class DrawServiceWithInspect : MonoBehaviour
         }
     }
 
-    public void IncXScale() {
+    public void IncXScale()
+    {
         obstacle.transform.localScale += new Vector3(0.02f, 0, 0);
     }
-    public void DecXScale() {
+    public void DecXScale()
+    {
         if (obstacle.transform.localScale.x > 0.03f)
             obstacle.transform.localScale -= new Vector3(0.02f, 0, 0);
-        
+
     }
-    public void IncYScale() {
+    public void IncYScale()
+    {
         obstacle.transform.localScale += new Vector3(0, 0.02f, 0);
     }
-    public void DecYScale() {
+    public void DecYScale()
+    {
         if (obstacle.transform.localScale.y > 0.03f)
             obstacle.transform.localScale -= new Vector3(0, 0.02f, 0);
     }
-    public void IncZScale() {
+    public void IncZScale()
+    {
         obstacle.transform.localScale += new Vector3(0, 0, 0.02f);
     }
-    public void DecZScale() {
+    public void DecZScale()
+    {
         if (obstacle.transform.localScale.z > 0.03f)
             obstacle.transform.localScale -= new Vector3(0, 0, 0.02f);
     }
@@ -120,7 +143,8 @@ public class DrawServiceWithInspect : MonoBehaviour
         loadingText.GetComponent<TMP_Text>().text = "pinch to start drawing";
         while (true)
         {
-            if (recordOrientationDropdown.value == 0) {
+            if (recordOrientationDropdown.value == 0)
+            {
                 if (hand.GetFingerIsPinching(OVRHand.HandFinger.Index))
                 {
                     isFirstPart = false;
@@ -128,7 +152,8 @@ public class DrawServiceWithInspect : MonoBehaviour
                     loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
                 }
             }
-            else {
+            else
+            {
                 if (OVRInput.Get(OVRInput.Button.One))
                 {
                     isFirstPart = false;
@@ -138,16 +163,18 @@ public class DrawServiceWithInspect : MonoBehaviour
                 }
             }
             if (numberOfPoints % 5 == 0) // add new point to trajectory every 5 points
-            {        
-                
-                if (recordOrientationDropdown.value == 0) {
+            {
+
+                if (recordOrientationDropdown.value == 0)
+                {
                     if (!hand.GetFingerIsPinching(OVRHand.HandFinger.Index) && !isFirstPart)
                     {
                         UpdateDrawingState();
                         break;
                     }
                 }
-                else {
+                else
+                {
                     if (!OVRInput.Get(OVRInput.Button.One) && !isFirstPart)
                     {
                         handOrientation.ShowIndicator(false);
@@ -156,54 +183,70 @@ public class DrawServiceWithInspect : MonoBehaviour
                     }
                 }
 
-                if (!isFirstPart) {
-                    
-                    if (recordOrientationDropdown.value == 1 || recordOrientationDropdown.value == 2) {
-                        if (recordOrientationDropdown.value == 1) {
-                        // not important
-                        handOrientation.UpdateHandOrientationIndicator(hand.PointerPose.position, hand.PointerPose.position);
+                if (!isFirstPart)
+                {
+
+                    // Elin dünya pozisyonunu robot tabanına göre local koordinata çeviriyoruz
+                    Vector3 localHandPos = robotBaseTransform != null ?
+                        robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
+
+                    if (recordOrientationDropdown.value == 1 || recordOrientationDropdown.value == 2)
+                    {
+                        if (recordOrientationDropdown.value == 1)
+                        {
+                            handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
                         }
                         targetOrientations.Add(handOrientation.GetRotation());
                         debugText.text += "targetOrientation: " + handOrientation.GetRotation().eulerAngles + "\n";
-                        targetPoints.Add(hand.PointerPose.position);
+                        targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
                     }
-                    else {
-                        if (recordOrientationDropdown.value == 0) {
+                    else
+                    {
+                        if (recordOrientationDropdown.value == 0)
+                        {
                             // down orientation
-                            targetOrientations.Add(Quaternion.Euler(180,0,0));
-                            targetPoints.Add(hand.PointerPose.position);
+                            targetOrientations.Add(Quaternion.Euler(180, 0, 0));
+                            targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
                         }
-                        else {
+                        else
+                        {
                             // hook orientation
-                            targetOrientations.Add(Quaternion.Euler(180,0,0));
-                            targetPoints.Add(hand.PointerPose.position);
+                            targetOrientations.Add(Quaternion.Euler(180, 0, 0));
+                            targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
                         }
                     }
                 }
             }
             if (!isFirstPart) // update lineRenderer and handOrientation indicator
-            { 
+            {
                 numberOfPoints++;
                 lineRenderer.positionCount = numberOfPoints;
-                lineRenderer.SetPosition(numberOfPoints - 1,  hand.PointerPose.position);
-                
-                if (recordOrientationDropdown.value == 2) {
-                    if (Vector3.Distance(trajectorySamplePoints_point1, lineRenderer.GetPosition(numberOfPoints - 1)) > 0.05 || numberOfPoints == 0) {
+
+                // Çizgiye eklenecek noktayı da robota göre hesaplıyoruz
+                Vector3 localHandPos = robotBaseTransform != null ?
+                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
+
+                lineRenderer.SetPosition(numberOfPoints - 1, localHandPos); // Local pozisyon basılıyor
+
+                if (recordOrientationDropdown.value == 2)
+                {
+                    if (Vector3.Distance(trajectorySamplePoints_point1, lineRenderer.GetPosition(numberOfPoints - 1)) > 0.05 || numberOfPoints == 0)
+                    {
                         trajectorySamplePoints_point2 = trajectorySamplePoints_point1;
                         trajectorySamplePoints_point1 = lineRenderer.GetPosition(numberOfPoints - 1);
                         handOrientation.UpdateHandOrientationIndicator(trajectorySamplePoints_point1, trajectorySamplePoints_point2);
-                    } 
+                    }
                 }
             }
             yield return new WaitForSeconds(interval);
         }
     }
-    
+
 
     private void TriggerPublishMethod()
     {
         PlanRequestGeneratorWithPoses.GenerateRequest(targetPoints, targetOrientations);
-    } 
+    }
 
     public void UpdateDrawingState(bool finalized = false)
     {
@@ -242,18 +285,20 @@ public class DrawServiceWithInspect : MonoBehaviour
                 break;
 
             case State.WaitingForResponse:
-                if (finalized) {
+                if (finalized)
+                {
                     // no solution found
                     loadingText.GetComponent<TMP_Text>().text = "no solution found";
                     ResetDrawingState(true);
                 }
-                else {
+                else
+                {
                     state = State.ExecuteTrajectory;
                     loadingText.GetComponent<TMP_Text>().text = "executing trajectory";
                 }
                 break;
 
-            case  State.ExecuteTrajectory:
+            case State.ExecuteTrajectory:
                 state = State.InspectTrajectory;
                 PlanRequestGeneratorWithPoses.SetJointAnglesForRealRobot();
                 executeOnRealRobotButton.SetActive(true);
@@ -266,21 +311,22 @@ public class DrawServiceWithInspect : MonoBehaviour
                 break;
 
             case State.InspectTrajectory:
-                if (finalized) {
+                if (finalized)
+                {
                     // add to training is clicked
                     ResetDrawingState(true);
                 }
-                else {
-                    // redraw from current waypoint is clicked
+                else
+                {
                     state = State.DrawTrajectory;
 
-                    
+
                     handleMenu(true);
                     redrawButton.interactable = false;
 
                     // update line renderer
-                
-                    double rate = ((double) PlanRequestGeneratorWithPoses.currentIndexPointer) / (double)PlanRequestGeneratorWithPoses.previousPoints.Count;
+
+                    double rate = ((double)PlanRequestGeneratorWithPoses.currentIndexPointer) / (double)PlanRequestGeneratorWithPoses.previousPoints.Count;
                     int remainingPoints = Convert.ToInt32(rate * lineRenderer.positionCount);
                     Vector3[] newPositions = new Vector3[remainingPoints];
                     debugText.text += "currentIndexPointer: " + PlanRequestGeneratorWithPoses.currentIndexPointer + "\n";
@@ -300,21 +346,23 @@ public class DrawServiceWithInspect : MonoBehaviour
                     PlanRequestGeneratorWithPoses.previousPoses =
                         PlanRequestGeneratorWithPoses.previousPoses.GetRange(0,
                             PlanRequestGeneratorWithPoses.currentIndexPointer);
-                
+
                     StartCoroutine(DrawTrajectory(0.05f));
                 }
                 break;
         }
-        
+
     }
 
     public void ResetDrawingState(bool anotherTrajectory = false)
     {
-        
+
         ClearCollisionIndicators();
 
-        if (!anotherTrajectory) {
-            if (isContextual) {
+        if (!anotherTrajectory)
+        {
+            if (isContextual)
+            {
                 Destroy(obstacle);
             }
             foreach (var button in contextMenu)
@@ -331,7 +379,7 @@ public class DrawServiceWithInspect : MonoBehaviour
         collisionWarning.SetActive(false);
 
         handOrientation.ResetFilter();
-        
+
         PlanRequestGeneratorWithPoses.ResetGenerator();
 
         lineRenderer.positionCount = 0;
@@ -354,11 +402,11 @@ public class DrawServiceWithInspect : MonoBehaviour
         addContextButton.interactable = true;
 
         // do not set active if no solution found 
-        
+
 
         executeButton.SetActive(!anotherTrajectory);
 
-        
+
 
         // also reset the slider handle position to middle
         Vector3 currRectTransform = sliderPosition.GetComponent<RectTransform>().anchoredPosition;
@@ -366,11 +414,12 @@ public class DrawServiceWithInspect : MonoBehaviour
         sliderPosition.GetComponent<RectTransform>().anchoredPosition = currRectTransform;
     }
 
-    private void handleMenu(bool loading) {
-    
+    private void handleMenu(bool loading)
+    {
+
         if (collisionDetectedinTrajectory)
             collisionWarning.SetActive(true);
-        
+
         bar.SetActive(!loading);
 
         backButton.interactable = !loading;
@@ -381,27 +430,31 @@ public class DrawServiceWithInspect : MonoBehaviour
 
         addToTrainingButton.interactable = !loading;
 
-        if (!loading) {
+        if (!loading)
+        {
             // set slider position to end of bar
             Vector3 currRectTransform = sliderPosition.GetComponent<RectTransform>().anchoredPosition;
             currRectTransform.x = bar.GetComponent<RectTransform>().sizeDelta.x / 2;
             sliderPosition.GetComponent<RectTransform>().anchoredPosition = currRectTransform;
         }
-    
+
     }
 
     public void SetCollisionDetected(Vector3 contactPoint)
     {
-        if (state == State.ExecuteTrajectory) {
+        if (state == State.ExecuteTrajectory)
+        {
             collisionDetectedinTrajectory = true;
         }
         GameObject collisionIndicator = Instantiate(collisionIndicatorPrefab, contactPoint, Quaternion.identity);
         collisionIndicators.Add(collisionIndicator);
-        
+
     }
 
-    private void ClearCollisionIndicators() {
-        foreach (GameObject collisionIndicator in collisionIndicators) {
+    private void ClearCollisionIndicators()
+    {
+        foreach (GameObject collisionIndicator in collisionIndicators)
+        {
             Destroy(collisionIndicator);
         }
         collisionIndicators.Clear();
@@ -419,13 +472,11 @@ public class DrawServiceWithInspect : MonoBehaviour
 
     public void SendTrainingData()
     {
-        if (isContextual) 
+        if (isContextual)
             trainAndTest.SendTrainingData(PlanRequestGeneratorWithPoses.previousPoses, PlanRequestGeneratorWithPoses.previousOrientations, obstacle.transform.localScale.y);
-        else 
+        else
             trainAndTest.SendTrainingData(PlanRequestGeneratorWithPoses.previousPoses, PlanRequestGeneratorWithPoses.previousOrientations);
         PlanRequestGeneratorWithPoses.ResetGenerator(true);
         UpdateDrawingState(true);
     }
-
-
 }

@@ -21,7 +21,7 @@ public class GetTransform : MonoBehaviour
     private int counter = 0;
     
     void Start() {}
-    
+
     void FixedUpdate()
     {
         if (autoTransform) {
@@ -52,6 +52,35 @@ public class GetTransform : MonoBehaviour
         }
 
     }
+    
+    /*
+    void FixedUpdate()
+    {
+        if (autoTransform)
+        {
+            if (isFirst)
+            {
+                // lock in whatever the cube currently is, instead of recomputing from controller + magic offsets
+                orientation = grabableCube.rotation;
+                position = grabableCube.position + new Vector3(0, 0.1f, 0);
+
+                counter++;
+                if (counter > 1000)
+                {
+                    isFirst = false;
+                    counter = 0;
+                }
+            }
+            baseLink.TeleportRoot(position, orientation);
+        }
+        else
+        {
+            isFirst = true;
+            baseLink.TeleportRoot(grabableCube.position + new Vector3(0, 0.1f, 0), grabableCube.rotation);
+        }
+    }
+    */
+    
 
     public void ChangeTransformType()
     {

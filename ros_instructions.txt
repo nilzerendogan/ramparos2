@@ -12,7 +12,7 @@ source devel/setup.bash
 Open the project in unity
 go to robotics
 set: ROS IP -> your computers IP and ROS Port 10000
-go to test scene
+go to test scenec
 
 connecting to the robot:
 connect via ethernet cable
@@ -22,7 +22,7 @@ robot ip: 192.168.1.225
 cd catkin_ws
 source devel/setup.bash
 terminal 1:
-roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.225
+roslaunch xarm7_moveit_config realMove_exec.launch robot_ip:=192.168.1.225 add_gripper:=true
 terminal 2:
 rosservice call /xarm/clear_err
 rosservice call /xarm/set_state 0

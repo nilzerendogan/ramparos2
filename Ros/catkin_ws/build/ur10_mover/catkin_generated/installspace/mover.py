@@ -40,13 +40,42 @@ f_z = OneEuroFilter(**config_one_euro_filter)
 # UPDATE: xArm7 uses 7 sequential joint names
 joint_names = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6', 'joint7']
 
+# How densely to interpolate each waypoint-to-waypoint segment in Cartesian space.
+# Smaller = smoother / more faithful to the drawn line, but more points to execute.
+CARTESIAN_EEF_STEP = 0.01
+# Minimum fraction of a segment that must be completed for us to accept the plan.
+# If compute_cartesian_path can't get all the way to the goal in a straight line
+# (e.g. near a joint limit / workspace edge), we still take what we got but warn loudly,
+# rather than silently letting a downstream planner improvise a different elbow config.
+MIN_ACCEPTABLE_FRACTION = 0.99
+
+
 def planCombat(plan):
-    if sys.version_info >= (3,0):
+    if sys.version_info >= (3, 0):
         return plan[1]
     else:
         return plan
-        
-def plan_trajectory(move_group, destination_pose, start_joint_angles): 
+
+
+def plan_trajectory(move_group, destination_pose, start_joint_angles):
+    """
+    Plan a single-waypoint segment from start_joint_angles to destination_pose.
+
+    CHANGED: previously this used set_pose_target() + plan(), which hands the
+    problem to OMPL/RRTConnect (a sampling-based JOINT-SPACE planner). For a
+    kinematically redundant 7-DOF arm like the xArm7 (vs. the UR10e's 6-DOF),
+    that lets the planner return a valid solution using a different elbow/wrist
+    configuration than the previous waypoint used -- the interpolated joint path
+    then no longer traces a straight line in Cartesian space, and the error is
+    worst near the top/bottom of the reachable workspace, which is exactly the
+    symptom you were seeing.
+
+    Now we use compute_cartesian_path() for the single segment instead. Because
+    set_start_state() below seeds it with the actual joint angles the arm ended
+    the previous segment in, IK stays in a consistent configuration from one
+    waypoint to the next, and the path between the two poses is a genuine
+    straight line rather than "whatever RRTConnect happened to find".
+    """
     current_joint_state = JointState()
     current_joint_state.name = joint_names
     current_joint_state.position = start_joint_angles
@@ -55,29 +84,34 @@ def plan_trajectory(move_group, destination_pose, start_joint_angles):
     moveit_robot_state.joint_state = current_joint_state
     move_group.set_start_state(moveit_robot_state)
 
-    move_group.set_pose_target(destination_pose)
-    plan = move_group.plan()
+    waypoints = [copy.deepcopy(destination_pose)]
+    (plan, fraction) = move_group.compute_cartesian_path(
+        waypoints, CARTESIAN_EEF_STEP, avoid_collisions=True
+    )
 
-    if not plan:
-        exception_str = """
-            Trajectory could not be planned for a destination of {} with starting joint angles {}.
-            Please make sure target and destination are reachable by the robot.
-        """.format(destination_pose, destination_pose)
-        raise Exception(exception_str)
+    if fraction < MIN_ACCEPTABLE_FRACTION or not plan.joint_trajectory.points:
+        rospy.logwarn(
+            "Cartesian path only {:.1f}% complete for pose {} (starting from {}) — "
+            "rejecting rather than executing a partial path.".format(
+                fraction * 100, destination_pose, start_joint_angles
+            )
+        )
+        return None
+    return plan
 
-    return planCombat(plan)
 
-def execute_joint_angles(joint_angles,group):
+def execute_joint_angles(joint_angles, group):
     group.set_joint_value_target(joint_angles)
     plan = group.plan()
     group.execute(plan[1])
     return
 
+
 def plan_pick_and_place(req):
     rospy.loginfo("Pose received:")
     for pose in req.pose_list:
         rospy.loginfo(pose)
-        
+
     rospy.loginfo(rospy.get_caller_id() + "Plan Requested:\n")
 
     response = PlannerServiceResponse()
@@ -90,7 +124,7 @@ def plan_pick_and_place(req):
             move_group.set_joint_value_target(point.positions)
             move_group.go()
             end_pose = move_group.get_current_pose().pose
-            
+
             multi_dof = MultiDOFJointTrajectoryPoint()
             transform = Transform()
 
@@ -113,7 +147,7 @@ def plan_pick_and_place(req):
     rospy.loginfo(len(req.pose_list))
 
     current_pose = move_group.get_current_pose().pose
-    previous_ending_joint_angles = req.joints_input 
+    previous_ending_joint_angles = req.joints_input
 
     for pose in req.pose_list:
         norm = (pose.orientation.x**2 + pose.orientation.y**2 + pose.orientation.z**2 + pose.orientation.w**2)**0.5
@@ -124,13 +158,11 @@ def plan_pick_and_place(req):
 
         rospy.loginfo(pose)
 
-        trajectory = plan_trajectory(move_group,pose,previous_ending_joint_angles) 
-        if not trajectory.joint_trajectory.points:
+        trajectory = plan_trajectory(move_group, pose, previous_ending_joint_angles)
+        if trajectory is None or not trajectory.joint_trajectory.points:
             rospy.logerr("AN ERROR OCCURED WHILE PLANNING")
             rospy.logerr(pose)
             response.output_msg = "Timeout"
-            if len(response.trajectories) > 0:
-                save_trajectory(response.trajectories)
             return response
         previous_ending_joint_angles = trajectory.joint_trajectory.points[-1].positions
         response.trajectories.append(trajectory)
@@ -141,16 +173,18 @@ def plan_pick_and_place(req):
 
     return response
 
+
 def convert_data_file_to_list(input_file):
     traj = []
     saved_trajectory = input_file.readlines()
     input_file.close()
     for point in saved_trajectory:
-        point= [float(i) for i in point[1:-2].split(',')]
+        point = [float(i) for i in point[1:-2].split(',')]
         traj.append(point)
-    rospy.loginfo("traj")    
+    rospy.loginfo("traj")
     rospy.loginfo(traj)
     return traj
+
 
 def cartesian_path(response, req):
     rospy.loginfo("Calculating cartesian path")
@@ -163,9 +197,12 @@ def cartesian_path(response, req):
         pose.orientation.w = round(pose.orientation.w, 2)
         rospy.loginfo(pose)
         waypoints.append(copy.deepcopy(pose))
-    
-    (plan, fraction) = move_group.compute_cartesian_path(waypoints, 0.01, 0.0)
+
+    (plan, fraction) = move_group.compute_cartesian_path(waypoints, CARTESIAN_EEF_STEP, avoid_collisions=True)
+    if fraction < MIN_ACCEPTABLE_FRACTION:
+        rospy.logwarn("Cartesian path only {:.1f}% complete across full waypoint list.".format(fraction * 100))
     return plan
+
 
 def save_trajectory(trajectory):
     traj = []
@@ -176,12 +213,14 @@ def save_trajectory(trajectory):
     traj = np.array(traj)
     np.save('trajectory.npy', traj)
 
+
 def discard_last_trajectory(req):
     response = DiscardServiceResponse()
     if os.path.exists('trajectory.npy'):
         os.remove('trajectory.npy')
     response.output_msg = "success"
     return response
+
 
 def return_joint_state(req):
     response = StateServiceResponse()
@@ -198,14 +237,15 @@ def return_joint_state(req):
     except Exception as e:
         response.output_msg = f"Driver could not be reached: {e}"
         return response
-        
+
     response.output_msg = "success"
     response.current_joint_angles = current_joint_angles
     return response
 
+
 def execute_on_real_robot(req):
     response = ExecutionServiceResponse()
-    
+
     if arm is None or not arm.connected:
         response.output_msg = "Error: Physical xArm is not connected."
         rospy.logerr("Execute triggered, but no physical xArm7 is connected.")
@@ -219,16 +259,16 @@ def execute_on_real_robot(req):
 
     traj = np.array(traj)
     rospy.loginfo(f"Executing trajectory with {traj.shape[0]} waypoints.")
-    
+
     for joint_angles in traj:
-        print(f'{joint_angles * 180 / 3.14}') # Keep your original logging
-        
+        print(f'{joint_angles * 180 / 3.14}')  # Keep your original logging
+
     # UPDATE: Execution logic using xArm API
     arm.clean_error()
     arm.clean_warn()
     arm.motion_enable(enable=True)
     arm.set_state(state=0)
-    
+
     # Send the trajectory to the real robot
     # You may need to tune speed and mvacc for your specific RAMPA use-case
     for joint_angles in traj:
@@ -242,13 +282,14 @@ def execute_on_real_robot(req):
     response.output_msg = "success"
     return response
 
+
 def moveit_server():
     moveit_commander.roscpp_initialize(sys.argv)
-    
+
     rospy.Service('planner', PlannerService, plan_pick_and_place)
     rospy.Service("get_joint_state", StateService, return_joint_state)
-    rospy.Service("execute",ExecutionService, execute_on_real_robot)
-    rospy.Service("discard",DiscardService, discard_last_trajectory)
+    rospy.Service("execute", ExecutionService, execute_on_real_robot)
+    rospy.Service("discard", DiscardService, discard_last_trajectory)
 
     print("Service is ready to plan")
     rospy.spin()
@@ -259,7 +300,7 @@ rospy.init_node('ur10_mover_server')
 # ---------------------------------------------------------
 # XARM HARDWARE INITIALIZATION
 # ---------------------------------------------------------
-robot_ip = '192.168.1.225' # CHANGE THIS TO YOUR XARM IP
+robot_ip = '192.168.1.225'  # CHANGE THIS TO YOUR XARM IP
 arm = None
 
 try:

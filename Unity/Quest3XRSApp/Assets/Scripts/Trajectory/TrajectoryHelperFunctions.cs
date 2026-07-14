@@ -18,7 +18,7 @@ public class TrajectoryHelperFunctions : MonoBehaviour
 
     public TMP_Text debugText;
 
-    public float OFFSET = 0.3f;
+    public float OFFSET = 0f;
     public double[] CurrentJointConfig()
     {
         double[] joints = new double[Sliders.Length] ;

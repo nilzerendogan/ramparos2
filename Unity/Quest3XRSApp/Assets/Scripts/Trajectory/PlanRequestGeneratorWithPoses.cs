@@ -21,13 +21,26 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
     // new instance variables for inspecting trajectory
     public PrevRecordedTrajectories PrevRecordedTrajectories;
 
+    // Seyrek liste: sadece her trajectory segmentinin SON noktası.
+    // Gerçek robota gönderilecek waypoint listesi bu (SetJointAnglesForRealRobot / training).
     public List<double[]> previousPoints = new List<double[]>();
+
+    // Yoğun liste: her trajectory'deki TÜM ara noktalar.
+    // Replay / scrub / slider (GetOnePointNext, GetOnePointBack, PlayRestOfTrajectory)
+    // bu liste üzerinden çalışır, böylece zıplama olmaz.
+    public List<double[]> previousPointsDense = new List<double[]>();
 
     public List<Vector3> previousPoses = new List<Vector3>();
 
     public List<Quaternion> previousOrientations = new List<Quaternion>();
 
     public int currentIndexPointer = 0;
+
+    // Forward/rewind butonlarının kaç yoğun nokta atlayacağı.
+    // Dense liste eklenince tek nokta atlamak gözle görülmez oldu; bunu
+    // Inspector'dan (veya burada) ihtiyaca göre ayarla (örn. 10-30 arası).
+    public int stepSize = 15;
+
     public Button backButton;
     public Button nextButton;
 
@@ -101,6 +114,7 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
     {
         if (fromTraining) {
             previousPoints.Clear();
+            previousPointsDense.Clear();
         }
         if (response.trajectories != null)
         {
@@ -114,6 +128,11 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
                     if (t == positions) {
                         previousPoints.Add(HelperFunctions.GetJointAngles(positions));
                     }
+
+                    // Her ara noktayı da yoğun listeye ekle, böylece replay/scrub
+                    // ilk hareketteki kadar akıcı olur.
+                    previousPointsDense.Add(HelperFunctions.GetJointAngles(positions));
+
                     HelperFunctions.SetJointAngles(positions);
                     yield return new WaitForSeconds(k_JointAssignmentWait);
 
@@ -140,26 +159,26 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
     public void GetOnePointBack()
     {
         
-        currentIndexPointer -= 1;
+        currentIndexPointer = Mathf.Max(currentIndexPointer - stepSize, 0);
         
         nextButton.interactable = true;
         playButton.GetComponent<Button>().interactable = true;
 
-        if (currentIndexPointer == 0)
+        if (currentIndexPointer <= 0)
         {
             backButton.interactable = false;
         }
 
         UpdateSliderHandle();
             
-        StartCoroutine(ExecuteTrajectory(previousPoints[currentIndexPointer]));
+        StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer]));
     }
     
     public void GetOnePointNext()
     {
-        currentIndexPointer += 1;
+        currentIndexPointer = Mathf.Min(currentIndexPointer + stepSize, previousPointsDense.Count - 1);
         backButton.interactable = true;
-        if (currentIndexPointer == previousPoints.Count - 1)
+        if (currentIndexPointer >= previousPointsDense.Count - 1)
         {
             playButton.GetComponent<Button>().interactable = false;
             nextButton.interactable = false;
@@ -167,7 +186,7 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
 
         UpdateSliderHandle();
 
-        StartCoroutine(ExecuteTrajectory(previousPoints[currentIndexPointer]));
+        StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer]));
 
     }
 
@@ -180,9 +199,9 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
         backButton.interactable = false;
         nextButton.interactable = false;
 
-        for (; currentIndexPointer < previousPoints.Count - 1 ; currentIndexPointer++){
+        for (; currentIndexPointer < previousPointsDense.Count - 1 ; currentIndexPointer++){
 
-            StartCoroutine(ExecuteTrajectory(previousPoints[currentIndexPointer+1]));
+            StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer+1]));
 
             UpdateSliderHandle();
 
@@ -213,7 +232,7 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
         playButton.SetActive(true);
         pauseButton.SetActive(false);
 
-        if (currentIndexPointer < previousPoints.Count - 1) {
+        if (currentIndexPointer < previousPointsDense.Count - 1) {
             playButton.GetComponent<Button>().interactable = true;
             nextButton.interactable = true;
         }
@@ -225,6 +244,7 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
 
 
     public void SetJointAnglesForRealRobot() {
+        // Gerçek robota hâlâ seyrek (waypoint) listesi gönderiliyor.
         realRobotCommunication.setJointAngles(previousPoints);
     }
 
@@ -247,6 +267,7 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
 
         // newly added, isn't it needed?
         previousPoints.Clear();
+        previousPointsDense.Clear();
         previousPoses.Clear();
         previousOrientations.Clear();
 
@@ -256,13 +277,13 @@ public class PlanRequestGeneratorWithPoses : MonoBehaviour
 
     public void SetCurrentIndexPointer()
     {
-        currentIndexPointer = previousPoints.Count - 1;
+        currentIndexPointer = previousPointsDense.Count - 1;
     }
     
     private void UpdateSliderHandle() {
         Vector3 currRectTransform = sliderPosition.GetComponent<RectTransform>().anchoredPosition;
         currRectTransform.x = 
-            (bar.GetComponent<RectTransform>().sizeDelta.x) * (currentIndexPointer / ((float)previousPoints.Count - 1)) - bar.GetComponent<RectTransform>().sizeDelta.x / 2;
+            (bar.GetComponent<RectTransform>().sizeDelta.x) * (currentIndexPointer / ((float)previousPointsDense.Count - 1)) - bar.GetComponent<RectTransform>().sizeDelta.x / 2;
         sliderPosition.GetComponent<RectTransform>().anchoredPosition = currRectTransform;
     }
 
