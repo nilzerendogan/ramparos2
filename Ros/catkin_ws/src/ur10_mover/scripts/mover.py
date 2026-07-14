@@ -222,11 +222,49 @@ def discard_last_trajectory(req):
     return response
 
 
+def ensure_arm_connected():
+    """
+    Make sure `arm` has a live connection before we try to use it.
+
+    The USB-Ethernet adapter used to talk to the physical xArm7 has been known
+    to drop after a sleep/restart cycle on the host machine. Without this
+    check, that shows up as `return_joint_state`/`execute_on_real_robot`
+    silently failing (or throwing) until `mover.py` is killed and restarted
+    by hand. Instead: if `arm.connected` is False, try to (re)connect once
+    before giving up. This does NOT retry indefinitely / block for a long
+    time -- if the adapter itself is unplugged or the robot is powered off,
+    this will still fail fast and report why.
+    """
+    global arm
+    if arm is not None and arm.connected:
+        return True
+
+    rospy.logwarn("xArm connection not active, attempting to reconnect to {}...".format(robot_ip))
+    try:
+        if arm is not None:
+            try:
+                arm.disconnect()
+            except Exception:
+                pass
+        arm = XArmAPI(robot_ip)
+        arm.motion_enable(enable=True)
+        arm.set_mode(0)
+        arm.set_state(state=0)
+        if arm.connected:
+            rospy.loginfo("Reconnected to physical xArm7 at {}".format(robot_ip))
+            return True
+        rospy.logerr("Reconnect attempt to {} did not report connected.".format(robot_ip))
+        return False
+    except Exception as e:
+        rospy.logerr("Reconnect attempt to {} failed: {}".format(robot_ip, e))
+        return False
+
+
 def return_joint_state(req):
     response = StateServiceResponse()
     try:
         # UPDATE: Fetch joints directly from the xArm API instead of the UR10 class
-        if arm is not None and arm.connected:
+        if ensure_arm_connected():
             code, current_joint_angles = arm.get_servo_angle(is_radian=True)
             if code != 0 or len(current_joint_angles) < 7:
                 response.output_msg = "Driver could not be reached or invalid joint count"
@@ -246,7 +284,7 @@ def return_joint_state(req):
 def execute_on_real_robot(req):
     response = ExecutionServiceResponse()
 
-    if arm is None or not arm.connected:
+    if not ensure_arm_connected():
         response.output_msg = "Error: Physical xArm is not connected."
         rospy.logerr("Execute triggered, but no physical xArm7 is connected.")
         return response
