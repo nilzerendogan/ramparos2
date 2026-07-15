@@ -59,7 +59,7 @@ MIN_ACCEPTABLE_FRACTION = 0.99
 # Default speed scaling applied when time-parameterizing a real-robot trajectory.
 # 1.0 = as fast as the planned/joint-limit-respecting trajectory allows.
 # Keep this low for your first few live runs, then raise it once you trust the motion.
-EXECUTION_VELOCITY_SCALING = 0.3
+EXECUTION_VELOCITY_SCALING = 0.1
 
 
 HOME_POSE = [-3.10, -0.3, 0.0, 0.5, 0.0, 0.8, 0.0]  # radians — pick values you've verified are safe/reachable
