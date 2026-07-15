@@ -59,7 +59,7 @@ MIN_ACCEPTABLE_FRACTION = 0.99
 # Default speed scaling applied when time-parameterizing a real-robot trajectory.
 # 1.0 = as fast as the planned/joint-limit-respecting trajectory allows.
 # Keep this low for your first few live runs, then raise it once you trust the motion.
-EXECUTION_VELOCITY_SCALING = 0.3
+EXECUTION_VELOCITY_SCALING = 0.1
 
 
 HOME_POSE = [-3.10, -0.3, 0.0, 0.5, 0.0, 0.8, 0.0]  # radians — pick values you've verified are safe/reachable
@@ -270,13 +270,11 @@ def return_joint_state(req):
 
 def execute_on_real_robot(req):
     """
-    1. Move to HOME_POSE (known-safe reference pose).
-    2. Free (joint-space) plan+execute from HOME_POSE to the trajectory's
-       first drawn point — NOT cartesian, since this can be a large jump
-       away from home and forcing a straight-line EEF path here is both
-       unnecessary and prone to rejection.
-    3. Execute the recorded drawn trajectory itself via MoveIt, starting
-       cleanly from traj[0] since we just arrived there in step 2.
+    1. Free (joint-space) plan+execute from the robot's CURRENT position to
+       the trajectory's first drawn point. Assumes the robot is already at
+       (or near) HOME_POSE because go_home.py was run manually beforehand.
+    2. Execute the recorded drawn trajectory itself via MoveIt, starting
+       cleanly from traj[0] since we just arrived there in step 1.
     """
     response = ExecutionServiceResponse()
 
@@ -285,44 +283,19 @@ def execute_on_real_robot(req):
         response.output_msg = "Error: empty trajectory"
         return response
 
-    move_group.set_start_state_to_current_state()   # <-- ADD THIS: belt-and-suspenders, always plan from the real robot
+    move_group.set_start_state_to_current_state()   # always plan from wherever the real robot currently is
     rospy.loginfo("MoveIt believes current state is: {}".format(move_group.get_current_joint_values()))
 
     rospy.loginfo("Executing trajectory with {} waypoints via MoveIt.".format(len(traj)))
     for joint_angles in traj:
         print('{}'.format(np.array(joint_angles) * 180 / 3.14))
 
-    # --- Step 1: go to known-safe home pose ---
-    rospy.loginfo("Homing before execution...")
-
-    rospy.loginfo("Active joints: {}".format(move_group.get_active_joints()))
-    for name in move_group.get_active_joints():
-        joint = robot.get_joint(name)
-        rospy.loginfo("{}: [{}, {}]".format(name, joint.bounds()[0], joint.bounds()[1]))
-    rospy.loginfo("HOME_POSE: {}".format(HOME_POSE))
-
-    move_group.set_joint_value_target(dict(zip(joint_names, HOME_POSE)))
-    
-    home_plan = planCombat(move_group.plan())
-    if not home_plan or not home_plan.joint_trajectory.points:
-        response.output_msg = "Failed: could not plan move to home pose"
-        return response
-    if not move_group.execute(home_plan, wait=True):
-        response.output_msg = "Failed: could not reach home pose"
-        return response
-    move_group.stop()
-    move_group.clear_pose_targets()
-
-    if not wait_until_at_pose(move_group, HOME_POSE):
-        response.output_msg = "Failed: robot state did not converge to home pose in time"
-        return response
-
-    # --- Step 2: free joint-space approach from home to traj[0] ---
+    # --- Step 1: free joint-space approach from current pose to traj[0] ---
     rospy.loginfo("Approaching trajectory start point...")
     move_group.set_joint_value_target(traj[0])
     approach_plan = planCombat(move_group.plan())
     if not approach_plan or not approach_plan.joint_trajectory.points:
-        response.output_msg = "Failed: could not plan approach from home to trajectory start"
+        response.output_msg = "Failed: could not plan approach from current pose to trajectory start"
         return response
     if not move_group.execute(approach_plan, wait=True):
         response.output_msg = "Failed: approach move execution failed"
@@ -330,7 +303,7 @@ def execute_on_real_robot(req):
     move_group.stop()
     move_group.clear_pose_targets()
 
-    # --- Step 3: execute the recorded drawn trajectory ---
+    # --- Step 2: execute the recorded drawn trajectory ---
     robot_traj = RobotTrajectory()
     robot_traj.joint_trajectory.joint_names = joint_names
     for positions in traj:

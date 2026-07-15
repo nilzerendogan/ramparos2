@@ -28,3 +28,6 @@ rosservice call /xarm/clear_err
 rosservice call /xarm/set_mode 1
 rosservice call /xarm/set_state 0
 roslaunch ur10_mover xarm_server.launch tcp_ip:=0.0.0.0 tcp_port:=10000
+
+to check:
+rostopic echo /xarm/xarm_states -n 1

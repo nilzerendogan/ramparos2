@@ -70,6 +70,11 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
 
     }
 
+    public bool HasPendingWork()
+    {
+        return waitingForResponse || requestQueue.Count > 0;
+    }
+
     public void AddRequestToQueue(double[] poseInfo)
     {
         Debug.LogWarning("target added " + poseInfo);
@@ -120,10 +125,9 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
     
     public void ProcessResponse(PlannerServiceResponse response)
     {
-        
-
         if (response.output_msg == "Timeout")
         {
+            waitingForResponse = false;   // <-- ekleyin, state'e bakılmaksızın kilidi açsın
             if (DrawServiceRealTime.isStateDrawTrajectory())
                 DrawServiceRealTime.UpdateDrawingState(true);
         }
@@ -131,7 +135,6 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
             jointConfig = response.trajectories[0].joint_trajectory.points.Last().positions;
             StartCoroutine(ExecuteTrajectories(response));
         }
-
     }
     
     /*

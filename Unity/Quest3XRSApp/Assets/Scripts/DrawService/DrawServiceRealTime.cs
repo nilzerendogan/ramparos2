@@ -129,98 +129,79 @@ public class DrawServiceRealTime: MonoBehaviour
     {
         int numberOfPoints = lineRenderer.positionCount;
         bool isFirstPart = true;
+        bool isPinching = false;
         loadingText.GetComponent<TMP_Text>().text = "pinch to start drawing";
 
         while (true)
         {
+            if (recordOrientationDropdown.value == 0)
+                isPinching = hand.GetFingerIsPinching(OVRHand.HandFinger.Index);
+            else
+                isPinching = OVRInput.Get(OVRInput.Button.One);
 
-            if (recordOrientationDropdown.value == 0) {
-                if (hand.GetFingerIsPinching(OVRHand.HandFinger.Index))
-                {
-                    isFirstPart = false;
-                    addContextButton.interactable = false;
-                    loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
-                }
-            }
-            else {
-                if (OVRInput.Get(OVRInput.Button.One))
-                {
-                    isFirstPart = false;
-                    addContextButton.interactable = false;
-                    loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
+            if (isPinching && isFirstPart)
+            {
+                isFirstPart = false;
+                addContextButton.interactable = false;
+                loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
+                if (recordOrientationDropdown.value != 0)
                     handOrientation.ShowIndicator(true);
-                }
             }
 
-            if (numberOfPoints % 5 == 0 && numberOfPoints != 0) 
+            // Pinch bırakıldı -> her frame kontrol et, modulo şartı YOK
+            if (!isPinching && !isFirstPart)
             {
-            
-                if (recordOrientationDropdown.value == 0) {
-                    if (!hand.GetFingerIsPinching(OVRHand.HandFinger.Index) && !isFirstPart)
-                    {
-                        
-                        if (!planRequestGeneratorRealTime.isWaitingForResponse()) {
-                            UpdateDrawingState();
-                            break;
-                        }   
-                    }
+                if (!planRequestGeneratorRealTime.HasPendingWork())
+                {
+                    if (recordOrientationDropdown.value != 0)
+                        handOrientation.ShowIndicator(false);
+                    UpdateDrawingState();
+                    break;
                 }
-                else {
-                    if (!OVRInput.Get(OVRInput.Button.One) && !isFirstPart)
-                    {
-                        if (!planRequestGeneratorRealTime.isWaitingForResponse()) {
-                            handOrientation.ShowIndicator(false);
-                            UpdateDrawingState();
-                            break;
-                        }
-                    }
+                else
+                {
+                    loadingText.GetComponent<TMP_Text>().text = "finishing trajectory...";
                 }
 
+                yield return new WaitForSeconds(interval);
+                continue;
             }
-            // do not add points to the line renderer if isFirstPart is true
-            if (numberOfPoints % WAY_POINT_FREQ == 0 && !isFirstPart)
+
+            // Hâlâ pinch ediliyorsa nokta ekle (WAY_POINT_FREQ throttling burada kalabilir)
+            if (isPinching && !isFirstPart)
             {
-                // Elin dünya pozisyonunu robot tabanına göre local koordinata çeviriyoruz
                 Vector3 localHandPos = robotBaseTransform != null ?
                     robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
 
-                if (recordOrientationDropdown.value == 1) { // NO MIRROR
-                        // not important
+                if (numberOfPoints % WAY_POINT_FREQ == 0)
+                {
+                    if (recordOrientationDropdown.value == 1)
+                    {
                         handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
                         Quaternion worldOrientation = handOrientation.GetRotation();
-
-                        // Orientation'ı da robot tabanına göre local rotasyona çeviriyoruz
                         Quaternion localOrientation = robotBaseTransform != null ?
                             Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
 
                         double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
                         planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
-                }
-                else {
+                    }
+                    else
+                    {
                         debugText.text += "adding point with fixed orientation\n";
-                        Quaternion worldOrientation = Quaternion.Euler(180,0,0);
-
-                        // Sabit oryantasyonu da robot tabanına göre local rotasyona çeviriyoruz
+                        Quaternion worldOrientation = Quaternion.Euler(180, 0, 0);
                         Quaternion localOrientation = robotBaseTransform != null ?
                             Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
 
                         double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
                         planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
+                    }
                 }
 
-            }
-            
-            if (!isFirstPart) {
                 numberOfPoints++;
                 lineRenderer.positionCount = numberOfPoints;
-
-                // Çizgiye eklenecek noktayı da robota göre hesaplıyoruz
-                Vector3 localHandPosForLine = robotBaseTransform != null ?
-                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
-
-                lineRenderer.SetPosition(numberOfPoints - 1, localHandPosForLine); // Local pozisyon basılıyor
+                lineRenderer.SetPosition(numberOfPoints - 1, localHandPos);
             }
-    
+
             yield return new WaitForSeconds(interval);
         }
     }

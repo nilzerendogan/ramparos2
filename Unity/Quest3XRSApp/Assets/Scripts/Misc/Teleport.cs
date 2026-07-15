@@ -10,6 +10,6 @@ public class Teleport: MonoBehaviour
 
     void FixedUpdate()
     {
-        ab.TeleportRoot(grabbable.transform.position + new Vector3(0,0.1f,0),grabbable.transform.rotation);
+        ab.TeleportRoot(grabbable.transform.position + new Vector3(0,0.1f,0.3f),grabbable.transform.rotation);
     }
 }
