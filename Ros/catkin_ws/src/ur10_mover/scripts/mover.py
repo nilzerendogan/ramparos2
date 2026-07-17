@@ -8,17 +8,20 @@ import copy
 import moveit_commander
 import numpy as np
 import os
+import actionlib
 
 from OneEuroFilter import OneEuroFilter
 from sensor_msgs.msg import JointState
 from moveit_msgs.msg import RobotState, RobotTrajectory
 from geometry_msgs.msg import Pose
 from trajectory_msgs.msg import JointTrajectoryPoint, MultiDOFJointTrajectoryPoint
+from control_msgs.msg import GripperCommandAction, GripperCommandGoal
 
 from ur10_mover.srv import PlannerService, PlannerServiceRequest, PlannerServiceResponse
 from ur10_mover.srv import StateService, StateServiceRequest, StateServiceResponse
 from ur10_mover.srv import ExecutionService, ExecutionServiceRequest, ExecutionServiceResponse
 from ur10_mover.srv import DiscardService, DiscardServiceRequest, DiscardServiceResponse
+from ur10_mover.srv import GripperService, GripperServiceRequest, GripperServiceResponse
 
 from geometry_msgs.msg import Transform
 
@@ -36,6 +39,12 @@ from geometry_msgs.msg import Transform
 # Everything that used to go through a second XArmAPI connection (reading
 # joint state, executing trajectories on the real arm) now goes through
 # `move_group`, which reuses the ONE connection terminal 1 already owns.
+#
+# The gripper is the one exception: it is controlled via the standard
+# control_msgs/GripperCommandAction action server that realMove_exec.launch
+# already exposes at /xarm/xarm_gripper/gripper_action (enabled by that
+# launch file's add_gripper:=true argument), so this does NOT open a second
+# XArmAPI connection either.
 # ---------------------------------------------------------
 
 config_one_euro_filter = {
@@ -270,6 +279,39 @@ def discard_last_trajectory(req):
     return response
 
 
+def handle_gripper(req):
+    """
+    Opens/closes the xArm7 gripper via the control_msgs/GripperCommandAction
+    action server already exposed by realMove_exec.launch (add_gripper:=true),
+    at /xarm/xarm_gripper/gripper_action. This avoids opening a second
+    XArmAPI connection to the robot (see the note at the top of this file).
+    """
+    response = GripperServiceResponse()
+    goal = GripperCommandGoal()
+
+    if req.input_msg == "close":
+        goal.command.position = 0.4   # ~4cm gap left between fingers instead of fully closed
+        goal.command.max_effort = 5.0
+    elif req.input_msg == "open":
+        goal.command.position = 0.085  # fully open
+        goal.command.max_effort = 5.0
+    else:
+        response.output_msg = "Unknown command: {}".format(req.input_msg)
+        return response
+
+    gripper_client.send_goal(goal)
+    finished_in_time = gripper_client.wait_for_result(rospy.Duration(3.0))
+
+    if not finished_in_time:
+        rospy.logwarn("Gripper action did not finish within timeout for command: {}".format(req.input_msg))
+        response.output_msg = "Timeout waiting for gripper action result"
+        return response
+
+    rospy.loginfo("Gripper command '{}' completed.".format(req.input_msg))
+    response.output_msg = "success"
+    return response
+
+
 def return_joint_state(req):
     """
     Read current joint angles from MoveIt's view of the robot state, which is
@@ -362,6 +404,7 @@ def moveit_server():
     rospy.Service("get_joint_state", StateService, return_joint_state)
     rospy.Service("execute", ExecutionService, execute_on_real_robot)
     rospy.Service("discard", DiscardService, discard_last_trajectory)
+    rospy.Service("gripper", GripperService, handle_gripper)
 
     print("Service is ready to plan")
     rospy.spin()
@@ -375,6 +418,14 @@ rospy.init_node('ur10_mover_server')
 group_name = "xarm7"
 robot = moveit_commander.RobotCommander()
 move_group = moveit_commander.MoveGroupCommander(group_name)
+
+# Gripper action client — talks to the gripper action server that
+# realMove_exec.launch already exposes (add_gripper:=true), reusing the
+# single hardware connection terminal 1 owns rather than opening a second one.
+gripper_client = actionlib.SimpleActionClient(
+    '/xarm/xarm_gripper/gripper_action', GripperCommandAction
+)
+gripper_client.wait_for_server()
 
 rospy.sleep(2)
 
