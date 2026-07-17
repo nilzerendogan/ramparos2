@@ -148,7 +148,6 @@ public class DrawServiceRealTime: MonoBehaviour
                     handOrientation.ShowIndicator(true);
             }
 
-            // Pinch bırakıldı -> her frame kontrol et, modulo şartı YOK
             if (!isPinching && !isFirstPart)
             {
                 if (!planRequestGeneratorRealTime.HasPendingWork())
@@ -167,36 +166,37 @@ public class DrawServiceRealTime: MonoBehaviour
                 continue;
             }
 
-            // Hâlâ pinch ediliyorsa nokta ekle (WAY_POINT_FREQ throttling burada kalabilir)
+            // --- TEK BLOK: hedef güncelleme + çizgi çizimi ---
             if (isPinching && !isFirstPart)
             {
                 Vector3 localHandPos = robotBaseTransform != null ?
                     robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
 
-                if (numberOfPoints % WAY_POINT_FREQ == 0)
+                // Hedef güncellemesi: her tick, throttle yok
+                Quaternion localOrientation;
+                if (recordOrientationDropdown.value == 1)
                 {
-                    if (recordOrientationDropdown.value == 1)
-                    {
-                        handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
-                        Quaternion worldOrientation = handOrientation.GetRotation();
-                        Quaternion localOrientation = robotBaseTransform != null ?
-                            Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
-
-                        double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
-                        planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
-                    }
-                    else
-                    {
-                        debugText.text += "adding point with fixed orientation\n";
-                        Quaternion worldOrientation = Quaternion.Euler(180, 0, 0);
-                        Quaternion localOrientation = robotBaseTransform != null ?
-                            Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
-
-                        double[] poseInfo = {localHandPos.x, localHandPos.y, localHandPos.z, localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w};
-                        planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
-                    }
+                    handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
+                    Quaternion worldOrientation = handOrientation.GetRotation();
+                    localOrientation = robotBaseTransform != null ?
+                        Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
+                }
+                else
+                {
+                    Quaternion worldOrientation = Quaternion.Euler(180, 0, 0);
+                    localOrientation = robotBaseTransform != null ?
+                        Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
                 }
 
+                double[] poseInfo = {
+                    localHandPos.x, localHandPos.y, localHandPos.z,
+                    localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w
+                };
+                planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
+
+                // Çizgi: her tick'te büyüt VE her tick'te pozisyonu yaz.
+                // (Throttle sadece hedefte kaldırılmalıydı, çizgide zaten
+                // gerek yok — her tick çizmek maliyetsiz ve bug'a yer bırakmaz.)
                 numberOfPoints++;
                 lineRenderer.positionCount = numberOfPoints;
                 lineRenderer.SetPosition(numberOfPoints - 1, localHandPos);

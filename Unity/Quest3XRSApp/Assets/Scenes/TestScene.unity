@@ -439,6 +439,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28859353}
   m_CullTransparentMesh: 1
+--- !u!1 &28916412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28916414}
+  - component: {fileID: 28916413}
+  m_Layer: 0
+  m_Name: PersistentInputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &28916413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28916412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ce0f2054a3341d592b48addae64452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finger1: {fileID: 479098229}
+  finger2: {fileID: 1615700810}
+--- !u!4 &28916414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28916412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.18787393, y: 0.5490392, z: -1.8515323}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &32649550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3462,7 +3508,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 2.382
-  m_ParentAnchorPosition: {x: 0, y: 0.267, z: 0}
+  m_ParentAnchorPosition: {x: -0.000000008381903, y: 0.26699996, z: 0.000000052154064}
   m_ParentAnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
@@ -4028,7 +4074,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0, y: 0, z: 0.000000074505806}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -4857,7 +4903,6 @@ GameObject:
   - component: {fileID: 277463379}
   - component: {fileID: 277463378}
   - component: {fileID: 277463377}
-  - component: {fileID: 277463376}
   m_Layer: 5
   m_Name: GripperButton
   m_TagString: Untagged
@@ -4885,20 +4930,6 @@ RectTransform:
   m_AnchoredPosition: {x: -71.899994, y: -406.9}
   m_SizeDelta: {x: 163.8, y: 28.9}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &277463376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277463374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ce0f2054a3341d592b48addae64452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  finger1: {fileID: 0}
-  finger2: {fileID: 0}
 --- !u!114 &277463377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4943,7 +4974,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 277463376}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HandleGripper, Assembly-CSharp
         m_MethodName: handleClick
         m_Mode: 1
@@ -5923,7 +5954,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0.019999959, y: 0.074097976, z: 0}
+  m_ParentAnchorPosition: {x: 0.019999959, y: 0.074097976, z: 0.000000014901161}
   m_ParentAnchorRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: -0.7071068, z: -0, w: 0.7071068}
@@ -7797,8 +7828,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1.7269
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0.0525}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: -1.0000001, w: -0.0000018179417}
+  m_ParentAnchorPosition: {x: -2.2026825e-13, y: 0.000000059604645, z: 0.052499965}
+  m_ParentAnchorRotation: {x: -0.0000000021814288, y: -0.000000012718141, z: -1.0000001, w: -0.000001758337}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -9167,7 +9198,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0.03546493, y: 0.042038936, z: 0}
+  m_ParentAnchorPosition: {x: 0.03546493, y: 0.042038936, z: -0.000000014901161}
   m_ParentAnchorRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
@@ -11463,7 +11494,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0.034999978, y: 0.059097994, z: 0}
+  m_ParentAnchorPosition: {x: 0.034999978, y: 0.059097994, z: -0.000000014901161}
   m_ParentAnchorRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: -0.7071068, z: -0, w: 0.7071068}
@@ -13235,7 +13266,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0, y: 0, z: 0.000000074505806}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -21840,8 +21871,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1.6383
-  m_ParentAnchorPosition: {x: 0.293, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: -1.0000001, w: -0.0000018179417}
+  m_ParentAnchorPosition: {x: 0.29300007, y: 0, z: -0.000000014901161}
+  m_ParentAnchorRotation: {x: -0.000000006626604, y: 0.000000011894961, z: -1, w: -0.000001847744}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -24782,7 +24813,7 @@ ArticulationBody:
   serializedVersion: 5
   m_Mass: 1.3203
   m_ParentAnchorPosition: {x: 0.3425, y: 0, z: 0.0775}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: -1.0000001, w: -0.0000018179417}
+  m_ParentAnchorRotation: {x: -0.0000000052683564, y: -0.0000000052683564, z: -1.0000001, w: -0.0000018775463}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -25844,7 +25875,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: -0.035000045, y: 0.059097987, z: 0}
+  m_ParentAnchorPosition: {x: -0.035000045, y: 0.059097987, z: -0.000000044703484}
   m_ParentAnchorRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
@@ -30379,8 +30410,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 0.17
-  m_ParentAnchorPosition: {x: -0.097, y: 0, z: 0.076000005}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.0000018179417, w: 1.0000001}
+  m_ParentAnchorPosition: {x: -0.097, y: 0, z: 0.07600008}
+  m_ParentAnchorRotation: {x: 0.000000010536713, y: -0.000000010536713, z: 0.0000018775463, w: 1.0000001}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -33327,8 +33358,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1.869
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.0000018179417, w: 1.0000001}
+  m_ParentAnchorPosition: {x: -0.000000008381903, y: -0.000000029802322, z: 0.000000052154064}
+  m_ParentAnchorRotation: {x: 0.000000008128909, y: -0.000000012944517, z: 0.000001847744, w: 1}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -34404,7 +34435,7 @@ ArticulationBody:
   serializedVersion: 5
   m_Mass: 1.325
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: -1.0000001, w: -0.0000018179417}
+  m_ParentAnchorRotation: {x: -0.000000009219624, y: 0.000000009219624, z: -1.0000001, w: -0.0000018775463}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -41337,6 +41368,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 28916414}
   - {fileID: 705507995}
   - {fileID: 1225196482}
   - {fileID: 309647513}

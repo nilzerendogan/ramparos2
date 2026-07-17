@@ -18,205 +18,248 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
     public TrajectoryHelperFunctions HelperFunctions;
     public TrajectoryPlanner TrajectoryPlanner;
     public PrevRecordedTrajectories PrevRecordedTrajectories;
-    private Queue<double[]> requestQueue = new Queue<double[]>();
+
+    // ESKİ: private Queue<double[]> requestQueue = new Queue<double[]>();
+    // YENİ: Kuyruk yerine SADECE en son hedef tutuluyor. Elin ROS meşgulken
+    // geçtiği ara noktalar hiç işlenmiyor; ROS boşa çıkınca elin O ANKİ
+    // (en güncel) pozisyonuna gidiliyor. Böylece gecikme birikmiyor.
+    private double[] latestTarget;
+    private bool hasNewTarget = false;
+
     private bool waitingForResponse = false;
+
+    // ROS'tan planı gelmiş ama ghost robotta henüz görsel olarak oynatılmamış
+    // segmentlerin kuyruğu. waitingForResponse yalnızca "plan cevabı bekleniyor
+    // mu"yu ifade ediyor, görsel oynatım süresini KAPSAMIYOR.
+    private Queue<PlannerServiceResponse> playbackQueue = new Queue<PlannerServiceResponse>();
+    private bool isPlayingBack = false;
 
     // Seyrek liste: sadece her trajectory segmentinin SON noktası.
     // Gerçek robota gönderilecek waypoint listesi bu.
     public List<double[]> previousPoints = new List<double[]>();
 
     // Yoğun liste: her trajectory'deki TÜM ara noktalar.
-    // Replay / scrub / slider (GetOnePointNext, GetOnePointBack, PlayRestOfTrajectory)
-    // bu liste üzerinden çalışır, böylece zıplama olmaz.
+    // Replay / scrub / slider bu liste üzerinden çalışır.
     public List<double[]> previousPointsDense = new List<double[]>();
 
     public List<Vector3> previousPoses = new List<Vector3>();
     public List<Quaternion> previousOrientations = new List<Quaternion>();
     public RealRobotCommunication realRobotCommunication;
-    
+
     private double[] jointConfig;
     public int currentIndexPointer = 0;
 
-    // Forward/rewind butonlarının kaç yoğun nokta atlayacağı.
-    // Dense liste eklenince tek nokta atlamak gözle görülmez oldu; bunu
-    // Inspector'dan (veya burada) ihtiyaca göre ayarla (örn. 10-30 arası).
     public int stepSize = 15;
 
     public Button backButton;
     public Button nextButton;
 
-    // bar to show the current position while inspecting trajectory
     public GameObject sliderPosition;
     public GameObject bar;
 
-    // buttons for play/pause trajectory
     public GameObject playButton;
     public GameObject pauseButton;
 
     public GameObject executeOnRealRobotButton;
 
-
-    // no need
-    /*
-    public Button drawButton;
-    public Button trainButton;
-    public Button testButton;
-    */
-
-    public void Start()
-    {
-        jointConfig = HelperFunctions.CurrentJointConfig();
-        StartCoroutine(ProcessRequests());
-
-    }
-
-    public bool HasPendingWork()
-    {
-        return waitingForResponse || requestQueue.Count > 0;
-    }
-
-    public void AddRequestToQueue(double[] poseInfo)
-    {
-        Debug.LogWarning("target added " + poseInfo);
-        requestQueue.Enqueue(poseInfo);
-    } 
-    private IEnumerator ProcessRequests()
-    {
-        while (true)
-        {
-            if (requestQueue.Count > 0 && !waitingForResponse)
-            {
-                waitingForResponse = true;
-                double[] poseInfo = requestQueue.Dequeue();
-                Vector3 pose = new Vector3((float)poseInfo[0], (float)poseInfo[1], (float)poseInfo[2]);
-                Quaternion orientation = new Quaternion((float)poseInfo[3], (float)poseInfo[4], (float)poseInfo[5], (float)poseInfo[6]);
-                Debug.LogWarning("target popped " + pose);
-                GenerateRequest(pose, orientation);
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
-        
-    }
+    private float lastRequestSentTime;
 
     private void GenerateRequest(Vector3 pose, Quaternion orientation)
     {
         var request = new PlannerServiceRequest();
         request.request_type = "realTime";
-        if (recordOrientationDropdown.value == 0) {
+        if (recordOrientationDropdown.value == 0)
+            request.input_msg = "down";
+        else if (recordOrientationDropdown.value == 3)
+            request.input_msg = "hook";
+        request.joints_input = jointConfig;
+
+        previousPoses.Add(pose);
+        previousOrientations.Add(orientation);
+
+        PoseMsg[] pose_list = new PoseMsg[1];
+        pose_list[0] = HelperFunctions.GeneratePoseMsg(pose, orientation);
+        request.pose_list = pose_list;
+
+        lastRequestSentTime = Time.realtimeSinceStartup;
+        TrajectoryPlanner.SendRequest(request);
+    }
+
+    public void ProcessResponse(PlannerServiceResponse response)
+    {
+        float roundTripMs = (Time.realtimeSinceStartup - lastRequestSentTime) * 1000f;
+        Debug.Log($"[RAMPA] round-trip: {roundTripMs:F1} ms");
+
+        if (response.output_msg == "Timeout")
+        {
+            waitingForResponse = false;
+            if (DrawServiceRealTime.isStateDrawTrajectory())
+                DrawServiceRealTime.UpdateDrawingState(true);
+        }
+        else
+        {
+            jointConfig = response.trajectories[0].joint_trajectory.points.Last().positions;
+            waitingForResponse = false;
+            playbackQueue.Enqueue(response);
+        }
+    }
+    public void Start()
+    {
+        jointConfig = HelperFunctions.CurrentJointConfig();
+        StartCoroutine(ProcessRequests());
+        StartCoroutine(PlaybackWorker());
+    }
+
+    public bool HasPendingWork()
+    {
+        return waitingForResponse || hasNewTarget || playbackQueue.Count > 0 || isPlayingBack;
+    }
+
+    public void AddRequestToQueue(double[] poseInfo)
+    {
+        // Artık kuyruğa eklemiyoruz, sadece en güncel hedefi güncelliyoruz.
+        latestTarget = poseInfo;
+        hasNewTarget = true;
+    }
+
+    private IEnumerator ProcessRequests()
+    {
+        while (true)
+        {
+            if (hasNewTarget && !waitingForResponse)
+            {
+                waitingForResponse = true;
+                hasNewTarget = false;
+
+                double[] poseInfo = latestTarget;
+                Vector3 pose = new Vector3((float)poseInfo[0], (float)poseInfo[1], (float)poseInfo[2]);
+                Quaternion orientation = new Quaternion((float)poseInfo[3], (float)poseInfo[4], (float)poseInfo[5], (float)poseInfo[6]);
+                GenerateRequest(pose, orientation);
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    /*
+    private void GenerateRequest(Vector3 pose, Quaternion orientation)
+    {
+        var request = new PlannerServiceRequest();
+        request.request_type = "realTime";
+        if (recordOrientationDropdown.value == 0)
+        {
             request.input_msg = "down";
         }
-        else if (recordOrientationDropdown.value == 3) {
+        else if (recordOrientationDropdown.value == 3)
+        {
             request.input_msg = "hook";
         }
         request.joints_input = jointConfig;
 
         previousPoses.Add(pose);
-
-        // orientation = Quaternion.Euler(180, 0,0);
         previousOrientations.Add(orientation);
-        
+
         PoseMsg[] pose_list = new PoseMsg[1];
         pose_list[0] = HelperFunctions.GeneratePoseMsg(pose, orientation);
         request.pose_list = pose_list;
-        Debug.LogWarning("Request Sent");
-        Debug.LogWarning(request);
+
         TrajectoryPlanner.SendRequest(request);
-    } 
-    
+    }
+    */
+
+    /*
     public void ProcessResponse(PlannerServiceResponse response)
     {
         if (response.output_msg == "Timeout")
         {
-            waitingForResponse = false;   // <-- ekleyin, state'e bakılmaksızın kilidi açsın
+            waitingForResponse = false;
             if (DrawServiceRealTime.isStateDrawTrajectory())
                 DrawServiceRealTime.UpdateDrawingState(true);
         }
-        else {
-            jointConfig = response.trajectories[0].joint_trajectory.points.Last().positions;
-            StartCoroutine(ExecuteTrajectories(response));
-        }
-    }
-    
-    /*
-    IEnumerator ExecuteTrajectories(PlannerServiceResponse response)
-    {
-
-        // For every trajectory plan returned
-        for (var poseIndex = 0; poseIndex < response.trajectories.Length; poseIndex++)
+        else
         {
-            var lastPoint = response.trajectories[poseIndex].joint_trajectory.points.Last();
-            // For every robot pose in trajectory plan
-            foreach (var t in response.trajectories[poseIndex].joint_trajectory.points)
-            {
-                if (t == lastPoint)
-                {
-                    previousPoints.Add(HelperFunctions.GetJointAngles(t));
-                }
+            // Bir sonraki segmentin IK seed'i için gereken son joint config'i
+            // hemen güncelle.
+            jointConfig = response.trajectories[0].joint_trajectory.points.Last().positions;
 
-                HelperFunctions.SetJointAngles(t);
-               
-                yield return new WaitForSeconds(k_JointAssignmentWait);
-                waitingForResponse = false;
-            }
+            // Kilidi hemen aç: ProcessRequests bir sonraki (en güncel) hedefi
+            // ghost robotun görsel oynatımını beklemeden gönderebilsin.
+            waitingForResponse = false;
+
+            playbackQueue.Enqueue(response);
         }
-        
     }
+
     */
 
+    private IEnumerator PlaybackWorker()
+    {
+        while (true)
+        {
+            if (playbackQueue.Count > 0)
+            {
+                isPlayingBack = true;
+
+                // Backlog varsa en yeni response'a atla; eski ara segmentleri
+                // oynatmak ghost ile elin arasındaki farkı sadece büyütür.
+                PlannerServiceResponse response = null;
+                while (playbackQueue.Count > 0)
+                {
+                    response = playbackQueue.Dequeue();
+                }
+
+                yield return StartCoroutine(ExecuteTrajectories(response));
+                isPlayingBack = false;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
     IEnumerator ExecuteTrajectories(PlannerServiceResponse response)
     {
+        // Ara noktaları animasyonla tek tek oynatmıyoruz — real-time takipte
+        // buna gerek yok ve gecikmeyi katlıyordu. Sadece segmentin SON
+        // konfigürasyonuna anında atlıyoruz.
         for (var poseIndex = 0; poseIndex < response.trajectories.Length; poseIndex++)
         {
             var lastPoint = response.trajectories[poseIndex].joint_trajectory.points.Last();
-            foreach (var t in response.trajectories[poseIndex].joint_trajectory.points)
-            {
-                if (t == lastPoint) previousPoints.Add(HelperFunctions.GetJointAngles(t));
 
-                // Her ara noktayı da yoğun listeye ekle, böylece replay/scrub
-                // ilk hareketteki kadar akıcı olur.
-                previousPointsDense.Add(HelperFunctions.GetJointAngles(t));
-
-                HelperFunctions.SetJointAngles(t);
-                yield return new WaitForSeconds(k_JointAssignmentWait);
-            }
+            previousPoints.Add(HelperFunctions.GetJointAngles(lastPoint));
+            previousPointsDense.Add(HelperFunctions.GetJointAngles(lastPoint));
+            HelperFunctions.SetJointAngles(lastPoint);
         }
-        waitingForResponse = false;   // döngülerin tamamen dışında, sadece bir kez
+        yield return null;
     }
-    
+
     IEnumerator ExecuteTrajectory(double[] trajectory)
     {
         HelperFunctions.SetSliders(trajectory);
         yield return new WaitForSeconds(k_JointAssignmentWait);
     }
-    
-    
-    public void SetJointAnglesForRealRobot() {
-        // Gerçek robota hâlâ seyrek (waypoint) listesi gönderiliyor.
+
+    public void SetJointAnglesForRealRobot()
+    {
         realRobotCommunication.setJointAngles(previousPoints);
     }
-    
 
     public void ResetGenerator(bool addToTrainingSet = false)
     {
-
-        if (addToTrainingSet) {
-            // store the current trajectory
-            if (previousPoints.Count > 0) {
-                // realRobotCommunication.setJointAngles(previousPoints);
+        if (addToTrainingSet)
+        {
+            if (previousPoints.Count > 0)
+            {
                 PrevRecordedTrajectories.AddTrajectory(previousPoses, previousOrientations);
-                // executeOnRealRobotButton.SetActive(true);
             }
-
-            // handle show-traj buttons
             PrevRecordedTrajectories.HandleButtons();
         }
 
-
-        //why?
         jointConfig = HelperFunctions.CurrentJointConfig();
 
         waitingForResponse = false;
-        requestQueue.Clear();
+        hasNewTarget = false;
+        playbackQueue.Clear();
 
         previousPoints.Clear();
         previousPointsDense.Clear();
@@ -224,15 +267,12 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
         previousOrientations.Clear();
 
         currentIndexPointer = 0;
-
     }
-
 
     public void GetOnePointBack()
     {
-        
         currentIndexPointer = Mathf.Max(currentIndexPointer - stepSize, 0);
-        
+
         nextButton.interactable = true;
         playButton.GetComponent<Button>().interactable = true;
 
@@ -242,10 +282,9 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
         }
 
         UpdateSliderHandle();
-            
         StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer]));
     }
-    
+
     public void GetOnePointNext()
     {
         currentIndexPointer = Mathf.Min(currentIndexPointer + stepSize, previousPointsDense.Count - 1);
@@ -257,26 +296,21 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
         }
 
         UpdateSliderHandle();
-
         StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer]));
-
     }
 
-    // coroutine to play the rest of the trajectory
-    IEnumerator PlayRestOfTrajectoryCoroutine() {
-
+    IEnumerator PlayRestOfTrajectoryCoroutine()
+    {
         playButton.SetActive(false);
         pauseButton.SetActive(true);
 
         backButton.interactable = false;
         nextButton.interactable = false;
 
-        for (; currentIndexPointer < previousPointsDense.Count - 1; currentIndexPointer++){
-
-            StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer+1]));
-
+        for (; currentIndexPointer < previousPointsDense.Count - 1; currentIndexPointer++)
+        {
+            StartCoroutine(ExecuteTrajectory(previousPointsDense[currentIndexPointer + 1]));
             UpdateSliderHandle();
-
             yield return new WaitForSeconds(k_JointAssignmentWait);
         }
 
@@ -287,31 +321,31 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
         pauseButton.SetActive(false);
         backButton.interactable = true;
         nextButton.interactable = false;
-
     }
 
-    public void PlayRestOfTrajectory() {
+    public void PlayRestOfTrajectory()
+    {
         StartCoroutine(PlayRestOfTrajectoryCoroutine());
     }
 
-    public void PauseTrajectory() {
+    public void PauseTrajectory()
+    {
         StopAllCoroutines();
         UpdateSliderHandle();
         playButton.SetActive(true);
         pauseButton.SetActive(false);
 
-        if (currentIndexPointer < previousPointsDense.Count - 1) {
+        if (currentIndexPointer < previousPointsDense.Count - 1)
+        {
             playButton.GetComponent<Button>().interactable = true;
             nextButton.interactable = true;
         }
-        else {
+        else
+        {
             playButton.GetComponent<Button>().interactable = false;
         }
         backButton.interactable = true;
     }
-
-
-
 
     public void SetCurrentIndexPointer()
     {
@@ -320,7 +354,8 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
 
     public void EmptyQueue()
     {
-        requestQueue.Clear();
+        hasNewTarget = false;
+        playbackQueue.Clear();
     }
 
     public bool isWaitingForResponse()
@@ -328,14 +363,11 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
         return waitingForResponse;
     }
 
-    private void UpdateSliderHandle() {
+    private void UpdateSliderHandle()
+    {
         Vector3 currRectTransform = sliderPosition.GetComponent<RectTransform>().anchoredPosition;
-        currRectTransform.x = 
+        currRectTransform.x =
             (bar.GetComponent<RectTransform>().sizeDelta.x) * (currentIndexPointer / ((float)previousPointsDense.Count - 1)) - bar.GetComponent<RectTransform>().sizeDelta.x / 2;
         sliderPosition.GetComponent<RectTransform>().anchoredPosition = currRectTransform;
     }
-    
-    
-    
-
 }
