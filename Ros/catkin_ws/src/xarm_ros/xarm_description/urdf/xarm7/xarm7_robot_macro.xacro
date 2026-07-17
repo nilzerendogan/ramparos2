@@ -34,7 +34,7 @@
           hw_ns="${hw_ns}" add_gripper="${add_gripper}" add_bio_gripper="${add_bio_gripper}"
           robot_ip="${robot_ip}" report_type="${report_type}"
           baud_checkset="${baud_checkset}" default_gripper_baud="${default_gripper_baud}"
-          joint1_lower_limit="${-pi*0.99}" joint1_upper_limit="${pi*0.99}"
+          joint1_lower_limit="${-pi-1.5}" joint1_upper_limit="${-pi+1.5}"
           joint2_lower_limit="${-2.18}" joint2_upper_limit="${2.18}"
           joint3_lower_limit="${-pi*0.99}" joint3_upper_limit="${pi*0.99}"
           joint4_lower_limit="${-0.11}" joint4_upper_limit="${pi*0.99}"
@@ -43,7 +43,7 @@
           joint7_lower_limit="${-pi*0.99}" joint7_upper_limit="${pi*0.99}"/>
       </xacro:if>
       <xacro:xarm7_urdf prefix="${prefix}"
-        joint1_lower_limit="${-pi*0.99}" joint1_upper_limit="${pi*0.99}"
+        joint1_lower_limit="${-pi-0.6}" joint1_upper_limit="${-pi+0.6}"
         joint2_lower_limit="${-2.18}" joint2_upper_limit="${2.18}"
         joint3_lower_limit="${-pi*0.99}" joint3_upper_limit="${pi*0.99}"
         joint4_lower_limit="${-0.11}" joint4_upper_limit="${pi*0.99}"

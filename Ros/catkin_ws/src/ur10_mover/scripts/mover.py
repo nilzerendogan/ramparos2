@@ -93,12 +93,19 @@ def wait_until_at_pose(move_group, target, tolerance=0.01, timeout=3.0, stable_r
     return False
 
 
-def plan_trajectory(move_group, destination_pose, start_joint_angles):
+def plan_trajectory(move_group, destination_pose, start_joint_angles, use_cartesian=True):
     """
-    Plan a single-waypoint segment from start_joint_angles to destination_pose
-    using compute_cartesian_path(), seeded with the previous segment's actual
-    ending joint angles, so IK stays in a consistent elbow/wrist configuration
-    from waypoint to waypoint instead of RRTConnect picking a new one each time.
+    Plan a single-waypoint segment from start_joint_angles to destination_pose.
+
+    use_cartesian=True  -> compute_cartesian_path(): deterministic/seeded IK chain,
+                            consecutive waypoints stay in the same elbow/wrist
+                            configuration (no flip), but fine Cartesian sampling +
+                            collision checking makes each call noticeably slower.
+    use_cartesian=False -> set_pose_target() + plan() (OMPL/RRTConnect): much
+                            faster round-trip per request (needed for real-time
+                            hand-following), but the sampling-based planner can
+                            pick a different elbow/wrist configuration between
+                            consecutive nearby poses (flip risk returns).
     """
     current_joint_state = JointState()
     current_joint_state.name = joint_names
@@ -107,6 +114,19 @@ def plan_trajectory(move_group, destination_pose, start_joint_angles):
     moveit_robot_state = RobotState()
     moveit_robot_state.joint_state = current_joint_state
     move_group.set_start_state(moveit_robot_state)
+
+    if not use_cartesian:
+        move_group.set_pose_target(destination_pose)
+        plan = planCombat(move_group.plan())
+        move_group.clear_pose_targets()
+        if not plan or not plan.joint_trajectory.points:
+            rospy.logwarn(
+                "OMPL plan failed for pose {} (starting from {})".format(
+                    destination_pose, start_joint_angles
+                )
+            )
+            return None
+        return plan
 
     waypoints = [copy.deepcopy(destination_pose)]
     (plan, fraction) = move_group.compute_cartesian_path(
@@ -182,7 +202,10 @@ def plan_pick_and_place(req):
 
         rospy.loginfo(pose)
 
-        trajectory = plan_trajectory(move_group, pose, previous_ending_joint_angles)
+        trajectory = plan_trajectory(
+            move_group, pose, previous_ending_joint_angles,
+            use_cartesian=(req.request_type != "realTime")
+        )
         if trajectory is None or not trajectory.joint_trajectory.points:
             rospy.logerr("AN ERROR OCCURED WHILE PLANNING")
             rospy.logerr(pose)

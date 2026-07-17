@@ -21,6 +21,14 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
     private Queue<double[]> requestQueue = new Queue<double[]>();
     private bool waitingForResponse = false;
 
+    // ROS'tan planı gelmiş ama ghost robotta henüz görsel olarak oynatılmamış
+    // segmentlerin kuyruğu. ProcessRequests artık SADECE bu kuyruğa bakmıyor;
+    // waitingForResponse yalnızca "plan cevabı bekleniyor mu"yu ifade ediyor,
+    // görsel oynatım süresini KAPSAMIYOR. Böylece bir sonraki nokta, önceki
+    // segmentin animasyonu bitmeden ROS'a gönderilebiliyor.
+    private Queue<PlannerServiceResponse> playbackQueue = new Queue<PlannerServiceResponse>();
+    private bool isPlayingBack = false;
+
     // Seyrek liste: sadece her trajectory segmentinin SON noktası.
     // Gerçek robota gönderilecek waypoint listesi bu.
     public List<double[]> previousPoints = new List<double[]>();
@@ -67,12 +75,16 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
     {
         jointConfig = HelperFunctions.CurrentJointConfig();
         StartCoroutine(ProcessRequests());
+        StartCoroutine(PlaybackWorker());
 
     }
 
     public bool HasPendingWork()
     {
-        return waitingForResponse || requestQueue.Count > 0;
+        // Hem "plan bekleniyor / kuyrukta nokta var" hem de "ghost robot henüz
+        // eski segmentleri oynatıyor" durumlarını kapsamalı, yoksa çizim
+        // bitmeden previousPoints/previousPointsDense eksik kalabilir.
+        return waitingForResponse || requestQueue.Count > 0 || playbackQueue.Count > 0 || isPlayingBack;
     }
 
     public void AddRequestToQueue(double[] poseInfo)
@@ -132,8 +144,35 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
                 DrawServiceRealTime.UpdateDrawingState(true);
         }
         else {
+            // Bir sonraki segmentin IK seed'i için gereken son joint config'i
+            // HEMEN güncelle — bu segmentin görsel oynatımını beklemeye gerek yok,
+            // zaten trajectory'nin son noktası cevapla birlikte elimizde.
             jointConfig = response.trajectories[0].joint_trajectory.points.Last().positions;
-            StartCoroutine(ExecuteTrajectories(response));
+
+            // Kilidi HEMEN aç: ProcessRequests bir sonraki noktayı, bu segmentin
+            // ghost robotta oynatılmasını beklemeden ROS'a gönderebilsin.
+            waitingForResponse = false;
+
+            // Görsel oynatımı ayrı, sıralı bir kuyruğa bırak.
+            playbackQueue.Enqueue(response);
+        }
+    }
+
+    private IEnumerator PlaybackWorker()
+    {
+        while (true)
+        {
+            if (playbackQueue.Count > 0)
+            {
+                isPlayingBack = true;
+                var response = playbackQueue.Dequeue();
+                yield return StartCoroutine(ExecuteTrajectories(response));
+                isPlayingBack = false;
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
     
@@ -180,7 +219,8 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
                 yield return new WaitForSeconds(k_JointAssignmentWait);
             }
         }
-        waitingForResponse = false;   // döngülerin tamamen dışında, sadece bir kez
+        // Not: waitingForResponse artık burada değil, ProcessResponse'da
+        // (cevap gelir gelmez) açılıyor — bkz. PlaybackWorker.
     }
     
     IEnumerator ExecuteTrajectory(double[] trajectory)
@@ -217,6 +257,7 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
 
         waitingForResponse = false;
         requestQueue.Clear();
+        playbackQueue.Clear();
 
         previousPoints.Clear();
         previousPointsDense.Clear();
@@ -321,6 +362,7 @@ public class PlanRequestGeneratorRealTime : MonoBehaviour
     public void EmptyQueue()
     {
         requestQueue.Clear();
+        playbackQueue.Clear();
     }
 
     public bool isWaitingForResponse()
