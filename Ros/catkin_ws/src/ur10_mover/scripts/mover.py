@@ -290,7 +290,7 @@ def handle_gripper(req):
     goal = GripperCommandGoal()
 
     if req.input_msg == "close":
-        goal.command.position = 0.4   # ~4cm gap left between fingers instead of fully closed
+        goal.command.position = 0.6   # ~6cm gap left between fingers instead of fully closed
         goal.command.max_effort = 5.0
     elif req.input_msg == "open":
         goal.command.position = 0.085  # fully open
