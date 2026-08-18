@@ -54,6 +54,14 @@ public class DrawServiceWithInspect : MonoBehaviour
     [Header("RAMPA Anti-Drift Configuration")]
     public Transform robotBaseTransform; // Unity Hierarchy'deki link_base buraya sürüklenecek
 
+    [Header("Resume-Drawing Anchor (fixes 'line to feet' on redraw)")]
+    // How close (meters, in robot-base local space) the hand must get to the
+    // last waypoint before a resumed stroke is allowed to start recording.
+    public float resumeSnapTolerance = 0.03f;
+    // Optional: a small visual marker (e.g. a sphere) shown at the last
+    // waypoint while waiting for the hand to return to it. Can be left null.
+    public GameObject resumeAnchorMarker;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -136,101 +144,126 @@ public class DrawServiceWithInspect : MonoBehaviour
             obstacle.transform.localScale -= new Vector3(0, 0, 0.02f);
     }
 
-    IEnumerator DrawTrajectory(float interval)
+    // ---------------------------------------------------------------
+    // FIX: previously, pinch/button release was only checked every 5th
+    // loop iteration (gated behind `numberOfPoints % 5 == 0`), and when
+    // release WAS detected the coroutine broke immediately without ever
+    // adding the current hand position as a waypoint. That could drop up
+    // to ~0.2s (4 frames @ 0.05s) of hand motion -- roughly 2-3cm at
+    // typical drawing speed -- right at the very end of the stroke. Since
+    // the real robot AND the simulated robot both execute the same
+    // planned trajectory built from these waypoints, both fell short by
+    // the same amount.
+    //
+    // Now: release is checked every frame, and the exact release position
+    // is always captured as the final waypoint before breaking.
+    // ---------------------------------------------------------------
+    IEnumerator DrawTrajectory(float interval, Vector3? resumeAnchor = null)
     {
         int numberOfPoints = lineRenderer.positionCount;
         bool isFirstPart = true;
-        loadingText.GetComponent<TMP_Text>().text = "pinch to start drawing";
+        loadingText.GetComponent<TMP_Text>().text = resumeAnchor.HasValue
+            ? "move hand to the marked point to continue"
+            : "pinch to start drawing";
+
+        if (resumeAnchor.HasValue && resumeAnchorMarker != null)
+        {
+            resumeAnchorMarker.SetActive(true);
+            resumeAnchorMarker.transform.localPosition = resumeAnchor.Value;
+        }
+
         while (true)
         {
-            if (recordOrientationDropdown.value == 0)
+            bool isActive = recordOrientationDropdown.value == 0
+                ? hand.GetFingerIsPinching(OVRHand.HandFinger.Index)
+                : OVRInput.Get(OVRInput.Button.One);
+
+            // --- Resume gate: while continuing a previous stroke, don't let a
+            // pinch start recording until the hand is physically back near the
+            // last waypoint. Without this, whatever the hand's resting position
+            // happens to be (often far away, e.g. down at the user's side)
+            // becomes the very next target -- a huge unreachable jump that the
+            // planner reports as "no solution found".
+            if (isActive && isFirstPart && resumeAnchor.HasValue)
             {
-                if (hand.GetFingerIsPinching(OVRHand.HandFinger.Index))
+                Vector3 candidatePos = robotBaseTransform != null
+                    ? robotBaseTransform.InverseTransformPoint(hand.PointerPose.position)
+                    : hand.PointerPose.position;
+
+                if (Vector3.Distance(candidatePos, resumeAnchor.Value) > resumeSnapTolerance)
                 {
-                    isFirstPart = false;
-                    addContextButton.interactable = false;
-                    loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
+                    loadingText.GetComponent<TMP_Text>().text = "move hand to the marked point to continue";
+                    yield return new WaitForSeconds(interval);
+                    continue;
+                }
+
+                if (resumeAnchorMarker != null)
+                {
+                    resumeAnchorMarker.SetActive(false);
                 }
             }
-            else
+
+            // --- Start of stroke ---
+            if (isActive && isFirstPart)
             {
-                if (OVRInput.Get(OVRInput.Button.One))
+                isFirstPart = false;
+                addContextButton.interactable = false;
+                loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
+                if (recordOrientationDropdown.value != 0)
                 {
-                    isFirstPart = false;
-                    addContextButton.interactable = false;
-                    loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
                     handOrientation.ShowIndicator(true);
                 }
             }
-            if (numberOfPoints % 5 == 0) // add new point to trajectory every 5 points
+
+            // --- Release detection: every frame now, not gated by modulo ---
+            if (!isActive && !isFirstPart)
             {
+                Vector3 finalHandPos = robotBaseTransform != null
+                    ? robotBaseTransform.InverseTransformPoint(hand.PointerPose.position)
+                    : hand.PointerPose.position;
 
-                if (recordOrientationDropdown.value == 0)
+                // Guarantee the true end of the stroke becomes a waypoint.
+                AddTargetPoint(finalHandPos);
+
+                numberOfPoints++;
+                lineRenderer.positionCount = numberOfPoints;
+                lineRenderer.SetPosition(numberOfPoints - 1, finalHandPos);
+
+                if (recordOrientationDropdown.value != 0)
                 {
-                    if (!hand.GetFingerIsPinching(OVRHand.HandFinger.Index) && !isFirstPart)
-                    {
-                        UpdateDrawingState();
-                        break;
-                    }
-                }
-                else
-                {
-                    if (!OVRInput.Get(OVRInput.Button.One) && !isFirstPart)
-                    {
-                        handOrientation.ShowIndicator(false);
-                        UpdateDrawingState();
-                        break;
-                    }
+                    handOrientation.ShowIndicator(false);
                 }
 
-                if (!isFirstPart)
-                {
-
-                    // Elin dünya pozisyonunu robot tabanına göre local koordinata çeviriyoruz
-                    Vector3 localHandPos = robotBaseTransform != null ?
-                        robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
-
-                    if (recordOrientationDropdown.value == 1 || recordOrientationDropdown.value == 2)
-                    {
-                        if (recordOrientationDropdown.value == 1)
-                        {
-                            handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
-                        }
-                        targetOrientations.Add(handOrientation.GetRotation());
-                        debugText.text += "targetOrientation: " + handOrientation.GetRotation().eulerAngles + "\n";
-                        targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
-                    }
-                    else
-                    {
-                        if (recordOrientationDropdown.value == 0)
-                        {
-                            // down orientation
-                            targetOrientations.Add(Quaternion.Euler(180, 0, 0));
-                            targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
-                        }
-                        else
-                        {
-                            // hook orientation
-                            targetOrientations.Add(Quaternion.Euler(180, 0, 0));
-                            targetPoints.Add(localHandPos); // Robota göre sabitlenmiş nokta
-                        }
-                    }
-                }
+                UpdateDrawingState();
+                break;
             }
-            if (!isFirstPart) // update lineRenderer and handOrientation indicator
+
+            // --- Sparse waypoint sampling while actively drawing ---
+            if (!isFirstPart && numberOfPoints % 5 == 0)
+            {
+                Vector3 localHandPos = robotBaseTransform != null
+                    ? robotBaseTransform.InverseTransformPoint(hand.PointerPose.position)
+                    : hand.PointerPose.position;
+
+                AddTargetPoint(localHandPos);
+            }
+
+            // --- Dense line rendering (every frame) ---
+            if (!isFirstPart)
             {
                 numberOfPoints++;
                 lineRenderer.positionCount = numberOfPoints;
 
-                // Çizgiye eklenecek noktayı da robota göre hesaplıyoruz
-                Vector3 localHandPos = robotBaseTransform != null ?
-                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
+                Vector3 localHandPos = robotBaseTransform != null
+                    ? robotBaseTransform.InverseTransformPoint(hand.PointerPose.position)
+                    : hand.PointerPose.position;
 
-                lineRenderer.SetPosition(numberOfPoints - 1, localHandPos); // Local pozisyon basılıyor
+                lineRenderer.SetPosition(numberOfPoints - 1, localHandPos);
 
                 if (recordOrientationDropdown.value == 2)
                 {
-                    if (Vector3.Distance(trajectorySamplePoints_point1, lineRenderer.GetPosition(numberOfPoints - 1)) > 0.05 || numberOfPoints == 0)
+                    if (Vector3.Distance(trajectorySamplePoints_point1, lineRenderer.GetPosition(numberOfPoints - 1)) > 0.05
+                        || numberOfPoints == 0)
                     {
                         trajectorySamplePoints_point2 = trajectorySamplePoints_point1;
                         trajectorySamplePoints_point1 = lineRenderer.GetPosition(numberOfPoints - 1);
@@ -238,7 +271,31 @@ public class DrawServiceWithInspect : MonoBehaviour
                     }
                 }
             }
+
             yield return new WaitForSeconds(interval);
+        }
+    }
+
+    // Factored-out helper: adds the given local-space hand position (and its
+    // corresponding orientation, per the current recording mode) as a target
+    // waypoint. Behavior matches the original inline logic for each dropdown mode.
+    private void AddTargetPoint(Vector3 localHandPos)
+    {
+        if (recordOrientationDropdown.value == 1 || recordOrientationDropdown.value == 2)
+        {
+            if (recordOrientationDropdown.value == 1)
+            {
+                handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
+            }
+            targetOrientations.Add(handOrientation.GetRotation());
+            debugText.text += "targetOrientation: " + handOrientation.GetRotation().eulerAngles + "\n";
+            targetPoints.Add(localHandPos);
+        }
+        else
+        {
+            // both "down" and "hook" orientation modes currently use the same rotation
+            targetOrientations.Add(Quaternion.Euler(180, 0, 0));
+            targetPoints.Add(localHandPos);
         }
     }
 
@@ -347,7 +404,14 @@ public class DrawServiceWithInspect : MonoBehaviour
                         PlanRequestGeneratorWithPoses.previousPoses.GetRange(0,
                             PlanRequestGeneratorWithPoses.currentIndexPointer);
 
-                    StartCoroutine(DrawTrajectory(0.05f));
+                    // Anchor the resumed stroke to the last kept waypoint so the
+                    // coroutine can gate on the hand physically returning there
+                    // before it starts recording new points (see DrawTrajectory).
+                    Vector3? resumeAnchor = remainingPoints > 0
+                        ? (Vector3?)lineRenderer.GetPosition(remainingPoints - 1)
+                        : null;
+
+                    StartCoroutine(DrawTrajectory(0.05f, resumeAnchor));
                 }
                 break;
         }

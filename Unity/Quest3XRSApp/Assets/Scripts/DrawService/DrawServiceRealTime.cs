@@ -50,6 +50,14 @@ public class DrawServiceRealTime: MonoBehaviour
     [Header("RAMPA Anti-Drift Configuration")]
     public Transform robotBaseTransform; // Unity Hierarchy'deki link_base buraya sürüklenecek
 
+    [Header("Resume-Drawing Anchor (fixes 'line to feet' on redraw)")]
+    // How close (meters, in robot-base local space) the hand must get to the
+    // last waypoint before a resumed stroke is allowed to start recording.
+    public float resumeSnapTolerance = 0.03f;
+    // Optional: a small visual marker (e.g. a sphere) shown at the last
+    // waypoint while waiting for the hand to return to it. Can be left null.
+    public GameObject resumeAnchorMarker;
+
 
 
 // TODO - record hand orientation as well
@@ -125,12 +133,35 @@ public class DrawServiceRealTime: MonoBehaviour
             obstacle.transform.localScale -= new Vector3(0, 0, 0.02f);
     }
 
-    IEnumerator DrawTrajectory(float interval)
+    // ---------------------------------------------------------------
+    // FIX: the frame where the pinch/button is released fell straight
+    // into the "!isPinching" branch, which only ever checks pending-queue
+    // drain state and breaks -- it never enqueued the hand's position at
+    // the moment of release. So the exact release point (the true end of
+    // the stroke) was silently dropped, and the arm stopped just short of
+    // it (a smaller version of the same issue fixed in the "poses" drawing
+    // script, since here sampling already happens every tick with no
+    // throttle -- but the release-edge point itself was still never sent).
+    //
+    // Now: a rising->falling edge on isPinching triggers one final
+    // AddCurrentPointToQueueAndLine() call before we start waiting for the
+    // queue to drain, so the last hand position is always included.
+    // ---------------------------------------------------------------
+    IEnumerator DrawTrajectory(float interval, Vector3? resumeAnchor = null)
     {
         int numberOfPoints = lineRenderer.positionCount;
         bool isFirstPart = true;
         bool isPinching = false;
-        loadingText.GetComponent<TMP_Text>().text = "pinch to start drawing";
+        bool wasPinching = false;
+        loadingText.GetComponent<TMP_Text>().text = resumeAnchor.HasValue
+            ? "move hand to the marked point to continue"
+            : "pinch to start drawing";
+
+        if (resumeAnchor.HasValue && resumeAnchorMarker != null)
+        {
+            resumeAnchorMarker.SetActive(true);
+            resumeAnchorMarker.transform.localPosition = resumeAnchor.Value;
+        }
 
         while (true)
         {
@@ -139,6 +170,30 @@ public class DrawServiceRealTime: MonoBehaviour
             else
                 isPinching = OVRInput.Get(OVRInput.Button.One);
 
+            // --- Resume gate: don't let a pinch start recording until the hand
+            // is physically back near the last waypoint. Without this, whatever
+            // the hand's resting position happens to be (often far away) becomes
+            // the very next target -- an unreachable jump that gets reported as
+            // "no solution found".
+            if (isPinching && isFirstPart && resumeAnchor.HasValue)
+            {
+                Vector3 candidatePos = robotBaseTransform != null
+                    ? robotBaseTransform.InverseTransformPoint(hand.PointerPose.position)
+                    : hand.PointerPose.position;
+
+                if (Vector3.Distance(candidatePos, resumeAnchor.Value) > resumeSnapTolerance)
+                {
+                    loadingText.GetComponent<TMP_Text>().text = "move hand to the marked point to continue";
+                    yield return new WaitForSeconds(interval);
+                    continue;
+                }
+
+                if (resumeAnchorMarker != null)
+                {
+                    resumeAnchorMarker.SetActive(false);
+                }
+            }
+
             if (isPinching && isFirstPart)
             {
                 isFirstPart = false;
@@ -146,6 +201,13 @@ public class DrawServiceRealTime: MonoBehaviour
                 loadingText.GetComponent<TMP_Text>().text = "drawing trajectory";
                 if (recordOrientationDropdown.value != 0)
                     handOrientation.ShowIndicator(true);
+            }
+
+            // --- Release edge: capture the exact release position exactly
+            // once, before we fall into the "waiting for queue to drain" loop.
+            if (wasPinching && !isPinching && !isFirstPart)
+            {
+                numberOfPoints = AddCurrentPointToQueueAndLine(numberOfPoints);
             }
 
             if (!isPinching && !isFirstPart)
@@ -162,6 +224,7 @@ public class DrawServiceRealTime: MonoBehaviour
                     loadingText.GetComponent<TMP_Text>().text = "finishing trajectory...";
                 }
 
+                wasPinching = isPinching;
                 yield return new WaitForSeconds(interval);
                 continue;
             }
@@ -169,41 +232,48 @@ public class DrawServiceRealTime: MonoBehaviour
             // --- TEK BLOK: hedef güncelleme + çizgi çizimi ---
             if (isPinching && !isFirstPart)
             {
-                Vector3 localHandPos = robotBaseTransform != null ?
-                    robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
-
-                // Hedef güncellemesi: her tick, throttle yok
-                Quaternion localOrientation;
-                if (recordOrientationDropdown.value == 1)
-                {
-                    handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
-                    Quaternion worldOrientation = handOrientation.GetRotation();
-                    localOrientation = robotBaseTransform != null ?
-                        Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
-                }
-                else
-                {
-                    Quaternion worldOrientation = Quaternion.Euler(180, 0, 0);
-                    localOrientation = robotBaseTransform != null ?
-                        Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
-                }
-
-                double[] poseInfo = {
-                    localHandPos.x, localHandPos.y, localHandPos.z,
-                    localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w
-                };
-                planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
-
-                // Çizgi: her tick'te büyüt VE her tick'te pozisyonu yaz.
-                // (Throttle sadece hedefte kaldırılmalıydı, çizgide zaten
-                // gerek yok — her tick çizmek maliyetsiz ve bug'a yer bırakmaz.)
-                numberOfPoints++;
-                lineRenderer.positionCount = numberOfPoints;
-                lineRenderer.SetPosition(numberOfPoints - 1, localHandPos);
+                numberOfPoints = AddCurrentPointToQueueAndLine(numberOfPoints);
             }
 
+            wasPinching = isPinching;
             yield return new WaitForSeconds(interval);
         }
+    }
+
+    // Factored out from the loop body so the release-edge case and the
+    // normal per-tick case can both guarantee the current hand position is
+    // enqueued and drawn identically, with no throttle or gap between them.
+    private int AddCurrentPointToQueueAndLine(int numberOfPoints)
+    {
+        Vector3 localHandPos = robotBaseTransform != null ?
+            robotBaseTransform.InverseTransformPoint(hand.PointerPose.position) : hand.PointerPose.position;
+
+        Quaternion localOrientation;
+        if (recordOrientationDropdown.value == 1)
+        {
+            handOrientation.UpdateHandOrientationIndicator(localHandPos, localHandPos);
+            Quaternion worldOrientation = handOrientation.GetRotation();
+            localOrientation = robotBaseTransform != null ?
+                Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
+        }
+        else
+        {
+            Quaternion worldOrientation = Quaternion.Euler(180, 0, 0);
+            localOrientation = robotBaseTransform != null ?
+                Quaternion.Inverse(robotBaseTransform.rotation) * worldOrientation : worldOrientation;
+        }
+
+        double[] poseInfo = {
+            localHandPos.x, localHandPos.y, localHandPos.z,
+            localOrientation.x, localOrientation.y, localOrientation.z, localOrientation.w
+        };
+        planRequestGeneratorRealTime.AddRequestToQueue(poseInfo);
+
+        numberOfPoints++;
+        lineRenderer.positionCount = numberOfPoints;
+        lineRenderer.SetPosition(numberOfPoints - 1, localHandPos);
+
+        return numberOfPoints;
     }
     
     public void UpdateDrawingState(bool finalized = false)
@@ -277,7 +347,14 @@ public class DrawServiceRealTime: MonoBehaviour
                         planRequestGeneratorRealTime.previousPoses.GetRange(0,
                             planRequestGeneratorRealTime.currentIndexPointer);
 
-                    StartCoroutine(DrawTrajectory(0.05f));
+                    // Anchor the resumed stroke to the last kept waypoint so the
+                    // coroutine can gate on the hand physically returning there
+                    // before it starts recording new points (see DrawTrajectory).
+                    Vector3? resumeAnchor = remainingPoints > 0
+                        ? (Vector3?)lineRenderer.GetPosition(remainingPoints - 1)
+                        : null;
+
+                    StartCoroutine(DrawTrajectory(0.05f, resumeAnchor));
                     
                 }
 

@@ -23,7 +23,7 @@ import moveit_commander
 
 # Keep this identical to HOME_POSE in ur10_mover_server.py so both scripts
 # always agree on where "home" is.
-HOME_POSE = [-3.10, -0.3, 0.0, 0.5, 0.0, 0.8, 0.0]  # radians
+HOME_POSE = [0.0, -0.3, 0.0, 0.5, 0.0, 0.8, 0.0]  # radians
 
 GROUP_NAME = "xarm7"
 

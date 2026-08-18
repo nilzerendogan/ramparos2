@@ -23,7 +23,7 @@ public class ResetandReturn : MonoBehaviour
     public DrawServiceWithInspect drawServiceWithInspect;
     ROSConnection m_Ros;
     public TrajectoryHelperFunctions HelperFunctions;
-    private double[] _resetCondition = {-0.4934f, -0.0477f, 0.0f, 0.0796f, 0.0f, 0.1273f, 0.0f};
+    private double[] _resetCondition = {0.0f, -0.0477f, 0.0f, 0.0796f, 0.0f, 0.1273f, 0.0f};
 
     public TMP_Text debugText;
     
